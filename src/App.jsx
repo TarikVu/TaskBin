@@ -17,8 +17,11 @@ import "@aws-amplify/ui-react/styles.css";
 //import { getUrl } from "aws-amplify/storage";
 //import { uploadData } from "aws-amplify/storage";
 import { generateClient } from "aws-amplify/data";
-import NavBar from "./navbar";
+
 import outputs from "../amplify_outputs.json";
+
+import NavBar from "./navbar";
+import Board from "./board";
 
 /**
  * @type {import('aws-amplify/data').Client<import('../amplify/data/resource').Schema>}
@@ -37,6 +40,7 @@ export default function App() {
       {({ signOut }) => (
         <Flex>
           <NavBar onButtonClick={signOut} />
+          <Board/>
         </Flex>
       )}
     </Authenticator>

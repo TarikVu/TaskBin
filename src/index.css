@@ -63,3 +63,24 @@
   cursor: pointer;
   border-radius: 5px;
 }
+
+/* Main Content Styles */
+.main-content {
+  display: flex;
+  padding: 60px 10px 10px; /* Padding to accommodate fixed navbar and some spacing */
+  height: calc(100vh - 60px); /* Adjust height based on navbar height */
+  overflow-x: auto;
+  overflow-y: hidden;
+  box-sizing: border-box;
+}
+
+.column {
+  flex: 1;
+  min-width: 300px; /* Minimum width of each column */
+  background-color: #f4f4f4;
+  padding: 20px;
+  box-sizing: border-box;
+  overflow-y: auto; /* Enables vertical scroll within each column */
+  margin: 0 10px;
+  border: 1px solid #ddd;
+}
