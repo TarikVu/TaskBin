@@ -27,9 +27,39 @@
 .box:nth-child(3n + 1) {
   grid-column: 1;
 }
+
 .box:nth-child(3n + 2) {
   grid-column: 2;
 }
+
 .box:nth-child(3n + 3) {
   grid-column: 3;
+}
+
+/* NavBar.css */
+.navbar {
+  background-color: #333;
+  color: white;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  /* Include padding and border in the element's total width and height */
+  box-sizing: border-box;
+  /* Makes the nav bar stick to the top of the viewport */
+  position: fixed;
+  top: 0;
+  left: 0;
+  /*Optional: ensures the nav bar stays on top of other content */
+  z-index: 1000;
+}
+
+.navbar-button {
+  background-color: #008CBA;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 5px;
 }
