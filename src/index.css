@@ -86,7 +86,7 @@
   color:black;
 }
 
-.modal-overlay {
+.cardform-overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -98,7 +98,7 @@
   justify-content: center;
 }
 
-.modal {
+.cardform {
   background: white;
   padding: 20px;
   border-radius: 5px;
@@ -106,21 +106,21 @@
   max-width: 90%;
 }
 
-.modal h2 {
+.cardform h2 {
   margin-top: 0;
 }
 
-.modal label {
+.cardform label {
   display: block;
   margin-bottom: 10px;
 }
 
-.modal input, .modal textarea {
+.cardform input, .cardform textarea {
   width: 100%;
   padding: 8px;
   margin-top: 4px;
 }
 
-.modal button {
+.cardform button {
   margin-top: 10px;
 }

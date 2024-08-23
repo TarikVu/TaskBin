@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const Modal = ({ isVisible, onClose, onAddCard }) => {
+const CardForm = ({ isVisible, onClose, onAddCard }) => {
     const [title, setTitle] = useState('');
     const [text, setText] = useState('');
 
@@ -13,8 +13,8 @@ const Modal = ({ isVisible, onClose, onAddCard }) => {
     };
 
     return isVisible ? (
-        <div className="modal-overlay">
-            <div className="modal">
+        <div className="cardform-overlay">
+            <div className="cardform">
                 <h2>Add New Card</h2>
                 <form onSubmit={handleSubmit}>
                     <label>
@@ -42,4 +42,4 @@ const Modal = ({ isVisible, onClose, onAddCard }) => {
     ) : null;
 };
 
-export default Modal; // Export the Modal component
+export default CardForm; // Export the CardForm component
