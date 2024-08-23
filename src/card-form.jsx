@@ -19,19 +19,19 @@ const CardForm = ({ isVisible, onClose, onAddCard }) => {
                 <form onSubmit={handleSubmit}>
                     <label>
                         Title:
-                        <input 
-                            type="text" 
-                            value={title} 
-                            onChange={(e) => setTitle(e.target.value)} 
-                            required 
+                        <input
+                            type="text"
+                            value={title}
+                            onChange={(e) => setTitle(e.target.value)}
+                            required
                         />
                     </label>
                     <label>
                         Text:
-                        <textarea 
-                            value={text} 
-                            onChange={(e) => setText(e.target.value)} 
-                            required 
+                        <textarea
+                            value={text}
+                            onChange={(e) => setText(e.target.value)}
+                            required
                         />
                     </label>
                     <button type="submit">Add Card</button>

@@ -11,17 +11,24 @@ const Column = () => {
 
     return (
         <div className="column">
-            {cards.map(card => (
-                <Card key={card.id} title={card.title} text={card.text} />
-            ))}
+
+            {/* index.css centers and focuses the form */}
+            <CardForm
+                isVisible={isCardFormVisible}
+                onClose={() => setIsCardFormVisible(false)}
+                onAddCard={addCard}
+            />
+
             <button onClick={() => setIsCardFormVisible(true)}>
                 Add Card
             </button>
-            <CardForm 
-                isVisible={isCardFormVisible} 
-                onClose={() => setIsCardFormVisible(false)} 
-                onAddCard={addCard} 
-            />
+
+            {
+                cards.map(card => (
+                    <Card key={card.id} title={card.title} text={card.text} />
+                ))
+            }
+
         </div>
     );
 };
