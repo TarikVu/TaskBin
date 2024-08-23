@@ -1,12 +1,10 @@
 import React from 'react';
-
+import Column from './Column';
 function Board() {
     return (
         <main className="main-content">
-            <div className="column">Column 1 Content</div>
-            <div className="column">Column 2 Content</div>
-            <div className="column">Column 3 Content</div>
-            {/* Add more columns as needed */}
+            <Column></Column>
+            
         </main>
     )
 }

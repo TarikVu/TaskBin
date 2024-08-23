@@ -6,7 +6,7 @@ function NavBar({ onButtonClick }) {
         <nav className="navbar">
           <div>TaskBin</div>
           <button className="navbar-button" onClick={onButtonClick}>
-            Click Me
+            Logout
           </button>
         </nav>
       );
