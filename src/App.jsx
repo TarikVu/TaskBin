@@ -13,9 +13,12 @@ import {
 } from "@aws-amplify/ui-react";
 
 import { Amplify } from "aws-amplify";
+//import { MongoClient } from "mongodb";
+import { getCurrentUser } from 'aws-amplify/auth';
+
 import "@aws-amplify/ui-react/styles.css";
-//import { getUrl } from "aws-amplify/storage";
-//import { uploadData } from "aws-amplify/storage";
+// import { getUrl } from "aws-amplify/storage";
+// import { uploadData } from "aws-amplify/storage";
 import { generateClient } from "aws-amplify/data";
 
 import outputs from "../amplify_outputs.json";
@@ -23,17 +26,45 @@ import outputs from "../amplify_outputs.json";
 import NavBar from "./navbar";
 import Board from "./board";
 
-/**
- * @type {import('aws-amplify/data').Client<import('../amplify/data/resource').Schema>}
- */
-
+// Amplify Setup
 Amplify.configure(outputs);
 const client = generateClient({
   authMode: "userPool",
 });
 
-export default function App() {
+/* // MongoDB Database Setup
+const uri = 'mongodb+srv://TaskBinFree:Dr4gonRoll%21@taskbinfree.p0skw.mongodb.net/?retryWrites=true&w=majority&appName=TaskBinFree';
+const dbClient = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
+async function connect() {
+  try {
+    await dbClient.connect();
+    console.log('Connected to MongoDB');
+  } catch (e) {
+    console.error(e);
+  }
+}
+ */
+// App Component
+export default function App() {
+  /* const [currentUser, setCurrentUser] = useState(null);
+
+  useEffect(() => {
+    async function fetchUser() {
+      try {
+        const user = await getCurrentUser();
+        setCurrentUser(user);
+      } catch (error) {
+        console.error('Error fetching user:', error);
+      }
+    }
+
+    fetchUser();
+  }, []);
+
+  useEffect(() => {
+    connect();
+  }, []); */
 
   return (
     <Authenticator>
@@ -41,8 +72,11 @@ export default function App() {
         <Flex>
           <NavBar onButtonClick={signOut} />
           <Board/>
-        </Flex>
+         {/*  <div>{currentUser ? `UserID: ${currentUser.userId}` : 'Loading user...'}</div>
+         */}
+         </Flex>
       )}
     </Authenticator>
   );
 }
+

@@ -21,6 +21,12 @@ The data stored is heiarchal, and will be therefore Referenced with one-to many 
 
 ## <a name = "apx"></a> Appendix
 
+- Amplify 
+    - [Authentication](https://docs.amplify.aws/react/build-a-backend/auth/)
+    - [Manage User sessions (get user ID)](https://docs.amplify.aws/react/build-a-backend/auth/connect-your-frontend/manage-user-sessions/)
+
+
 - MongoDB
     - [Data Modeling](https://www.mongodb.com/docs/manual/data-modeling/)
     - [Embedded Data Versus References](https://www.mongodb.com/docs/manual/data-modeling/concepts/embedding-vs-references/#std-label-data-modeling-referencing)
+
