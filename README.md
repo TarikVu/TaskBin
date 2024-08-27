@@ -1,32 +1,8 @@
-# TaskBin Kanbanboard
+# React + Vite
 
-## Table of Contents:
-1. [Database Schema](#dbs)
-1. [Appendix](#apx)
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-## Technical Stack:
-| Stack     | Technology         | Notes | 
-|-----------|--------------------|-------|
-|Front End  | React              | N/A   |  
-|Back End   | JavaScript         | N/A   |  
-|Database   | MongoDB (Mongoose) | N/A   |  
-|Deployment | AWS (Amplify)      | N/A   |  
+Currently, two official plugins are available:
 
-## <a name = "DBS"></a> Database Schema 
-The database for TaskBin will Utilize MongoDB as a NoSQL Database.
-The data stored is heiarchal, and will be therefore Referenced with one-to many relationships as shown in the image below. See more on MongoDB
-![schemaImg](https://github.com/TarikVu/imgs/blob/main/TaskBin/TaskBinDB.PNG?raw=true)
-
-
-
-## <a name = "apx"></a> Appendix
-
-- Amplify 
-    - [Authentication](https://docs.amplify.aws/react/build-a-backend/auth/)
-    - [Manage User sessions (get user ID)](https://docs.amplify.aws/react/build-a-backend/auth/connect-your-frontend/manage-user-sessions/)
-
-
-- MongoDB
-    - [Data Modeling](https://www.mongodb.com/docs/manual/data-modeling/)
-    - [Embedded Data Versus References](https://www.mongodb.com/docs/manual/data-modeling/concepts/embedding-vs-references/#std-label-data-modeling-referencing)
-
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
