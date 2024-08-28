@@ -96,7 +96,7 @@ app.post('/boards', async (req, res) => {
 
     }
     catch (error) {
-        res.status(4000).json({ error: error.message });
+        res.status(400).json({ error: error.message });
     }
 
 });

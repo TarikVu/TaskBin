@@ -1,5 +1,9 @@
 # TaskBin Kanbanboard
-
+(Next steps:)
+rewatch the video and look into using the .env file. later when app is deployed
+the fetch requests from the front end will need their uri's changed in order
+to communicate with the deployed backend.  Also note 
+Ensure that your deployment environment (like EC2, AWS Lambda, Heroku, etc.) is properly configured to handle CORS (Cross-Origin Resource Sharing) if your frontend and backend are on different domains.
 ## Table of Contents:
 1. [Database Schema](#dbs)
 1. [Appendix](#apx)
