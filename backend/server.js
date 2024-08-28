@@ -1,13 +1,12 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const cors = require('cors');
+const cors = require('cors'); npm
 
 const app = express();
 app.use(express.json());
 app.use(cors());
 
 
-//const uri = 'mongodb+srv://taskBin:oDN1d6gcSCNyIpfE@taskbinfree.p0skw.mongodb.net/?retryWrites=true&w=majority&appName=TaskBinFree/TaskBin';
 const uri = 'mongodb+srv://taskBin:oDN1d6gcSCNyIpfE@taskbinfree.p0skw.mongodb.net/TaskBin?retryWrites=true&w=majority';
 
 // Connect to MongoDB
