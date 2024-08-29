@@ -12,7 +12,6 @@ function App() {
         const response = await fetch('http://localhost:5000/cards');
         const result = await response.json();
         setData(result);
-        console.log(data);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -20,8 +19,13 @@ function App() {
 
     fetchData();
 
-    
   }, []);
+
+
+// Testing purposes to log data
+useEffect(() => {
+  console.log(data);
+}, [data]); // This will log data when it changes
 
 
   const createBoard = async () => {
