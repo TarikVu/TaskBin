@@ -1,9 +1,28 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 function App() {
+  const [data, setData] = useState([]);
   const [boardName, setBoardName] = useState('');
   const [columnName, setColumnName] = useState('');
   const [cardData, setCardData] = useState({ title: '', text: '', priority: 'normal' });
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch('http://localhost:5000/cards');
+        const result = await response.json();
+        setData(result);
+        console.log(data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+
+    
+  }, []);
+
 
   const createBoard = async () => {
     try {

@@ -1,6 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const cors = require('cors'); npm
+const cors = require('cors');
 
 const app = express();
 app.use(express.json());
@@ -58,7 +58,36 @@ const Column = mongoose.model('Column', columnSchema);
 const Board = mongoose.model('Board', boardSchema);
 
 
-// API endpoints
+// API //
+
+// Route to get all boards with their columns and cards
+app.get('/boards', async (req, res) => {
+    try {
+        const boards = await Board.find()
+            .populate({
+                path: 'columns',
+                populate: {
+                    path: 'cards'
+                }
+            });
+
+        res.json(boards);
+    } catch (error) {
+        res.status(500).send('Error retrieving boards');
+    }
+});
+
+
+// Route to get all cards
+app.get('/cards', async (req, res) => {
+    try {
+        const cards = await Card.find(); // Fetch all cards from the database
+        console.log(cards);
+        res.json(cards); // Send the cards as a JSON response
+    } catch (error) {
+        res.status(500).send('Error retrieving cards');
+    }
+});
 
 app.post('/cards', async (req, res) => {
     try {
@@ -88,7 +117,7 @@ app.post('/columns', async (req, res) => {
 
 app.post('/boards', async (req, res) => {
     try {
-        const newBoard = newBoard(req.body);
+        const newBoard = Board(req.body);
         await newBoard.save();
         res.status(201).json(newBoard);
         console.log('Board Post request');
