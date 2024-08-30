@@ -52,13 +52,10 @@
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  /* Include padding and border in the element's total width and height */
   box-sizing: border-box;
-  /* Makes the nav bar stick to the top of the viewport */
   position: fixed;
   top: 0;
   left: 0;
-  /*Optional: ensures the nav bar stays on top of other content */
   z-index: 1000;
 }
 
@@ -71,13 +68,21 @@
   border-radius: 5px;
 }
 
+/* Reactive Buttons */
+.navbar-button:hover {
+  background-color: var(--primary-button-hover);
+}
+
+.navbar-button:active {
+  background-color: var(--primary-button-click);
+}
+
 /* Main Content Styles */
 .main-content {
   display: flex;
   padding: 60px 10px 10px;
   /* Padding to accommodate fixed navbar and some spacing */
   height: calc(100vh - 60px);
-  /* Adjust height based on navbar height */
   overflow-x: auto;
   overflow-y: hidden;
   box-sizing: border-box;
@@ -91,16 +96,31 @@
   padding: 20px;
   box-sizing: border-box;
   overflow-y: auto;
-  /* Enables vertical scroll within each column */
   margin: 0 10px;
   border: 1px solid #ddd;
   color: black;
 }
 
 .column button {
+  flex: 1;
   background-color: var(--primary-button);
   color: white;
+  border: none;
+  padding: 6px 12px;
+  cursor: pointer;
+  border-radius: 5px;
+  margin: 0 10px;
 }
+
+/* Reactive buttons */
+.column button:hover {
+  background-color: var(--primary-button-hover);
+}
+
+.column button:active {
+  background-color: var(--primary-button-click);
+}
+
 
 /* Card Form input */
 .cardform-overlay {
@@ -132,7 +152,6 @@
 .cardform label {
   display: block;
   margin-bottom: 10px;
-  text-align: center;
 }
 
 .cardform input,
@@ -167,4 +186,8 @@
 
 .cardform button:active {
   background-color: var(--primary-button-click);
+}
+
+.cardform select {
+  margin-left: 8px;
 }
