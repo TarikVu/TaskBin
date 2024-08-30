@@ -12,16 +12,22 @@ const Column = () => {
     return (
         <div className="column">
 
-            {/* index.css centers and focuses the form */}
+            {/*Hidden UI until add card is pressed*/}
             <CardForm
                 isVisible={isCardFormVisible}
                 onClose={() => setIsCardFormVisible(false)}
                 onAddCard={addCard}
             />
+            <div className="header">
+                <div className="title">
+                    Title
+                </div>
 
-            <button onClick={() => setIsCardFormVisible(true)}>
-                Add Card
-            </button>
+                <button onClick={() => setIsCardFormVisible(true)}>
+                    Add Card
+                </button>
+            </div>
+
 
             {
                 cards.map(card => (
