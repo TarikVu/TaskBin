@@ -16,7 +16,10 @@
 
   /* Reused colors for consistent themeing */
   --primary-button: #008CBA;
-  --background-1:#333;
+  --primary-button-hover: #00aaff;
+  --primary-button-click: #006f8c;
+
+  --background-1: #333;
 
 }
 
@@ -49,13 +52,10 @@
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  /* Include padding and border in the element's total width and height */
   box-sizing: border-box;
-  /* Makes the nav bar stick to the top of the viewport */
   position: fixed;
   top: 0;
   left: 0;
-  /*Optional: ensures the nav bar stays on top of other content */
   z-index: 1000;
 }
 
@@ -68,13 +68,21 @@
   border-radius: 5px;
 }
 
+/* Reactive Buttons */
+.navbar-button:hover {
+  background-color: var(--primary-button-hover);
+}
+
+.navbar-button:active {
+  background-color: var(--primary-button-click);
+}
+
 /* Main Content Styles */
 .main-content {
   display: flex;
   padding: 60px 10px 10px;
   /* Padding to accommodate fixed navbar and some spacing */
   height: calc(100vh - 60px);
-  /* Adjust height based on navbar height */
   overflow-x: auto;
   overflow-y: hidden;
   box-sizing: border-box;
@@ -83,21 +91,59 @@
 .column {
   flex: 1;
   min-width: 300px;
-  /* Minimum width of each column */
   background-color: #f4f4f4;
-  padding: 20px;
+
   box-sizing: border-box;
   overflow-y: auto;
-  /* Enables vertical scroll within each column */
   margin: 0 10px;
   border: 1px solid #ddd;
   color: black;
 }
 
-.column button {
-  background-color: var(--primary-button);
-  color: white;  
+.column_header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  background-color: var(--background-1);
 }
+
+.column_header h1 {
+  flex: 1;
+  font-size: 20px;
+  color: white;
+  /* Text color for better contrast */
+  text-align: center;
+  /* Center text horizontally */
+  margin: 0;
+  /* Remove default margin */
+}
+
+.column_header button {
+  background-color: #008CBA;
+  /* Button color */
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  cursor: pointer;
+  border-radius: 5px;
+  margin: 0;
+  /* Remove default margin */
+}
+
+/* Reactive buttons */
+.column button:hover {
+  background-color: var(--primary-button-hover);
+}
+
+.column button:active {
+  background-color: var(--primary-button-click);
+}
+
 
 /* Card Form input */
 .cardform-overlay {
@@ -133,11 +179,38 @@
 
 .cardform input,
 .cardform textarea {
-  width: 100%;
+  width: calc(100%);
   padding: 8px;
   margin-top: 4px;
+  box-sizing: border-box;
+}
+
+.cardform .button-group {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
 }
 
 .cardform button {
-  margin-top: 10px;
+  flex: 1;
+  background-color: var(--primary-button);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 5px;
+  margin: 0 10px;
+}
+
+/* Makes Form Buttons reactive. */
+.cardform button:hover {
+  background-color: var(--primary-button-hover);
+}
+
+.cardform button:active {
+  background-color: var(--primary-button-click);
+}
+
+.cardform select {
+  margin-left: 8px;
 }
