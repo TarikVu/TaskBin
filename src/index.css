@@ -91,9 +91,8 @@
 .column {
   flex: 1;
   min-width: 300px;
-  /* Minimum width of each column */
   background-color: #f4f4f4;
-  padding: 20px;
+
   box-sizing: border-box;
   overflow-y: auto;
   margin: 0 10px;
@@ -101,30 +100,39 @@
   color: black;
 }
 
-.column header {
+.column_header {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  top: 0;
+  left: 0;
+  right: 0;
   padding: 10px;
-  border-bottom: 1px solid black;
-  background-color: black;
+  border-bottom: 1px solid #ddd;
+  background-color: var(--background-1);
 }
 
-.column title {
+.column_header h1 {
   flex: 1;
+  font-size: 20px;
+  color: white;
+  /* Text color for better contrast */
   text-align: center;
+  /* Center text horizontally */
   margin: 0;
+  /* Remove default margin */
 }
 
-.column button {
-  flex: 1;
-  background-color: var(--primary-button);
+.column_header button {
+  background-color: #008CBA;
+  /* Button color */
   color: white;
   border: none;
   padding: 6px 12px;
   cursor: pointer;
   border-radius: 5px;
-  margin: 0 10px;
+  margin: 0;
+  /* Remove default margin */
 }
 
 /* Reactive buttons */

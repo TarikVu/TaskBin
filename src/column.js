@@ -18,13 +18,14 @@ const Column = () => {
                 onClose={() => setIsCardFormVisible(false)}
                 onAddCard={addCard}
             />
-            <div className="header">
-                <div className="title">
-                    Title
-                </div>
+            <div className="column_header">
+                <h1>
+                    Column Title
+                </h1>
+
 
                 <button onClick={() => setIsCardFormVisible(true)}>
-                    Add Card
+                    + Add Card
                 </button>
             </div>
 
