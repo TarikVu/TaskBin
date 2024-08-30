@@ -47,7 +47,7 @@ Record all changes on a backend data structure and update the Database with the 
 
 ## <a name = "apx"></a> Appendix
 
-- Amplify 
+- ~~Amplify~~ 
     - [Authentication](https://docs.amplify.aws/react/build-a-backend/auth/)
     - [Manage User sessions (get user ID)](https://docs.amplify.aws/react/build-a-backend/auth/connect-your-frontend/manage-user-sessions/)
 
