@@ -1,4 +1,7 @@
 import React, { useEffect, useState } from 'react';
+import NavBar from './navbar';
+import Board from './board';
+import Column from './column';
 
 function App() {
   const [data, setData] = useState([]);
@@ -22,10 +25,10 @@ function App() {
   }, []);
 
 
-// Testing purposes to log data
-useEffect(() => {
-  console.log(data);
-}, [data]); // This will log data when it changes
+  // Testing purposes to log data
+  useEffect(() => {
+    console.log(data);
+  }, [data]); // This will log data when it changes
 
 
   const createBoard = async () => {
@@ -70,56 +73,19 @@ useEffect(() => {
     }
   };
 
+
+  const signOut = () => {
+    console.log("Logout pressed");
+  };
+
   return (
     <div>
-      <h1>Kanban Board</h1>
+      <NavBar onButtonClick={signOut} />
+      <Board>
+        <Column>
+        </Column>
+      </Board>
 
-      <div>
-        <h2>Create Board</h2>
-        <input
-          type="text"
-          value={boardName}
-          onChange={(e) => setBoardName(e.target.value)}
-          placeholder="Board Name"
-        />
-        <button onClick={createBoard}>Create Board</button>
-      </div>
-
-      <div>
-        <h2>Create Column</h2>
-        <input
-          type="text"
-          value={columnName}
-          onChange={(e) => setColumnName(e.target.value)}
-          placeholder="Column Name"
-        />
-        <button onClick={createColumn}>Create Column</button>
-      </div>
-
-      <div>
-        <h2>Create Card</h2>
-        <input
-          type="text"
-          value={cardData.title}
-          onChange={(e) => setCardData({ ...cardData, title: e.target.value })}
-          placeholder="Card Title"
-        />
-        <input
-          type="text"
-          value={cardData.text}
-          onChange={(e) => setCardData({ ...cardData, text: e.target.value })}
-          placeholder="Card Text"
-        />
-        <select
-          value={cardData.priority}
-          onChange={(e) => setCardData({ ...cardData, priority: e.target.value })}
-        >
-          <option value="normal">Normal</option>
-          <option value="high">High</option>
-          <option value="urgent">Urgent</option>
-        </select>
-        <button onClick={createCard}>Create Card</button>
-      </div>
     </div>
   );
 }
