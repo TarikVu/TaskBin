@@ -144,6 +144,15 @@
   background-color: var(--primary-button-click);
 }
 
+.cardform {
+  background: var(--background-1);
+  padding: 20px;
+  border-radius: 5px;
+  width: 400px;
+  max-width: 90%;
+  color: white;
+  font-family: inherit;
+}
 
 /* Card Form input */
 .cardform-overlay {
@@ -156,16 +165,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 1;
 }
 
-.cardform {
-  background: var(--background-1);
-  padding: 20px;
-  border-radius: 5px;
-  width: 400px;
-  max-width: 90%;
-  color: white;
-}
+
 
 .cardform h2 {
   margin-top: 0;
@@ -183,6 +186,7 @@
   padding: 8px;
   margin-top: 4px;
   box-sizing: border-box;
+  font-family: inherit;
 }
 
 .cardform .button-group {
@@ -213,4 +217,62 @@
 
 .cardform select {
   margin-left: 8px;
+}
+
+.card {
+  position: relative;
+  background-color: darkslategrey;
+  margin: 15px 20px;
+  color: white;
+  border-radius: 5px;
+  white-space: normal;
+
+
+}
+
+.card h3 {
+  margin: 0 0 10px 0;
+  color: white;
+}
+
+.card p {
+  color: white;
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.card .delete-button {
+  position: absolute;
+  top: 5px;
+  left: 10px;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  background-color: var(--background-1);
+  border-radius: 20px;
+}
+
+.card .edit-button {
+  position: absolute;
+  top: 5px;
+  right: 20px;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: none;
+}
+
+
+.delete-button:hover {
+  color: darkred;
+}
+
+.card .edit-button:hover {
+  background: none;
 }

@@ -5,9 +5,14 @@ import Column from './column';
 
 function App() {
   const [data, setData] = useState([]);
-  const [boardName, setBoardName] = useState('');
-  const [columnName, setColumnName] = useState('');
+  const [boardData, setBoardData] = useState({ title: '', columns: [] });
+  const [columnData, setColumnData] = useState({ title: '', cards: [] });
   const [cardData, setCardData] = useState({ title: '', text: '', priority: 'normal' });
+
+  // parsed data
+  const [cards, setCards] = useState([
+    { id: 1, title: 'Card 1', text: 'This is card 1' },
+    { id: 2, title: 'Card 2', text: 'This is card 2' }]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -15,6 +20,13 @@ function App() {
         const response = await fetch('http://localhost:5000/cards');
         const result = await response.json();
         setData(result);
+
+        // Data has been pulled from DB, Set
+        // The Boards,Cols,Cards here
+
+        //...
+
+
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -31,12 +43,13 @@ function App() {
   }, [data]); // This will log data when it changes
 
 
+  // CRUD API CALLS
   const createBoard = async () => {
     try {
       const response = await fetch('http://localhost:5000/boards', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name: boardName }),
+        body: JSON.stringify({ name: boardData }),
       });
       const result = await response.json();
       console.log('Board created:', result);
@@ -50,7 +63,7 @@ function App() {
       const response = await fetch('http://localhost:5000/columns', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name: columnName }),
+        body: JSON.stringify({ name: columnData }),
       });
       const result = await response.json();
       console.log('Column created:', result);
@@ -74,6 +87,8 @@ function App() {
   };
 
 
+
+
   const signOut = () => {
     console.log("Logout pressed");
   };
@@ -82,8 +97,6 @@ function App() {
     <div>
       <NavBar onButtonClick={signOut} />
       <Board>
-        <Column>
-        </Column>
       </Board>
 
     </div>

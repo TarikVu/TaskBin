@@ -3,6 +3,7 @@
 ## Table of Contents:
 1. [Database Schema](#dbs)
 1. [Design choices](#design)
+1. [User Authentication](#auth)
 1. [Appendix](#apx)
 
 ## Technical Stack:
@@ -45,6 +46,9 @@ Record all changes on a backend data structure and update the Database with the 
 
 ### **Option 1 Chosen**
 
+## <a name = "auth"></a> User Authentication
+
+[Article on User Auth with MERN](https://enlear.academy/how-to-securely-authenticate-and-authorize-users-with-node-js-express-mongodb-b57373731efc)
 ## <a name = "apx"></a> Appendix
 
 - ~~Amplify~~ 

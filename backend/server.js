@@ -31,7 +31,7 @@ const cardSchema = new mongoose.Schema({
 }, { timestamps: true });
 
 const columnSchema = new mongoose.Schema({
-    name: {
+    title: {
         type: String,
         required: true,
     },
@@ -42,7 +42,7 @@ const columnSchema = new mongoose.Schema({
 }, { timestamps: true });
 
 const boardSchema = new mongoose.Schema({
-    name: {
+    title: {
         type: String,
         required: true,
     },
