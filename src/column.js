@@ -1,13 +1,18 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import CardForm from './card-form'; // Import the Modal component
 
-const Column = () => {
+const Column = ({ onDeleteCard }) => {
     const [cards, setCards] = useState([]);
     const [isCardFormVisible, setIsCardFormVisible] = useState(false);
 
-    const addCard = (title, text) => {
+    const addCard = ({ title, text, priority }) => {
         setCards([...cards, { title, text, id: Date.now() }]); // Add the new card to the bottom
+
     };
+
+    useEffect(() => {
+        console.log(cards); // Log cards after they have been updated
+    }, [cards]);
 
     return (
         <div className="column">
@@ -32,7 +37,7 @@ const Column = () => {
 
             {
                 cards.map(card => (
-                    <Card key={card.id} title={card.title} text={card.text} />
+                    <Card key={card.id} title={card.title} text={card.text} onDelete={() => onDeleteCard(card.id)} />
                 ))
             }
 
@@ -40,8 +45,11 @@ const Column = () => {
     );
 };
 
-const Card = ({ title, text }) => (
+const Card = ({ title, text, onDelete }) => (
     <div className="card">
+        <button className="delete-button" onClick={onDelete}>X</button>
+        <button className="edit-button" >Edit</button>
+
         <h3>{title}</h3>
         <p>{text}</p>
     </div>

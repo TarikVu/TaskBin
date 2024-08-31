@@ -3,7 +3,8 @@ import Column from './column';
 function Board() {
     return (
         <main className="main-content">
-            <Column></Column>
+            <Column>
+            </Column>
 
         </main>
     )

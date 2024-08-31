@@ -7,7 +7,7 @@ const CardForm = ({ isVisible, onClose, onAddCard }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        onAddCard(title, text, priority);
+        onAddCard({ title, text, priority });
         setTitle('');
         setText('');
         setPriority('normal');
