@@ -15,33 +15,36 @@ const Column = ({ column }) => {
 
     }, []);
 
-    if (!column || !column.title || !column.cards) {
-        return <div>Loading...</div>;
-    }
+
 
     return (
         <div className="column">
+            {!column ?
+                <div>Loading...</div>
+                :
+                <div>
+                    {/* Hidden UI until add card is pressed */}
+                    <CardForm
+                        isVisible={isCardFormVisible}
+                        onClose={() => setIsCardFormVisible(false)}
+                        onAddCard={addCard}
+                    />
+                    <div className="column_header">
+                        <h1>{column.title}</h1>
+                        <button onClick={() => setIsCardFormVisible(true)}>
+                            + Add Card
+                        </button>
+                    </div>
 
-            {/*Hidden UI until add card is pressed*/}
-            <CardForm
-                isVisible={isCardFormVisible}
-                onClose={() => setIsCardFormVisible(false)}
-                onAddCard={addCard}
-            />
-            <div className="column_header">
-                <h1>
-                    {column.title}
-                </h1>
-
-                <button onClick={() => setIsCardFormVisible(true)}>
-                    + Add Card
-                </button>
-            </div>
-
-            {column.cards.map(card => (
-                <Card key={card.id} title={card.title} text={card.text} />
-            ))}
-
+                    {column.cards && column.cards.length > 0 ?
+                        column.cards.map(card => (
+                            <Card key={card.id} title={card.title} text={card.text} />
+                        ))
+                        :
+                        <div>No cards available</div>
+                    }
+                </div>
+            }
         </div>
     );
 };

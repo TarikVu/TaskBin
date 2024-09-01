@@ -4,14 +4,18 @@ import Column from './column';
 function Board({ board }) {
 
     if (!board || !board.columns) {
-        return <div>Loading...</div>; // Render a loading state or message
+        return <div>Loading!</div>; // Render a loading state or message
     }
     return (
         <main className="main-content">
-            {board.columns.map((column) => (
-                <Column key={column.id} column={column} />
-            ))}
-            <Column></Column>
+            {!board ?
+                <div>Loading Board....</div>
+                :
+                (board.columns.map((column) => (
+                    <Column key={column.id} column={column} />
+                )))}
+
+
         </main>
     );
 }
