@@ -9,13 +9,31 @@ function App() {
   const [columnData, setColumnData] = useState({ title: '', cards: [] });
   const [cardData, setCardData] = useState({ title: '', text: '', priority: 'normal' });
 
-  // parsed data
-  const [cards, setCards] = useState([
-    { id: 1, title: 'Card 1', text: 'This is card 1' },
-    { id: 2, title: 'Card 2', text: 'This is card 2' }]);
+  // Testing purposes
+  const [exampleData, setExampleBoardData] = useState({
+    id: 1,
+    title: 'Board 1',
+    columns: [
+      {
+        id: 1,
+        title: 'Column 1',
+        cards: [
+          {
+            id: 1,
+            title: 'Card 1',
+            text: 'This is the only card in this column.',
+            priority: 'normal',
+          },
+        ],
+      },
+    ],
+  });
+
 
   useEffect(() => {
     const fetchData = async () => {
+
+      // populate data from DB here
       try {
         const response = await fetch('http://localhost:5000/cards');
         const result = await response.json();
@@ -39,8 +57,8 @@ function App() {
 
   // Testing purposes to log data
   useEffect(() => {
-    console.log(data);
-  }, [data]); // This will log data when it changes
+    console.log(exampleData);
+  }, [exampleData]); // This will log data when it changes
 
 
   // CRUD API CALLS
@@ -96,7 +114,7 @@ function App() {
   return (
     <div>
       <NavBar onButtonClick={signOut} />
-      <Board>
+      <Board board={exampleData}>
       </Board>
 
     </div>

@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import CardForm from './card-form'; // Import the Modal component
+import CardForm from './card-form';
+import Card from './card';
 
-const Column = ({ onDeleteCard }) => {
+const Column = ({ column }) => {
     const [cards, setCards] = useState([]);
     const [isCardFormVisible, setIsCardFormVisible] = useState(false);
 
@@ -11,8 +12,12 @@ const Column = ({ onDeleteCard }) => {
     };
 
     useEffect(() => {
-        console.log(cards); // Log cards after they have been updated
-    }, [cards]);
+
+    }, []);
+
+    if (!column || !column.title || !column.cards) {
+        return <div>Loading...</div>;
+    }
 
     return (
         <div className="column">
@@ -25,34 +30,22 @@ const Column = ({ onDeleteCard }) => {
             />
             <div className="column_header">
                 <h1>
-                    Column Title
+                    {column.title}
                 </h1>
-
 
                 <button onClick={() => setIsCardFormVisible(true)}>
                     + Add Card
                 </button>
             </div>
 
-
-            {
-                cards.map(card => (
-                    <Card key={card.id} title={card.title} text={card.text} onDelete={() => onDeleteCard(card.id)} />
-                ))
-            }
+            {column.cards.map(card => (
+                <Card key={card.id} title={card.title} text={card.text} />
+            ))}
 
         </div>
     );
 };
 
-const Card = ({ title, text, onDelete }) => (
-    <div className="card">
-        <button className="delete-button" onClick={onDelete}>X</button>
-        <button className="edit-button" >Edit</button>
 
-        <h3>{title}</h3>
-        <p>{text}</p>
-    </div>
-);
 
 export default Column;
