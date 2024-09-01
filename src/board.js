@@ -1,13 +1,12 @@
 import React from 'react';
 import Column from './column';
+import ControlBar from './controlbar';
 
-function Board({ board }) {
-
-    if (!board || !board.columns) {
-        return <div>Loading!</div>; // Render a loading state or message
-    }
+function Board({ board, onAddColumn }) {
     return (
-        <main className="main-content">
+        <main className="board">
+
+            <ControlBar onAddColumn={onAddColumn} />
             {!board ?
                 <div>Loading Board....</div>
                 :

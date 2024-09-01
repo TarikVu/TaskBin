@@ -111,6 +111,21 @@ function App() {
     console.log("Logout pressed");
   };
 
+  const onAddColumn = () => {
+    const newColumn = {
+      id: exampleData.columns.length + 1,  // Increment ID based on the number of existing columns
+      title: `Column ${exampleData.columns.length + 1}`,
+      cards: []
+    };
+
+    const updatedBoard = {
+      ...exampleData,
+      columns: [...exampleData.columns, newColumn]
+    };
+
+    setExampleBoardData(updatedBoard);
+  };
+
   return (
     <div>
       <NavBar onButtonClick={signOut} />
