@@ -1,0 +1,16 @@
+{
+    "multiCommand.commands": [
+        {
+            "command": "multiCommand.addSemicolonAtEnd",
+            "sequence": [
+                "cursorEnd",
+                {
+                    "command": "type",
+                    "args": {
+                        "text": ";"
+                    }
+                }
+            ]
+        }
+    ]
+}

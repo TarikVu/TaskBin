@@ -152,17 +152,16 @@ function App() {
     }
   };
 
-
-
-
   const signOut = () => {
     console.log("Logout pressed");
   };
 
-  const onAddColumn = () => {
-    const newColumn = {
-      id: exampleData.columns.length + 1,  // Increment ID based on the number of existing columns
-      title: `Column ${exampleData.columns.length + 1}`,
+  // send a req to add a col
+  const reqAddColumn = ({ title }) => {
+
+    /* const newColumn = {
+      id: exampleData.columns.length + 1,
+      title: title,
       cards: []
     };
 
@@ -171,14 +170,25 @@ function App() {
       columns: [...exampleData.columns, newColumn]
     };
 
-    setExampleBoardData(updatedBoard);
+    setExampleBoardData(updatedBoard); */
+    console.log("add col req");
   };
+
+  const reqAddCard = ({ title, text, priority }) => {
+
+    console.log("add card req");
+
+  }
+
+
 
   return (
     <div>
       <NavBar onButtonClick={signOut} />
-      <Board board={exampleData}>
-      </Board>
+      <Board
+        board={exampleData}
+        reqAddColumn={reqAddColumn}
+        reqAddCard={reqAddCard} />
 
     </div>
   );

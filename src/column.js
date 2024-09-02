@@ -1,21 +1,29 @@
 import React, { useEffect, useState } from 'react';
-import CardForm from './card-form';
+import CardForm from './forms/card-form';
 import Card from './card';
 
-const Column = ({ column }) => {
+const Column = ({ column, reqAddCard }) => {
+
     const [cards, setCards] = useState(column.cards || []); // empty case
     const [isCardFormVisible, setIsCardFormVisible] = useState(false);
 
     const addCard = ({ title, text, priority }) => {
-        setCards([...cards, { title, text, id: Date.now() }]); // Add the new card to the bottom
+
+
+        // send a req add card back to app.js and wait on a approve or deny
+        // IF 
+        reqAddCard({ title, text, priority });
+        setCards(
+            [...cards,
+            {
+                title,
+                text,
+                id: Date.now() // Add the new card to the bottom
+            }
+            ]);
+        // ELSE dont update ui 
 
     };
-
-    useEffect(() => {
-
-    }, [cards]);
-
-
 
     return (
         <div className="column">
@@ -27,7 +35,7 @@ const Column = ({ column }) => {
                     <CardForm
                         isVisible={isCardFormVisible}
                         onClose={() => setIsCardFormVisible(false)}
-                        onAddCard={addCard}
+                        addCard={addCard}
                     />
                     <div className="column_header">
                         <h1>{column.title}</h1>
