@@ -26,6 +26,54 @@ function App() {
           },
         ],
       },
+      /* {
+        id: 2,
+        title: 'Column 2',
+        cards: [
+          {
+            id: 1,
+            title: 'Card 1',
+            text: 'This is the only card in this column2.',
+            priority: 'normal',
+          },
+        ],
+      },
+      {
+        id: 3,
+        title: 'Column 1',
+        cards: [
+          {
+            id: 1,
+            title: 'Card 1',
+            text: 'This is the only card in this column.',
+            priority: 'normal',
+          },
+        ],
+      },
+      {
+        id: 4,
+        title: 'Column 1',
+        cards: [
+          {
+            id: 1,
+            title: 'Card 1',
+            text: 'This is the only card in this column.',
+            priority: 'normal',
+          },
+        ],
+      },
+      {
+        id: 5,
+        title: 'Column 1',
+        cards: [
+          {
+            id: 1,
+            title: 'Card 1',
+            text: 'This is the only card in this column.',
+            priority: 'normal',
+          },
+        ],
+      }, */
     ],
   });
 
