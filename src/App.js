@@ -159,19 +159,8 @@ function App() {
   // send a req to add a col
   const reqAddColumn = ({ title }) => {
 
-    /* const newColumn = {
-      id: exampleData.columns.length + 1,
-      title: title,
-      cards: []
-    };
-
-    const updatedBoard = {
-      ...exampleData,
-      columns: [...exampleData.columns, newColumn]
-    };
-
-    setExampleBoardData(updatedBoard); */
     console.log("add col req");
+
   };
 
   const reqAddCard = ({ title, text, priority }) => {
