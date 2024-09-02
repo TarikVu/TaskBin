@@ -3,7 +3,7 @@ import CardForm from './card-form';
 import Card from './card';
 
 const Column = ({ column }) => {
-    const [cards, setCards] = useState([]);
+    const [cards, setCards] = useState(column.cards || []); // empty case
     const [isCardFormVisible, setIsCardFormVisible] = useState(false);
 
     const addCard = ({ title, text, priority }) => {
@@ -13,7 +13,7 @@ const Column = ({ column }) => {
 
     useEffect(() => {
 
-    }, []);
+    }, [cards]);
 
 
 
@@ -36,8 +36,8 @@ const Column = ({ column }) => {
                         </button>
                     </div>
 
-                    {column.cards && column.cards.length > 0 ?
-                        column.cards.map(card => (
+                    {cards && cards.length > 0 ?
+                        cards.map(card => (
                             <Card key={card.id} title={card.title} text={card.text} />
                         ))
                         :
