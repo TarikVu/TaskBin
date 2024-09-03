@@ -6,19 +6,27 @@ function Board({ board, reqAddColumn, reqAddCard }) {
 
     const [columns, setColumns] = useState(board.columns || []);
 
-    const addColumn = ({ title }) => {
+    const addColumn = async ({ title }) => {
 
-        // IF 
-        reqAddColumn({ title });
-        setColumns(
-            [...columns,
-            {
-                id: columns.length + 1,
-                title: title,
-                cards: []
-            }
-            ]);
-        //ELSE dont update ui
+
+        const result = await reqAddColumn({ title });
+        console.log(result);
+        const newColumn = result.column;
+        if (result.success) {
+            setColumns(
+                [...columns,
+                {
+                    key: Date().now, // used for react rendering & mapping
+                    id: newColumn._id,  // Use the ID from the database
+                    title: newColumn.title,
+                    cards: newColumn.cards || []
+                }
+                ]);
+        }
+        else {
+            console.error('failed to add column to Database');
+        }
+
 
     }
 
@@ -32,7 +40,7 @@ function Board({ board, reqAddColumn, reqAddCard }) {
                     (columns && columns.length > 0 ?
                         columns.map((column) => (
                             <Column
-                                key={column.id}
+                                key={column.key}
                                 column={column}
                                 reqAddCard={reqAddCard} />
                         ))
