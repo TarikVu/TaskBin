@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 
-const ColumnForm = ({ isVisible, onClose, addColumn }) => {
+const BoardForm = ({ isVisible, onClose, addBoard }) => {
     const [title, setTitle] = useState('');
 
     const handleSubmit = (e) => {
         e.preventDefault();
         setTitle('');
         // send title back to app.js level for api call
-        addColumn(title);
+        addBoard({ title });
         onClose();
     }
 
@@ -23,9 +23,9 @@ const ColumnForm = ({ isVisible, onClose, addColumn }) => {
                 />
             </label>
 
-            <button type="submit">Add Column</button>
+            <button type="submit">Add Board</button>
             <button type="button" onClick={onClose}>Cancel</button>
         </form> : null;
 }
 
-export default ColumnForm;
+export default BoardForm;

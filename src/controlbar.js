@@ -1,24 +1,48 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import ColumnForm from './forms/column-form';
-import Column from './column';
+import BoardForm from './forms/board-form';
 
-const ControlBar = ({ addColumn }) => {
-    const [isColumnFormVisible, setIsColumnFormVisible] = useState(false);
+const ControlBar = ({ allBoards, selectedBoard, onBoardSelect, reqAddBoard, reqAddColumn, reqAddCard }) => {
+  const [isBoardFormVisible, setIsBoardFormVisible] = useState(false);
+  const [isColumnFormVisible, setIsColumnFormVisible] = useState(false);
 
-    return (
-        <div className="control-bar">
-            <ColumnForm
-                isVisible={isColumnFormVisible}
-                onClose={() => setIsColumnFormVisible(false)}
-                addColumn={addColumn} />
+  const handleBoardChange = (event) => {
+    const selectedBoardId = event.target.value;
+    onBoardSelect(selectedBoardId);
+  };
 
-            <button onClick={() => setIsColumnFormVisible(true)}>
-                Add New Column
-            </button>
-            {/*Add more buttons or controls here */}
-        </div>
-    );
+  return (
+    <div className="control-bar">
+      <BoardForm
+        isVisible={isBoardFormVisible}
+        onClose={() => setIsBoardFormVisible(false)}
+        addBoard={reqAddBoard}
+      />
+
+      <ColumnForm
+        isVisible={isColumnFormVisible}
+        onClose={() => setIsColumnFormVisible(false)}
+        addColumn={reqAddColumn}
+      />
+
+      <button onClick={() => setIsBoardFormVisible(true)}>
+        Add New Board
+      </button>
+
+      <button onClick={() => setIsColumnFormVisible(true)}>
+        Add New Column
+      </button>
+
+      <select onChange={handleBoardChange} value={selectedBoard._id || ''}>
+        <option value="">Select a Board</option>
+        {allBoards.map(board => (
+          <option key={board._id} value={board._id}>
+            {board.title}
+          </option>
+        ))}
+      </select>
+    </div>
+  );
 };
 
 export default ControlBar;
-

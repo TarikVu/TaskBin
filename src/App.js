@@ -1,80 +1,102 @@
 import React, { useEffect, useState } from 'react';
+import { signOut, reqAddBoard, reqAddColumn, reqAddCard } from './services'; // API Calling
 import NavBar from './navbar';
+import ControlBar from './controlbar';
 import Board from './board';
-import { signOut, reqAddCard, reqAddColumn } from './services';
 
-function App() {
-  const [data, setData] = useState([]);
-/*   const [boardData, setBoardData] = useState({ title: '', columns: [] });
-  const [columnData, setColumnData] = useState({ title: '', cards: [] });
-  const [cardData, setCardData] = useState({ title: '', text: '', priority: 'normal' }); */
+const App = () => {
+  const [allBoards, setAllBoards] = useState([]);
+  const [board, setBoard] = useState({ columns: [] });
+  const [selectedBoardId, setSelectedBoardId] = useState('');
 
-  // Testing purposes
-  const [exampleData, setExampleBoardData] = useState({
-    id: 1,
-    title: 'Board 1',
-    columns: [
-      {
-        id: 1,
-        title: 'Column 1',
-        cards: [
-          {
-            id: 1,
-            title: 'Card 1',
-            text: 'This is the only card in this column.',
-            priority: 'normal',
-          },
-        ],
-      },
-    ],
-  });
-
+  const userId = 1;
 
   useEffect(() => {
     const fetchData = async () => {
-
-      // populate data from DB here
-      // move to services later.
       try {
-        const response = await fetch('http://localhost:5000/cards');
+        const response = await fetch(`http://localhost:5000/boards?userId=${userId}`);
         const result = await response.json();
-        setData(result);
-
-        // Data has been pulled from DB, Set
-        // The Boards,Cols,Cards here
-
-        //...
-
-
+        setAllBoards(result);
+        console.log(result);
+        if (result.length > 0) {
+          setSelectedBoardId(result[0]._id); // Set initial selected board ID
+        }
       } catch (error) {
         console.error('Error fetching data:', error);
       }
     };
 
     fetchData();
+  }, [userId]);
 
-  }, []);
+  const fetchBoard = async (boardId) => {
+    try {
+      // Fetch the selected board
+      const boardResponse = await fetch(`http://localhost:5000/boards/${boardId}?userId=${userId}`);
+      const boardData = await boardResponse.json();
+      
+      // Fetch the columns using their IDs
+      const columnIds = boardData.columns || [];
+      console.log(columnIds);
+      const columns = await Promise.all(columnIds.map(async (columnId) => {
+        const columnResponse = await fetch(`http://localhost:5000/columns/${columnId}`);
+        return await columnResponse.json();
+      }));
+      
+      // Set the board with full column data
+      setBoard({ ...boardData, columns });
+    } catch (error) {
+      console.error('Error fetching board:', error);
+    }
+  };
+  
 
-
-  // Testing purposes to log data
   useEffect(() => {
-    console.log(exampleData);
-  }, [exampleData]); // This will log data when it changes
+    if (selectedBoardId) {
+      fetchBoard(selectedBoardId);
+    } 
+  }, [selectedBoardId]);
 
+  const selectBoard = (boardId) => {
+    setSelectedBoardId(boardId);
+  };
 
+  const addBoard = async (data) => {
+    const result = await reqAddBoard({ ...data, userId });
+    if (result.success) {
+      const response = await fetch(`http://localhost:5000/boards?userId=${userId}`);
+      const updatedBoards = await response.json();
+      setAllBoards(updatedBoards);
+      setSelectedBoardId(updatedBoards[0]._id); // Set the newly added board as selected
+      fetchBoard(updatedBoards[0]._id); // Fetch the new board
+    }
+  };
 
-
+  const addColumn = async (title) => {
+    console.log('Adding column with selectedBoardId:', selectedBoardId); // Debug log
+    const result = await reqAddColumn({title, selectedBoardId });
+    if (result.success) {
+      fetchBoard(selectedBoardId); // Fetch updated board data after adding a column
+    }
+  };
 
   return (
-    <div>
+    <div className="app">
       <NavBar onButtonClick={signOut} />
+      <ControlBar
+        allBoards={allBoards}
+        selectedBoard={board}
+        onBoardSelect={selectBoard}
+        reqAddBoard={addBoard}
+        reqAddColumn={addColumn}
+        reqAddCard={reqAddCard}
+      />
       <Board
-        board={exampleData}
-        reqAddColumn={reqAddColumn}
-        reqAddCard={reqAddCard} />
-
+        board={board}
+        reqAddCard={reqAddCard}
+      />
     </div>
   );
-}
+};
 
 export default App;
