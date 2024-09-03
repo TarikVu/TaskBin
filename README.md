@@ -1,5 +1,6 @@
 # TaskBin Kanbanboard (Pre-alpha)
-
+Preview:
+![prealpha](https://github.com/TarikVu/imgs/blob/main/TaskBin/taskbin_pre-alpha.png?raw=true)
 ## Table of Contents:
 1. [Database Schema](#dbs)
 1. [Design choices](#design)
@@ -14,7 +15,7 @@
 |Database   | MongoDB (Mongoose) | N/A   |  
 |Deployment | AWS (Amplify)      | N/A   |  
 
-![prealpha](https://github.com/TarikVu/imgs/blob/main/TaskBin/taskbin_pre-alpha.png?raw=true)
+
 
 ## <a name = "DBS"></a> Database Schema 
 The database for TaskBin will Utilize MongoDB as a NoSQL Database.
