@@ -65,7 +65,8 @@ const App = () => {
     const result = await reqAddBoard({ ...data, userId });
     if (result.success) {
       // Fetch only the newly added board using its ID from the result
-      const newBoardResponse = await fetch(`http://localhost:5000/boards/${result.board._id}?userId=${userId}`);
+      const newBoardResponse =
+        await fetch(`http://localhost:5000/boards/${result.board._id}?userId=${userId}`);
       const newBoard = await newBoardResponse.json();
       console.log(newBoard);
       // Append the newly added board to the existing list of boards
@@ -77,10 +78,17 @@ const App = () => {
     }
   };
 
-
   const addColumn = async (title) => {
     console.log('Adding column with selectedBoardId:', selectedBoardId); // Debug log
     const result = await reqAddColumn({ title, selectedBoardId });
+    if (result.success) {
+      fetchBoard(selectedBoardId); // Fetch updated board data after adding a column
+    }
+  };
+
+  const addCard = async ({ title, text, priority, columnId }) => {
+    console.log('Adding Card with selectedBoardId:', selectedBoardId); // Debug log
+    const result = await reqAddCard({ title, text, priority, columnId });
     if (result.success) {
       fetchBoard(selectedBoardId); // Fetch updated board data after adding a column
     }
@@ -95,11 +103,10 @@ const App = () => {
         onBoardSelect={selectBoard}
         reqAddBoard={addBoard}
         reqAddColumn={addColumn}
-        reqAddCard={reqAddCard}
       />
       <Board
         board={board}
-        reqAddCard={reqAddCard}
+        addCard={addCard}
       />
     </div>
   );

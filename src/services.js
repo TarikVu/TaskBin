@@ -70,11 +70,12 @@ const reqAddColumn = async ({ title, selectedBoardId }) => {
 const reqAddCard = async ({ title, text, priority, columnId }) => {
     console.log("Attempting to add Card...");
     try {
+        console.log("@@@@@", columnId);
         // Send a POST request to create the card
         const response = await fetch('http://localhost:5000/cards', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ title, text, priority, columnId }),
+            body: JSON.stringify({ title, text, priority }),
         });
 
         if (response.ok) {

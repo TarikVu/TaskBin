@@ -1,20 +1,19 @@
 import React, { useState } from 'react';
 
-const CardForm = ({ isVisible, onClose, addCard }) => {
+const CardForm = ({ isVisible, onClose, addCard, columnId }) => {
     const [title, setTitle] = useState('');
     const [text, setText] = useState('');
     const [priority, setPriority] = useState('normal');
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        addCard({ title, text, priority, columnId });
 
-        // Reset fields
         setTitle('');
         setText('');
         setPriority('normal');
 
         // return the data via reqAddCard
-        addCard({ title, text, priority });
         onClose();
     };
 

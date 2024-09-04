@@ -1,7 +1,7 @@
 import React from 'react';
 import Column from './column';
 
-const Board = ({ board, reqAddCard }) => {
+const Board = ({ board, addCard }) => {
     const columns = board.columns || [];
 
     return (
@@ -12,7 +12,7 @@ const Board = ({ board, reqAddCard }) => {
                         <Column
                             key={column._id} // Ensure unique key
                             column={column}
-                            reqAddCard={reqAddCard}
+                            addCard={addCard}
                         />
                     ))
                 ) : (
