@@ -1,50 +1,10 @@
 
-// CRUD API CALLS
-/* const createBoard = async () => {
-    try {
-        const response = await fetch('http://localhost:5000/boards', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ name: boardData }),
-        });
-        const result = await response.json();
-        console.log('Board created:', result);
-    } catch (error) {
-        console.error('Error creating board:', error);
-    }
-};
-
-const createColumn = async () => {
-    try {
-        const response = await fetch('http://localhost:5000/columns', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ name: columnData }),
-        });
-        const result = await response.json();
-        console.log('Column created:', result);
-    } catch (error) {
-        console.error('Error creating column:', error);
-    }
-};
-
-const createCard = async () => {
-    try {
-        const response = await fetch('http://localhost:5000/cards', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(cardData),
-        });
-        const result = await response.json();
-        console.log('Card created:', result);
-    } catch (error) {
-        console.error('Error creating card:', error);
-    }
-}; */
 
 const signOut = () => {
     console.log("Logout pressed");
 };
+
+
 
 const reqAddBoard = async ({ title, userId = 1 }) => {
     try {
@@ -148,9 +108,6 @@ const reqAddCard = async ({ title, text, priority, columnId }) => {
 }
 
 export {
-    /* createBoard,
-    createColumn,
-    createCard, */
     signOut,
     reqAddBoard,
     reqAddColumn,

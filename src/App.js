@@ -29,12 +29,19 @@ const App = () => {
     fetchData();
   }, [userId]);
 
+  // If selectedBoardId changes, update the page
+  useEffect(() => {
+    if (selectedBoardId) {
+      fetchBoard(selectedBoardId);
+    }
+  }, [selectedBoardId]);
+
   const fetchBoard = async (boardId) => {
     try {
       // Fetch the selected board
       const boardResponse = await fetch(`http://localhost:5000/boards/${boardId}?userId=${userId}`);
       const boardData = await boardResponse.json();
-      
+
       // Fetch the columns using their IDs
       const columnIds = boardData.columns || [];
       console.log(columnIds);
@@ -42,20 +49,13 @@ const App = () => {
         const columnResponse = await fetch(`http://localhost:5000/columns/${columnId}`);
         return await columnResponse.json();
       }));
-      
+
       // Set the board with full column data
       setBoard({ ...boardData, columns });
     } catch (error) {
       console.error('Error fetching board:', error);
     }
   };
-  
-
-  useEffect(() => {
-    if (selectedBoardId) {
-      fetchBoard(selectedBoardId);
-    } 
-  }, [selectedBoardId]);
 
   const selectBoard = (boardId) => {
     setSelectedBoardId(boardId);
@@ -64,17 +64,23 @@ const App = () => {
   const addBoard = async (data) => {
     const result = await reqAddBoard({ ...data, userId });
     if (result.success) {
-      const response = await fetch(`http://localhost:5000/boards?userId=${userId}`);
-      const updatedBoards = await response.json();
-      setAllBoards(updatedBoards);
-      setSelectedBoardId(updatedBoards[0]._id); // Set the newly added board as selected
-      fetchBoard(updatedBoards[0]._id); // Fetch the new board
+      // Fetch only the newly added board using its ID from the result
+      const newBoardResponse = await fetch(`http://localhost:5000/boards/${result.board._id}?userId=${userId}`);
+      const newBoard = await newBoardResponse.json();
+      console.log(newBoard);
+      // Append the newly added board to the existing list of boards
+      setAllBoards((prevBoards) => [...prevBoards, newBoard]);
+
+      // Set the newly added board as selected
+      setSelectedBoardId(newBoard._id);
+      fetchBoard(newBoard._id); // Fetch the new board's data to update the UI
     }
   };
 
+
   const addColumn = async (title) => {
     console.log('Adding column with selectedBoardId:', selectedBoardId); // Debug log
-    const result = await reqAddColumn({title, selectedBoardId });
+    const result = await reqAddColumn({ title, selectedBoardId });
     if (result.success) {
       fetchBoard(selectedBoardId); // Fetch updated board data after adding a column
     }

@@ -59,10 +59,7 @@ const Column = mongoose.model('Column', columnSchema);
 const Board = mongoose.model('Board', boardSchema);
 
 
-/// API ///
-
-// GET //
-// Get all boards for a specific user
+// FetchData 
 app.get('/boards', async (req, res) => {
     console.log("req get board");
     try {
@@ -73,6 +70,7 @@ app.get('/boards', async (req, res) => {
         res.status(400).json({ error: error.message });
     }
 });
+
 app.get('/boards/:boardId', async (req, res) => {
     try {
         const boardId = req.params.boardId;
