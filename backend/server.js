@@ -50,6 +50,7 @@ const boardSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Column',
     }],
+    userId: { type: Number, default: 1 } // Default to userId 1
 }, { timestamps: true });
 
 // Create the models
@@ -58,22 +59,45 @@ const Column = mongoose.model('Column', columnSchema);
 const Board = mongoose.model('Board', boardSchema);
 
 
-/// API ///
-
-// GET //
+// FetchData 
 app.get('/boards', async (req, res) => {
+    console.log("req get board");
     try {
-        const boards = await Board.find()
-            .populate({
-                path: 'columns',
-                populate: {
-                    path: 'cards'
-                }
-            });
-
-        res.json(boards);
+        const userId = req.query.userId || '1'; // Default to userId '1'
+        const boards = await Board.find({ userId });
+        res.status(200).json(boards);
     } catch (error) {
-        res.status(500).send('Error retrieving boards');
+        res.status(400).json({ error: error.message });
+    }
+});
+
+app.get('/boards/:boardId', async (req, res) => {
+    try {
+        const boardId = req.params.boardId;
+        const userId = req.query.userId || '1'; // Default userId if not provided
+        const board = await Board.findOne({ _id: boardId, userId }); // Find board by ID and userId
+        if (!board) {
+            return res.status(404).json({ error: 'Board not found' });
+        }
+        res.status(200).json(board);
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+});
+
+
+app.get('/columns/:id', async (req, res) => {
+    try {
+        const columnId = req.params.id;
+        const column = await Column.findById(columnId);
+
+        if (!column) {
+            return res.status(404).json({ error: 'Column not found' });
+        }
+
+        res.status(200).json(column);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
     }
 });
 
@@ -88,7 +112,77 @@ app.get('/cards', async (req, res) => {
     }
 });
 
-// POST //
+
+
+// POST /boards - Create a new board
+app.post('/boards', async (req, res) => {
+    try {
+        const newBoard = new Board({
+            title: req.body.title,
+            userId: req.body.userId || 1 // Default to userId 1
+        });
+        await newBoard.save();
+        res.status(201).json(newBoard);
+        console.log('Board created:', newBoard);
+        console.log('userID:', newBoard.userId);
+
+    } catch (error) {
+        console.error('Error creating board:', error);
+        res.status(400).json({ error: error.message });
+    }
+});
+
+
+app.post('/columns', async (req, res) => {
+    console.log('request body', req.body);
+    try {
+        const newColumn = new Column(req.body);
+        await newColumn.save();
+        res.status(201).json(newColumn);
+        console.log('Column Post request success');
+
+    } catch (error) {
+        console.error('Error:', error.message);
+        res.status(400).json({ error: error.message });
+    }
+});
+
+
+app.post('/boards/:boardId/columns', async (req, res) => {
+    const { boardId } = req.params;  // Extract boardId from req.params
+    const { columnId } = req.body;   // Extract columnId from req.body
+
+    try {
+        const updatedBoard = await addColumnToBoardInDB(boardId, columnId);
+        if (updatedBoard) {
+            res.status(200).json({ message: 'Column added to board successfully' });
+        } else {
+            res.status(500).json({ message: 'Failed to update board' });
+        }
+    } catch (error) {
+        console.error('Error updating board:', error);
+        res.status(500).json({ message: 'Failed to update board' });
+    }
+});
+
+const addColumnToBoardInDB = async (boardId, columnId) => {
+    try {
+        const result = await Board.updateOne(
+            { _id: boardId }, // Find the board by its ID
+            { $push: { columns: columnId } } // Add the columnId to the columns array
+        );
+
+        return result.modifiedCount > 0; // Return true if the update was successful
+    } catch (error) {
+        console.error(`Error updating board: ${boardId}`, error);
+        return false; // Return false if there was an error
+    }
+};
+
+
+
+
+
 app.post('/cards', async (req, res) => {
     try {
         const newCard = new Card(req.body);
@@ -99,34 +193,6 @@ app.post('/cards', async (req, res) => {
     } catch (error) {
         res.status(400).json({ error: error.message });
     }
-});
-
-
-app.post('/columns', async (req, res) => {
-    try {
-        const newColumn = new Column(req.body);
-        await newColumn.save();
-        res.status(201).json(newColumn);
-        console.log('Column Post request success');
-
-    } catch (error) {
-        res.status(400).json({ error: error.message });
-    }
-});
-
-
-app.post('/boards', async (req, res) => {
-    try {
-        const newBoard = Board(req.body);
-        await newBoard.save();
-        res.status(201).json(newBoard);
-        console.log('Board Post request');
-
-    }
-    catch (error) {
-        res.status(400).json({ error: error.message });
-    }
-
 });
 
 app.post('/columns/:columnId/cards', async (req, res) => {

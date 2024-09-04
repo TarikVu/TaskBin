@@ -1,5 +1,6 @@
-# TaskBin Kanbanboard
-
+# TaskBin Kanbanboard (Pre-alpha)
+Preview:
+![prealpha](https://github.com/TarikVu/imgs/blob/main/TaskBin/taskbin_pre-alpha.png?raw=true)
 ## Table of Contents:
 1. [Database Schema](#dbs)
 1. [Design choices](#design)
@@ -14,10 +15,13 @@
 |Database   | MongoDB (Mongoose) | N/A   |  
 |Deployment | AWS (Amplify)      | N/A   |  
 
+
+
 ## <a name = "DBS"></a> Database Schema 
 The database for TaskBin will Utilize MongoDB as a NoSQL Database.
 The data stored is heiarchal, and will be therefore Referenced with one-to many relationships as shown in the image below. See more on MongoDB
-![schemaImg](https://github.com/TarikVu/imgs/blob/main/TaskBin/TaskBinDB.PNG?raw=true)
+<img src="your-image-url.jpg" style="width: 75%;" alt="Description">
+
 
 ## <a name = "design"></a> Design Choices
 ### 1. CRUD upon change & Optimistic UI changes  
@@ -62,6 +66,7 @@ Record all changes on a backend data structure and update the Database with the 
 
 
 ## Other
+
 
 (Next steps:)
 rewatch the video and look into using the .env file. later when app is deployed
