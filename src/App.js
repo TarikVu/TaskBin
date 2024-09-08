@@ -40,22 +40,49 @@ const App = () => {
     try {
       // Fetch the selected board
       const boardResponse = await fetch(`http://localhost:5000/boards/${boardId}?userId=${userId}`);
-      const boardData = await boardResponse.json();
+      const board = await boardResponse.json();
+      console.log("Board", board);
+      // Check if the board has columns
+      const columnIds = board.columns || [];
+      if (columnIds.length === 0) {
+        console.log('No columns found for this board');
+        setBoard({ ...board, columns: [] });
+        return;
+      }
 
-      // Fetch the columns using their IDs
-      const columnIds = boardData.columns || [];
-      console.log(columnIds);
+      // Fetch the columns and cards
       const columns = await Promise.all(columnIds.map(async (columnId) => {
+        // Fetch each column
         const columnResponse = await fetch(`http://localhost:5000/columns/${columnId}`);
-        return await columnResponse.json();
+        const column = await columnResponse.json();
+        console.log("Column", column);
+
+        // Check if the column has cards
+        const cardIds = column.cards || [];
+        if (cardIds.length === 0) {
+          console.log(`No cards found for column ${columnId}`);
+          return { ...column, cards: [] };
+        }
+
+        // Fetch the cards for this column using card IDs
+        const cards = await Promise.all(cardIds.map(async (cardId) => {
+          const cardResponse = await fetch(`http://localhost:5000/cards/${cardId}`);
+          console.log("card res", cardResponse);
+          return await cardResponse.json();
+        }));
+
+        // Return the column with full card data
+        console.log("setting Column's Cards");
+        return { ...column, cards };
       }));
 
-      // Set the board with full column data
-      setBoard({ ...boardData, columns });
+      // Set the board with full column and card data
+      setBoard({ ...board, columns });
     } catch (error) {
       console.error('Error fetching board:', error);
     }
   };
+
 
   const selectBoard = (boardId) => {
     setSelectedBoardId(boardId);

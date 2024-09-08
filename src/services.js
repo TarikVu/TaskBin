@@ -51,7 +51,7 @@ const reqAddColumn = async ({ title, selectedBoardId }) => {
 
             if (updateBoardResponse.ok) {
                 console.log('Board updated with new column');
-                return { success: true, column: newColumn }; // Return success with the new column
+                return { success: true }; // Return success with the new column
             } else {
                 console.error('Failed to update board:', updateBoardResponse.statusText);
                 return { success: false }; // Return failure if board update fails
@@ -70,7 +70,6 @@ const reqAddColumn = async ({ title, selectedBoardId }) => {
 const reqAddCard = async ({ title, text, priority, columnId }) => {
     console.log("Attempting to add Card...");
     try {
-        console.log("@@@@@", columnId);
         // Send a POST request to create the card
         const response = await fetch('http://localhost:5000/cards', {
             method: 'POST',
@@ -88,23 +87,23 @@ const reqAddCard = async ({ title, text, priority, columnId }) => {
             const updateColumnResponse = await fetch(`http://localhost:5000/columns/${columnId}/cards`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ cardId: newCard._id }), // Assuming your backend expects the card ID
+                body: JSON.stringify({ cardId: newCard._id }),
             });
 
             if (updateColumnResponse.ok) {
                 console.log('Column updated with new card');
-                return true; // Return true on success
+                return { success: true };
             } else {
                 console.error('Failed to update column:', updateColumnResponse.statusText);
-                return false; // Return false if column update fails
+                return { success: false };
             }
         } else {
             console.error('Failed to create card:', response.statusText);
-            return false; // Return false if card creation fails
+            return false;
         }
     } catch (error) {
         console.error('Error creating card:', error);
-        return false; // Return false on error
+        return false;
     }
 }
 

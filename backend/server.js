@@ -61,7 +61,6 @@ const Board = mongoose.model('Board', boardSchema);
 
 // FetchData 
 app.get('/boards', async (req, res) => {
-    console.log("req get board");
     try {
         const userId = req.query.userId || '1'; // Default to userId '1'
         const boards = await Board.find({ userId });
@@ -72,8 +71,10 @@ app.get('/boards', async (req, res) => {
 });
 
 app.get('/boards/:boardId', async (req, res) => {
+    console.log("huh");
     try {
         const boardId = req.params.boardId;
+
         const userId = req.query.userId || '1'; // Default userId if not provided
         const board = await Board.findOne({ _id: boardId, userId }); // Find board by ID and userId
         if (!board) {
@@ -101,16 +102,21 @@ app.get('/columns/:id', async (req, res) => {
     }
 });
 
-
-app.get('/cards', async (req, res) => {
+app.get('/cards/:id', async (req, res) => {
     try {
-        const cards = await Card.find(); // Fetch all cards from the database
-        console.log(cards);
-        res.json(cards); // Send the cards as a JSON response
+        const cardId = req.params.id;
+        console.log("Requested Card ID:", cardId);
+        const card = await Card.findById(cardId);
+        if (!card) {
+            return res.status(404).json({ error: 'Card not found' });
+        }
+        res.status(200).json(card);
     } catch (error) {
-        res.status(500).send('Error retrieving cards');
+        console.error('Error retrieving card:', error);
+        res.status(500).send('Error retrieving card');
     }
 });
+
 
 
 
