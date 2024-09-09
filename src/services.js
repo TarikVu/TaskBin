@@ -1,114 +1,88 @@
-
+// This class is responsible for interacting with the Taskbin backend API.
 
 const signOut = () => {
     console.log("Logout pressed");
 };
 
-
-
-const reqAddBoard = async ({ title, userId = 1 }) => {
+// Fetched and returns the Board of boardId
+const fetchBoard = async (boardId, userId) => {
     try {
-        const response = await fetch('http://localhost:5000/boards', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ title, userId }),
-        });
-        if (response.ok) {
-            const newBoard = await response.json();
-            return { success: true, board: newBoard };
-        } else {
-            console.error('Failed to create board:', response.statusText);
-            return { success: false };
+        // Fetch the selected board
+        const boardResponse = await fetch(`http://localhost:5000/boards/${boardId}?userId=${userId}`);
+        const board = await boardResponse.json();
+        console.log("Board", board);
+        // Check if the board has columns
+        const columnIds = board.columns || [];
+        if (columnIds.length === 0) {
+            console.log('No columns found for this board');
+            return { ...board, columns: [] };
         }
+
+        // Fetch the columns and cards
+        const columns = await Promise.all(columnIds.map(async (columnId) => {
+
+            // Fetch each column
+            const columnResponse = await fetch(`http://localhost:5000/columns/${columnId}`);
+            const column = await columnResponse.json();
+            console.log("Column", column);
+
+            // Check if the column has cards
+            const cardIds = column.cards || [];
+            if (cardIds.length === 0) {
+                console.log(`No cards found for column ${columnId}`);
+                return { ...column, cards: [] };
+            }
+
+            // Fetch the cards for this column using card IDs
+            const cards = await Promise.all(cardIds.map(async (cardId) => {
+                const cardResponse = await fetch(`http://localhost:5000/cards/${cardId}`);
+                console.log("card res", cardResponse);
+                return await cardResponse.json();
+            }));
+
+            return { ...column, cards }; // Spread Col's cards
+        }));
+
+        return { ...board, columns }; // Spread Board's Columns
     } catch (error) {
-        console.error('Error creating board:', error);
-        return { success: false };
+        console.error('Error fetching board:', error);
     }
 };
 
-// send a req to add a col
+// POST API REQUESTS
+const reqAddBoard = async ({ title, userId = 1 }) => {
+    console.log("Attempting to add Board...");
+    const response = await fetch('http://localhost:5000/boards', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ title, userId }),
+    });
+    return response;
+};
 const reqAddColumn = async ({ title, selectedBoardId }) => {
     console.log("Attempting to add Column...");
-    try {
-        // Send a POST request to create the column
-        const response = await fetch('http://localhost:5000/columns', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ title }), // Assuming the server expects a title field
-        });
+    const response = await fetch('http://localhost:5000/columns', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ title: title, boardId: selectedBoardId }),
+    });
+    return response;
 
-        if (response.ok) {
-            const newColumn = await response.json();
-            console.log('Column created:', newColumn);
-            console.log('for Board: ', selectedBoardId);
-
-            // Update the parent board's columns array with the new column's ID
-            const updateBoardResponse = await fetch(`http://localhost:5000/boards/${selectedBoardId}/columns`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ columnId: newColumn._id }), // Assuming your backend expects the column ID
-            });
-
-            if (updateBoardResponse.ok) {
-                console.log('Board updated with new column');
-                return { success: true }; // Return success with the new column
-            } else {
-                console.error('Failed to update board:', updateBoardResponse.statusText);
-                return { success: false }; // Return failure if board update fails
-            }
-        } else {
-            console.error('Failed to create column:', response.statusText);
-            return { success: false }; // Return failure if column creation fails
-        }
-    } catch (error) {
-        console.error('Error creating column:', error);
-        return { success: false }; // Return failure on error
-    }
 };
-
-
 const reqAddCard = async ({ title, text, priority, columnId }) => {
     console.log("Attempting to add Card...");
-    try {
-        // Send a POST request to create the card
-        const response = await fetch('http://localhost:5000/cards', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ title, text, priority }),
-        });
+    const response = await fetch('http://localhost:5000/cards', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ title, text, priority, columnId }),
+    });
+    return response;
 
-        if (response.ok) {
-            const newCard = await response.json();
-            console.log('Card created:', newCard);
-            console.log('for Column: ', columnId);
-
-
-            // Update the parent column's cards array with the new card's ID
-            const updateColumnResponse = await fetch(`http://localhost:5000/columns/${columnId}/cards`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ cardId: newCard._id }),
-            });
-
-            if (updateColumnResponse.ok) {
-                console.log('Column updated with new card');
-                return { success: true };
-            } else {
-                console.error('Failed to update column:', updateColumnResponse.statusText);
-                return { success: false };
-            }
-        } else {
-            console.error('Failed to create card:', response.statusText);
-            return false;
-        }
-    } catch (error) {
-        console.error('Error creating card:', error);
-        return false;
-    }
 }
 
 export {
     signOut,
+    fetchBoard,
     reqAddBoard,
     reqAddColumn,
     reqAddCard,

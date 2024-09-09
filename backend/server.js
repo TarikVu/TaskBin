@@ -71,7 +71,7 @@ app.get('/boards', async (req, res) => {
 });
 
 app.get('/boards/:boardId', async (req, res) => {
-    console.log("huh");
+
     try {
         const boardId = req.params.boardId;
 
@@ -118,8 +118,6 @@ app.get('/cards/:id', async (req, res) => {
 });
 
 
-
-
 // POST /boards - Create a new board
 app.post('/boards', async (req, res) => {
     try {
@@ -128,111 +126,66 @@ app.post('/boards', async (req, res) => {
             userId: req.body.userId || 1 // Default to userId 1
         });
         await newBoard.save();
-        res.status(201).json(newBoard);
         console.log('Board created:', newBoard);
         console.log('userID:', newBoard.userId);
+        return res.status(200).json({ board: newBoard });
 
     } catch (error) {
         console.error('Error creating board:', error);
-        res.status(400).json({ error: error.message });
+        return res.status(400).json({ error: error.message });
     }
 });
 
-
+// Upload a Column and add a reference to the board 
 app.post('/columns', async (req, res) => {
-    console.log('request body', req.body);
+    console.log("Column Post Request pending...");
+    const { title, boardId } = req.body;
+
     try {
-        const newColumn = new Column(req.body);
+        const newColumn = new Column({ title });
         await newColumn.save();
-        res.status(201).json(newColumn);
-        console.log('Column Post request success');
+        console.log('Column Post request success', newColumn);
 
-    } catch (error) {
-        console.error('Error:', error.message);
-        res.status(400).json({ error: error.message });
-    }
-});
+        // Add reference of the new column to the board
+        const result = await Board.updateOne(
+            { _id: boardId },
+            { $push: { columns: newColumn._id } }
+        );
 
-
-app.post('/boards/:boardId/columns', async (req, res) => {
-    const { boardId } = req.params;  // Extract boardId from req.params
-    const { columnId } = req.body;   // Extract columnId from req.body
-
-    try {
-        const updatedBoard = await addColumnToBoardInDB(boardId, columnId);
-        if (updatedBoard) {
-            res.status(200).json({ message: 'Column added to board successfully' });
+        if (result.modifiedCount > 0) {
+            return res.status(200).json({ message: 'Column added to board successfully' });
         } else {
-            res.status(500).json({ message: 'Failed to update board' });
+            return res.status(500).json({ message: 'Failed to update board' });
         }
     } catch (error) {
-        console.error('Error updating board:', error);
-        res.status(500).json({ message: 'Failed to update board' });
+        console.error('Error:', error.message);
+        return res.status(400).json({ error: error.message });
     }
 });
 
-const addColumnToBoardInDB = async (boardId, columnId) => {
+// Upload a card and adds a reference to the parent column
+app.post('/cards', async (req, res) => {
+    const { title, text, priority, columnId } = req.body;
     try {
-        const result = await Board.updateOne(
-            { _id: boardId }, // Find the board by its ID
-            { $push: { columns: columnId } } // Add the columnId to the columns array
+        const newCard = new Card({ title, text, priority });
+        await newCard.save();
+        console.log('Card Post request success', newCard);
+
+        // Add reference of the new card to it's column
+        const result = await Column.updateOne(
+            { _id: columnId },
+            { $push: { cards: newCard._id } }
         );
 
-        return result.modifiedCount > 0; // Return true if the update was successful
-    } catch (error) {
-        console.error(`Error updating board: ${boardId}`, error);
-        return false; // Return false if there was an error
-    }
-};
-
-
-
-
-
-app.post('/cards', async (req, res) => {
-    try {
-        const newCard = new Card(req.body);
-        await newCard.save();
-        res.status(201).json(newCard);
-        console.log('Card Post request');
-
+        if (result.modifiedCount > 0) {
+            return res.status(200).json({ message: 'Card added to column successfully' });
+        } else {
+            return res.status(500).json({ message: 'Failed to update Column' });
+        }
     } catch (error) {
         res.status(400).json({ error: error.message });
     }
 });
-
-app.post('/columns/:columnId/cards', async (req, res) => {
-    const { columnId } = req.params;  // Extract columnId from req.params
-    const { cardId } = req.body;  // Extract cardId from req.body
-
-    console.log("insert card: ", cardId);
-    console.log("for ", columnId);
-
-    // Logic to update the column in the database
-    const updatedColumn = await addCardToColumnInDB(columnId, cardId);
-
-    if (updatedColumn) {
-        res.status(200).json({ message: 'Card added to column successfully' });
-    } else {
-        res.status(500).json({ message: 'Failed to update column' });
-    }
-});
-
-// Example of what the addCardToColumnInDB function might look like
-const addCardToColumnInDB = async (columnId, cardId) => {
-    try {
-        // Assuming you have a MongoDB collection named 'columns'
-        const result = await Column.updateOne(
-            { _id: columnId }, // Find the column by its ID
-            { $push: { cards: cardId } } // Add the cardId to the cards array
-        );
-
-        return result.modifiedCount > 0; // Return true if the update was successful
-    } catch (error) {
-        console.error('Error updating column:${columnId}', error);
-        return false; // Return false if there was an error
-    }
-};
 
 
 app.listen(5000, () => console.log('Server running on port 5000'));

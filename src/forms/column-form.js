@@ -6,7 +6,6 @@ const ColumnForm = ({ isVisible, onClose, addColumn }) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         setTitle('');
-        // send title back to app.js level for api call
         addColumn(title);
         onClose();
     }
