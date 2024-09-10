@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import CardForm from './forms/card-form';
 import Card from './card';
 
-const Column = ({ column, addCard }) => {
+const Column = ({ column, deleteColumn, addCard }) => {
+
     const cards = column.cards || [];
-    //const [cards, setCards] = useState(column.cards || []); // empty case
     const [isCardFormVisible, setIsCardFormVisible] = useState(false);
 
 
@@ -22,6 +22,9 @@ const Column = ({ column, addCard }) => {
                         columnId={column._id}
                     />
                     <div className="column_header">
+                        <button onClick={() => deleteColumn(column._id)}>
+                            X
+                        </button>
                         <h1>{column.title}</h1>
                         <button onClick={() => setIsCardFormVisible(true)}>
                             + Add Card

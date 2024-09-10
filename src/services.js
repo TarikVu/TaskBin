@@ -5,7 +5,7 @@ const signOut = () => {
 };
 
 // Fetches and returns the Board of boardId
-const fetchBoard = async (boardId, userId) => {
+const reqFetchBoard = async (boardId, userId) => {
     try {
         // FETCH BOARD
         const boardResponse = await fetch(`http://localhost:5000/boards/${boardId}?userId=${userId}`);
@@ -60,6 +60,7 @@ const reqAddBoard = async ({ title, userId = 1 }) => {
         throw new Error(errorData.error);
     }
 };
+
 const reqAddColumn = async ({ title, selectedBoardId }) => {
     console.log("Attempting to add Column...");
     const response = await fetch('http://localhost:5000/columns', {
@@ -69,6 +70,7 @@ const reqAddColumn = async ({ title, selectedBoardId }) => {
     });
     return response;
 };
+
 const reqAddCard = async ({ title, text, priority, columnId }) => {
     console.log("Attempting to add Card...");
     const response = await fetch('http://localhost:5000/cards', {
@@ -80,18 +82,29 @@ const reqAddCard = async ({ title, text, priority, columnId }) => {
 }
 
 const reqDeleteBoard = async (boardId) => {
-    const response = await fetch(`http://localhost:5000/api/boards/${boardId}`, {
+    const response = await fetch(`http://localhost:5000/boards/${boardId}`, {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
     });
     return response;
 };
 
+const reqDeleteColumn = async (columnId, boardId) => {
+    console.log("delete from: ", boardId);
+    const response = await fetch(`http://localhost:5000/columns/${columnId}`, {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ boardId })
+    })
+    return response;
+}
+
 export {
     signOut,
-    fetchBoard,
+    reqFetchBoard,
     reqAddBoard,
     reqAddColumn,
     reqAddCard,
-    reqDeleteBoard
+    reqDeleteBoard,
+    reqDeleteColumn
 };

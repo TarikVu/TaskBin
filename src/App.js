@@ -6,11 +6,12 @@ import Board from './board';
 // API Calling
 import {
   signOut,
-  fetchBoard,
+  reqFetchBoard,
   reqAddBoard,
   reqAddColumn,
   reqAddCard,
-  reqDeleteBoard
+  reqDeleteBoard,
+  reqDeleteColumn
 } from './services';
 
 const App = () => {
@@ -29,7 +30,7 @@ const App = () => {
         setAllBoards(result);
         console.log(result);
         if (result.length > 0) {
-          setSelectedBoardId(result[0]._id); // Set initial selected board ID
+          setSelectedBoardId(result[0]._id);
         }
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -44,7 +45,7 @@ const App = () => {
     const fetchSelectedBoard = async () => {
       if (selectedBoardId) {
         try {
-          const result = await fetchBoard(selectedBoardId, userId);
+          const result = await reqFetchBoard(selectedBoardId, userId);
           setBoard(result);
         } catch (error) {
           console.error('Error fetching board data:', error);
@@ -66,14 +67,14 @@ const App = () => {
     }
   };
 
-  // --- Service.js calls ---
+  // --- API calls w/ services.js ---
   const addBoard = async (data) => {
     try {
       const result = await reqAddBoard({ ...data, userId });
       const newBoard = result.board;
       setAllBoards((prevBoards) => [...prevBoards, newBoard]);
       setSelectedBoardId(newBoard._id);
-      setBoard(await fetchBoard(newBoard._id, userId));
+      setBoard(await reqFetchBoard(newBoard._id, userId));
     } catch (error) {
       console.error('Error adding board:', error);
     }
@@ -83,7 +84,7 @@ const App = () => {
     if (allBoards.length === 0) { return; }
     const result = await reqAddColumn({ title, selectedBoardId });
     if (result.ok) {
-      setBoard(await fetchBoard(selectedBoardId, userId));
+      setBoard(await reqFetchBoard(selectedBoardId, userId));
     }
   };
 
@@ -91,7 +92,7 @@ const App = () => {
     if (allBoards.length === 0) { return; }
     const result = await reqAddCard({ title, text, priority, columnId });
     if (result.ok) {
-      setBoard(await fetchBoard(selectedBoardId, userId));
+      setBoard(await reqFetchBoard(selectedBoardId, userId));
     }
   };
 
@@ -106,7 +107,7 @@ const App = () => {
           // Set selected board to first board or empty if none exist.
           if (updatedBoards.length > 0) {
             setSelectedBoardId(updatedBoards[0]._id);
-            fetchBoard(updatedBoards[0]._id, userId).then(setBoard);
+            reqFetchBoard(updatedBoards[0]._id, userId).then(setBoard);
           } else {
             setSelectedBoardId('');
             setBoard({ columns: [] });
@@ -119,6 +120,25 @@ const App = () => {
       }
     } catch (error) {
       console.error('Error deleting board:', error);
+    } finally {
+      setIsLoading(false); // Hide loading indicator
+    }
+  };
+
+  const deleteColumn = async (columnId) => {
+    if (!columnId) { return; }
+    setIsLoading(true); // Show loading indicator
+    try {
+      // Send API request to delete the column
+      const result = await reqDeleteColumn(columnId, selectedBoardId);
+
+      if (result.ok) {
+        setBoard(await reqFetchBoard(selectedBoardId, userId));
+      } else {
+        console.error("Failed to delete column");
+      }
+    } catch (error) {
+      console.error('Error deleting column:', error);
     } finally {
       setIsLoading(false); // Hide loading indicator
     }
@@ -146,11 +166,10 @@ const App = () => {
       />
       <Board
         board={board}
+        deleteColumn={deleteColumn}
         addCard={addCard}
       />
-
-      {isLoading && <LoadingIndicator />} {/* Conditionally render loading indicator */}
-
+      {isLoading && <LoadingIndicator />}
     </div>
   );
 };

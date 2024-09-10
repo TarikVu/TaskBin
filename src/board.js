@@ -1,7 +1,7 @@
 import React from 'react';
 import Column from './column';
 
-const Board = ({ board, addCard }) => {
+const Board = ({ board, deleteColumn, addCard }) => {
     const columns = board.columns || [];
 
     return (
@@ -10,8 +10,9 @@ const Board = ({ board, addCard }) => {
                 {columns.length > 0 ? (
                     columns.map(column => (
                         <Column
-                            key={column._id} // Ensure unique key
+                            key={column._id}
                             column={column}
+                            deleteColumn={deleteColumn}
                             addCard={addCard}
                         />
                     ))

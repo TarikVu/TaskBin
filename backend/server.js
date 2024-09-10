@@ -125,8 +125,6 @@ app.post('/boards', async (req, res) => {
             userId: req.body.userId || 1 // Default to userId 1
         });
         await newBoard.save();
-        console.log('Board created:', newBoard);
-        console.log('userID:', newBoard.userId);
         return res.status(200).json({ board: newBoard });
 
     } catch (error) {
@@ -187,7 +185,7 @@ app.post('/cards', async (req, res) => {
 });
 
 // DELETE endpoint to handle board deletion
-app.delete('/api/boards/:boardId', async (req, res) => {
+app.delete('/boards/:boardId', async (req, res) => {
     const { boardId } = req.params;
     try {
         const board = await Board.findById(boardId).populate('columns');
@@ -206,6 +204,35 @@ app.delete('/api/boards/:boardId', async (req, res) => {
         res.status(500).json({ message: 'Internal server error' });
     }
 });
+
+app.delete('/columns/:columnId', async (req, res) => {
+    const { columnId } = req.params;
+    const { boardId } = req.body;
+    try {
+        // Find the column and populate its cards
+        const column = await Column.findById(columnId).populate('cards');
+        if (!column) {
+            return res.status(404).json({ message: 'Column not found' });
+        }
+
+        // Delete all cards, the Column
+        await Card.deleteMany({ _id: { $in: column.cards.map(card => card._id) } });
+        await Column.findByIdAndDelete(columnId);
+
+        // Remove reference from the parent board
+        const board = await Board.findById(boardId);
+        if (board) {
+            board.columns = board.columns.filter(colId => colId.toString() !== columnId);
+            await board.save();
+        }
+
+        res.status(200).json({ message: 'Column and associated cards deleted successfully' });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+});
+
 
 // Start the server
 const PORT = process.env.PORT || 5000;
