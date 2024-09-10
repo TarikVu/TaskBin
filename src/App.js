@@ -1,8 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { signOut, fetchBoard, reqAddBoard, reqAddColumn, reqAddCard } from './services'; // API Calling
 import NavBar from './navbar';
 import ControlBar from './controlbar';
 import Board from './board';
+
+// API Calling
+import {
+  signOut,
+  fetchBoard,
+  reqAddBoard,
+  reqAddColumn,
+  reqAddCard,
+  reqDeleteBoard
+} from './services';
 
 const App = () => {
   const [allBoards, setAllBoards] = useState([]);
@@ -77,33 +86,16 @@ const App = () => {
     }
   };
 
-  /* const deleteBoard = async (boardId) => {
-    try {
-      const result = await reqDelBoard({ boardId });
-
-      if (result.ok) {
-        // Filter out the deleted board from allBoards
-        const updatedBoards = allBoards.filter((board) => board._id !== boardId);
-        setAllBoards(updatedBoards);
-
-        // If the deleted board is the currently selected one, update the selected board
-        if (boardId === selectedBoardId && updatedBoards.length > 0) {
-          setSelectedBoardId(updatedBoards[0]._id);
-          setBoard(await fetchBoard(updatedBoards[0]._id, userId));
-        }
-        // Handle the case when no boards are left
-        else if (updatedBoards.length === 0) {
-          setSelectedBoardId('');
-          setBoard({ columns: [] });
-        }
-      } else {
-        const errorData = await result.json();
-        console.error('Failed to delete board:', errorData.error);
-      }
-    } catch (error) {
-      console.error('Error deleting board:', error);
+  const deleteBoard = async (boardId) => {
+    const result = await reqDeleteBoard(boardId);
+    if (result) {
+      console.log("Board deleted successfully");
+      // Update the UI or perform further actions
+    } else {
+      console.error("Failed to delete board");
     }
-  }; */
+  }
+
 
 
   return (
@@ -115,6 +107,7 @@ const App = () => {
         onBoardSelect={selectBoard}
         addBoard={addBoard}
         addColumn={addColumn}
+        deleteBoard={deleteBoard}
       />
       <Board
         board={board}

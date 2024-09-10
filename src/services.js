@@ -50,15 +50,15 @@ const reqAddBoard = async ({ title, userId = 1 }) => {
     });
 
     // Parse response to JSON
-  if (response.ok) {
-    const data = await response.json();
-    console.log("Response data:", data);  // This should contain the new board
-    return data; // Return parsed JSON containing the new board
-  } else {
-    const errorData = await response.json();
-    console.error("Failed to add board:", errorData.error);
-    throw new Error(errorData.error);
-  }
+    if (response.ok) {
+        const data = await response.json();
+        console.log("Response data:", data);  // This should contain the new board
+        return data; // Return parsed JSON containing the new board
+    } else {
+        const errorData = await response.json();
+        console.error("Failed to add board:", errorData.error);
+        throw new Error(errorData.error);
+    }
 };
 const reqAddColumn = async ({ title, selectedBoardId }) => {
     console.log("Attempting to add Column...");
@@ -79,10 +79,29 @@ const reqAddCard = async ({ title, text, priority, columnId }) => {
     return response;
 }
 
+const reqDeleteBoard = async (boardId) => {
+    console.log("Attempting to delete Board...");
+
+    const response = await fetch(`http://localhost:5000/api/boards/${boardId}`, {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+    });
+
+    if (!response.ok) {
+        console.error('Failed to delete board:', response.statusText);
+        return false;
+    }
+
+    const data = await response.json();
+    console.log(data.message); // Log success message
+    return true;
+};
+
 export {
     signOut,
     fetchBoard,
     reqAddBoard,
     reqAddColumn,
     reqAddCard,
+    reqDeleteBoard
 };

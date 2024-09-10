@@ -186,5 +186,46 @@ app.post('/cards', async (req, res) => {
     }
 });
 
+// DELETE endpoint to handle board deletion
+app.delete('/api/boards/:boardId', async (req, res) => {
+    const { boardId } = req.params;
+
+    try {
+        // Find the board and populate columns
+        const board = await Board.findById(boardId).populate('columns');
+
+        if (!board) {
+            return res.status(404).json({ message: 'Board not found' });
+        }
+
+        // Loop through each column to delete its cards
+        for (const column of board.columns) {
+            // Delete all cards within each column
+            await Card.deleteMany({ _id: { $in: column.cards } });
+
+            // Delete the column itself
+            await Column.findByIdAndDelete(column._id);
+        }
+
+        // Delete the board itself
+        await Board.findByIdAndDelete(boardId);
+
+        // Respond with success
+        res.status(200).json({ message: 'Board, columns, and cards deleted successfully' });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+});
+
+// Start the server
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+});
+
+
+
+
 
 app.listen(5000, () => console.log('Server running on port 5000'));
