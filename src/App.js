@@ -49,6 +49,7 @@ const App = () => {
           console.error('Error fetching board data:', error);
         }
       }
+      // Else: no board id, empty board loaded.
     };
 
     fetchSelectedBoard();
@@ -56,7 +57,12 @@ const App = () => {
 
   // Invokes useEffect => fetchSelectedBoard
   const selectBoard = (boardId) => {
-    setSelectedBoardId(boardId);
+    if (boardId) {
+      setSelectedBoardId(boardId);
+    }
+    else {
+      setSelectedBoardId('');
+    }
   };
 
   // --- Service.js calls ---
@@ -73,6 +79,7 @@ const App = () => {
   };
 
   const addColumn = async (title) => {
+    if (allBoards.length === 0) { return; }
     const result = await reqAddColumn({ title, selectedBoardId });
     if (result.ok) {
       setBoard(await fetchBoard(selectedBoardId, userId));
@@ -80,6 +87,7 @@ const App = () => {
   };
 
   const addCard = async ({ title, text, priority, columnId }) => {
+    if (allBoards.length === 0) { return; }
     const result = await reqAddCard({ title, text, priority, columnId });
     if (result.ok) {
       setBoard(await fetchBoard(selectedBoardId, userId));
@@ -87,15 +95,30 @@ const App = () => {
   };
 
   const deleteBoard = async (boardId) => {
-    const result = await reqDeleteBoard(boardId);
-    if (result) {
-      console.log("Board deleted successfully");
-      // Update the UI or perform further actions
-    } else {
-      console.error("Failed to delete board");
-    }
-  }
+    if (!boardId) { return; }
+    try {
+      const result = await reqDeleteBoard(boardId);
+      if (result.ok) {
+        setAllBoards((prevBoards) => { // Update Local boards
+          const updatedBoards = prevBoards.filter(board => board._id !== boardId);
+          // Set selected board to first board or empty if none exist.
+          if (updatedBoards.length > 0) {
+            setSelectedBoardId(updatedBoards[0]._id);
+            fetchBoard(updatedBoards[0]._id, userId).then(setBoard);
+          } else {
+            setSelectedBoardId('');
+            setBoard({ columns: [] });
+          }
+          return updatedBoards;
+        });
 
+      } else {
+        console.error("Failed to delete board");
+      }
+    } catch (error) {
+      console.error('Error deleting board:', error);
+    }
+  };
 
 
   return (

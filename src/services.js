@@ -80,21 +80,11 @@ const reqAddCard = async ({ title, text, priority, columnId }) => {
 }
 
 const reqDeleteBoard = async (boardId) => {
-    console.log("Attempting to delete Board...");
-
     const response = await fetch(`http://localhost:5000/api/boards/${boardId}`, {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
     });
-
-    if (!response.ok) {
-        console.error('Failed to delete board:', response.statusText);
-        return false;
-    }
-
-    const data = await response.json();
-    console.log(data.message); // Log success message
-    return true;
+    return response;
 };
 
 export {
