@@ -2,7 +2,14 @@ import React, { useState } from 'react';
 import ColumnForm from './forms/column-form';
 import BoardForm from './forms/board-form';
 
-const ControlBar = ({ allBoards, selectedBoard, onBoardSelect, reqAddBoard, reqAddColumn, reqAddCard }) => {
+const ControlBar = ({ 
+  allBoards, 
+  selectedBoard, 
+  onBoardSelect, 
+  addBoard, 
+  addColumn,
+    }) => {
+
   const [isBoardFormVisible, setIsBoardFormVisible] = useState(false);
   const [isColumnFormVisible, setIsColumnFormVisible] = useState(false);
 
@@ -16,13 +23,13 @@ const ControlBar = ({ allBoards, selectedBoard, onBoardSelect, reqAddBoard, reqA
       <BoardForm
         isVisible={isBoardFormVisible}
         onClose={() => setIsBoardFormVisible(false)}
-        addBoard={reqAddBoard}
+        addBoard={addBoard}
       />
 
       <ColumnForm
         isVisible={isColumnFormVisible}
         onClose={() => setIsColumnFormVisible(false)}
-        addColumn={reqAddColumn}
+        addColumn={addColumn}
       />
 
       <button onClick={() => setIsBoardFormVisible(true)}>

@@ -4,43 +4,34 @@ const signOut = () => {
     console.log("Logout pressed");
 };
 
-// Fetched and returns the Board of boardId
+// Fetches and returns the Board of boardId
 const fetchBoard = async (boardId, userId) => {
     try {
-        // Fetch the selected board
+        // FETCH BOARD
         const boardResponse = await fetch(`http://localhost:5000/boards/${boardId}?userId=${userId}`);
         const board = await boardResponse.json();
-        console.log("Board", board);
-        // Check if the board has columns
         const columnIds = board.columns || [];
-        if (columnIds.length === 0) {
-            console.log('No columns found for this board');
-            return { ...board, columns: [] };
-        }
 
-        // Fetch the columns and cards
+        // Spread Empty array of columns
+        if (columnIds.length === 0) { return { ...board, columns: [] }; }
+
+        // FETCH COLUMNS
         const columns = await Promise.all(columnIds.map(async (columnId) => {
-
-            // Fetch each column
             const columnResponse = await fetch(`http://localhost:5000/columns/${columnId}`);
             const column = await columnResponse.json();
-            console.log("Column", column);
-
-            // Check if the column has cards
             const cardIds = column.cards || [];
-            if (cardIds.length === 0) {
-                console.log(`No cards found for column ${columnId}`);
-                return { ...column, cards: [] };
-            }
 
-            // Fetch the cards for this column using card IDs
+            // Spread Empty array of cards
+            if (cardIds.length === 0) { return { ...column, cards: [] }; }
+
+            // FETCH CARDS
             const cards = await Promise.all(cardIds.map(async (cardId) => {
                 const cardResponse = await fetch(`http://localhost:5000/cards/${cardId}`);
                 console.log("card res", cardResponse);
                 return await cardResponse.json();
             }));
 
-            return { ...column, cards }; // Spread Col's cards
+            return { ...column, cards }; // Spread Column's cards
         }));
 
         return { ...board, columns }; // Spread Board's Columns
@@ -57,7 +48,17 @@ const reqAddBoard = async ({ title, userId = 1 }) => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ title, userId }),
     });
-    return response;
+
+    // Parse response to JSON
+  if (response.ok) {
+    const data = await response.json();
+    console.log("Response data:", data);  // This should contain the new board
+    return data; // Return parsed JSON containing the new board
+  } else {
+    const errorData = await response.json();
+    console.error("Failed to add board:", errorData.error);
+    throw new Error(errorData.error);
+  }
 };
 const reqAddColumn = async ({ title, selectedBoardId }) => {
     console.log("Attempting to add Column...");
@@ -67,7 +68,6 @@ const reqAddColumn = async ({ title, selectedBoardId }) => {
         body: JSON.stringify({ title: title, boardId: selectedBoardId }),
     });
     return response;
-
 };
 const reqAddCard = async ({ title, text, priority, columnId }) => {
     console.log("Attempting to add Card...");
@@ -77,7 +77,6 @@ const reqAddCard = async ({ title, text, priority, columnId }) => {
         body: JSON.stringify({ title, text, priority, columnId }),
     });
     return response;
-
 }
 
 export {

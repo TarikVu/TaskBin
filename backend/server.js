@@ -105,7 +105,6 @@ app.get('/columns/:id', async (req, res) => {
 app.get('/cards/:id', async (req, res) => {
     try {
         const cardId = req.params.id;
-        console.log("Requested Card ID:", cardId);
         const card = await Card.findById(cardId);
         if (!card) {
             return res.status(404).json({ error: 'Card not found' });

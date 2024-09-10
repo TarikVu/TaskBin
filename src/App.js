@@ -50,20 +50,14 @@ const App = () => {
     setSelectedBoardId(boardId);
   };
 
+  // --- Service.js calls ---
   const addBoard = async (data) => {
     try {
       const result = await reqAddBoard({ ...data, userId });
-      if (result.ok) {
-        const newBoard = await result.json();
-
-        // Append the newly added board to the existing list of boards
-        setAllBoards((prevBoards) => [...prevBoards, newBoard]);
-        setSelectedBoardId(newBoard._id);
-        setBoard(await fetchBoard(newBoard._id, userId));
-      } else {
-        const errorData = await result.json();
-        console.error('Failed to add board:', errorData.error);
-      }
+      const newBoard = result.board;
+      setAllBoards((prevBoards) => [...prevBoards, newBoard]);
+      setSelectedBoardId(newBoard._id);
+      setBoard(await fetchBoard(newBoard._id, userId));
     } catch (error) {
       console.error('Error adding board:', error);
     }
@@ -83,6 +77,35 @@ const App = () => {
     }
   };
 
+  /* const deleteBoard = async (boardId) => {
+    try {
+      const result = await reqDelBoard({ boardId });
+
+      if (result.ok) {
+        // Filter out the deleted board from allBoards
+        const updatedBoards = allBoards.filter((board) => board._id !== boardId);
+        setAllBoards(updatedBoards);
+
+        // If the deleted board is the currently selected one, update the selected board
+        if (boardId === selectedBoardId && updatedBoards.length > 0) {
+          setSelectedBoardId(updatedBoards[0]._id);
+          setBoard(await fetchBoard(updatedBoards[0]._id, userId));
+        }
+        // Handle the case when no boards are left
+        else if (updatedBoards.length === 0) {
+          setSelectedBoardId('');
+          setBoard({ columns: [] });
+        }
+      } else {
+        const errorData = await result.json();
+        console.error('Failed to delete board:', errorData.error);
+      }
+    } catch (error) {
+      console.error('Error deleting board:', error);
+    }
+  }; */
+
+
   return (
     <div className="app">
       <NavBar onButtonClick={signOut} />
@@ -90,8 +113,8 @@ const App = () => {
         allBoards={allBoards}
         selectedBoard={board}
         onBoardSelect={selectBoard}
-        reqAddBoard={addBoard}
-        reqAddColumn={addColumn}
+        addBoard={addBoard}
+        addColumn={addColumn}
       />
       <Board
         board={board}
