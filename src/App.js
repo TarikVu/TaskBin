@@ -17,6 +17,7 @@ const App = () => {
   const [allBoards, setAllBoards] = useState([]);
   const [board, setBoard] = useState({ columns: [] });
   const [selectedBoardId, setSelectedBoardId] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const userId = 1; // Temporary
 
@@ -96,6 +97,7 @@ const App = () => {
 
   const deleteBoard = async (boardId) => {
     if (!boardId) { return; }
+    setIsLoading(true); // Show loading indicator
     try {
       const result = await reqDeleteBoard(boardId);
       if (result.ok) {
@@ -117,9 +119,19 @@ const App = () => {
       }
     } catch (error) {
       console.error('Error deleting board:', error);
+    } finally {
+      setIsLoading(false); // Hide loading indicator
     }
   };
 
+  // Lightweight component to disable UI while loading operations
+  const LoadingIndicator = () => {
+    return (
+      <div className="loading-overlay">
+        <div className="spinner"></div>
+      </div>
+    );
+  };
 
   return (
     <div className="app">
@@ -136,6 +148,9 @@ const App = () => {
         board={board}
         addCard={addCard}
       />
+
+      {isLoading && <LoadingIndicator />} {/* Conditionally render loading indicator */}
+
     </div>
   );
 };
