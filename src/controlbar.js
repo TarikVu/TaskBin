@@ -8,7 +8,7 @@ const ControlBar = ({
   onBoardSelect,
   addBoard,
   addColumn,
-  deleteBoard
+  delBoard
 }) => {
 
   const [isBoardFormVisible, setIsBoardFormVisible] = useState(false);
@@ -41,7 +41,7 @@ const ControlBar = ({
         Add New Column
       </button>
 
-      <button onClick={() => deleteBoard(selectedBoard._id)}>
+      <button onClick={() => delBoard(selectedBoard._id)}>
         Delete Board
       </button>
 

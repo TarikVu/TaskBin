@@ -2,11 +2,10 @@ import React, { useState } from 'react';
 import CardForm from './forms/card-form';
 import Card from './card';
 
-const Column = ({ column, deleteColumn, addCard }) => {
+const Column = ({ column, delColumn, addCard, delCard }) => {
 
     const cards = column.cards || [];
     const [isCardFormVisible, setIsCardFormVisible] = useState(false);
-
 
     return (
         <div className="column">
@@ -22,7 +21,7 @@ const Column = ({ column, deleteColumn, addCard }) => {
                         columnId={column._id}
                     />
                     <div className="column_header">
-                        <button onClick={() => deleteColumn(column._id)}>
+                        <button onClick={() => delColumn(column._id)}>
                             X
                         </button>
                         <h1>{column.title}</h1>
@@ -35,8 +34,9 @@ const Column = ({ column, deleteColumn, addCard }) => {
                         cards.map(card => (
                             <Card
                                 key={card._id}
-                                title={card.title}
-                                text={card.text} />
+                                card={card}
+                                columnId={column._id}
+                                delCard={delCard} />
                         ))
                         :
                         <div>No cards available</div>

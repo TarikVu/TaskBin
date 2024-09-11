@@ -11,7 +11,8 @@ import {
   reqAddColumn,
   reqAddCard,
   reqDeleteBoard,
-  reqDeleteColumn
+  reqDeleteColumn,
+  reqDeleteCard
 } from './services';
 
 const App = () => {
@@ -96,7 +97,7 @@ const App = () => {
     }
   };
 
-  const deleteBoard = async (boardId) => {
+  const delBoard = async (boardId) => {
     if (!boardId) { return; }
     setIsLoading(true); // Show loading indicator
     try {
@@ -121,13 +122,13 @@ const App = () => {
     } catch (error) {
       console.error('Error deleting board:', error);
     } finally {
-      setIsLoading(false); // Hide loading indicator
+      setIsLoading(false);
     }
   };
 
-  const deleteColumn = async (columnId) => {
+  const delColumn = async (columnId) => {
     if (!columnId) { return; }
-    setIsLoading(true); // Show loading indicator
+    setIsLoading(true);
     try {
       // Send API request to delete the column
       const result = await reqDeleteColumn(columnId, selectedBoardId);
@@ -140,7 +141,24 @@ const App = () => {
     } catch (error) {
       console.error('Error deleting column:', error);
     } finally {
-      setIsLoading(false); // Hide loading indicator
+      setIsLoading(false);
+    }
+  };
+
+  const delCard = async (cardId, columnId) => {
+    if (!cardId || !columnId) { return; }
+    setIsLoading(true);
+    try {
+      const result = await reqDeleteCard(cardId, columnId);
+      if (result.ok) {
+        setBoard(await reqFetchBoard(selectedBoardId, userId));
+      } else {
+        console.error("Failed to delete card");
+      }
+    } catch (error) {
+      console.error('Error deleting card:', error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -162,12 +180,13 @@ const App = () => {
         onBoardSelect={selectBoard}
         addBoard={addBoard}
         addColumn={addColumn}
-        deleteBoard={deleteBoard}
+        delBoard={delBoard}
       />
       <Board
         board={board}
-        deleteColumn={deleteColumn}
+        delColumn={delColumn}
         addCard={addCard}
+        delCard={delCard}
       />
       {isLoading && <LoadingIndicator />}
     </div>

@@ -99,6 +99,16 @@ const reqDeleteColumn = async (columnId, boardId) => {
     return response;
 }
 
+const reqDeleteCard = async (cardId, columnId) => {
+    const response = await fetch(`http://localhost:5000/cards/${cardId}`, {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ columnId })
+    });
+    return response;
+};
+
+
 export {
     signOut,
     reqFetchBoard,
@@ -106,5 +116,6 @@ export {
     reqAddColumn,
     reqAddCard,
     reqDeleteBoard,
-    reqDeleteColumn
+    reqDeleteColumn,
+    reqDeleteCard
 };

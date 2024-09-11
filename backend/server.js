@@ -233,6 +233,34 @@ app.delete('/columns/:columnId', async (req, res) => {
     }
 });
 
+app.delete('/cards/:cardId', async (req, res) => {
+    const { cardId } = req.params;
+    const { columnId } = req.body;
+
+    try {
+        const card = await Card.findById(cardId);
+        if (!card) {
+            return res.status(404).json({ message: 'Card not found' });
+        }
+        await Card.findByIdAndDelete(cardId);
+
+        // Remove reference from Colun
+        if (columnId) {
+            const column = await Column.findById(columnId);
+            if (column) {
+                column.cards = column.cards.filter(cId => cId.toString() !== cardId);
+                await column.save();
+            }
+        }
+
+        res.status(200).json({ message: 'Card deleted successfully' });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+});
+
+
 
 // Start the server
 const PORT = process.env.PORT || 5000;
