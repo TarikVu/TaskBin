@@ -34,8 +34,7 @@ const App = () => {
           setSelectedBoardId(result[0]._id);
         }
       } catch (error) {
-        console.error('Error fetching data:', error);
-        setPopup({ visible: true, message: `Error Loading Boards. Error message: ${error}` });
+        setPopup({ visible: true, message: `Error Loading Boards: ${error}` });
       }
     };
 
@@ -50,8 +49,7 @@ const App = () => {
           const result = await reqFetchBoard(selectedBoardId, userId);
           setBoard(result);
         } catch (error) {
-          console.error('Error fetching board data:', error);
-          setPopup({ visible: true, message: `Error Loading Boards. Error message: ${error}` });
+          setPopup({ visible: true, message: `Error Loading Board: ${error}` });
         }
       }
     };
@@ -77,13 +75,13 @@ const App = () => {
       setSelectedBoardId(newBoard._id);
       setBoard(await reqFetchBoard(newBoard._id, userId));
     } catch (error) {
-      setPopup({ visible: true, message: "Server Encountered an error adding a new Board." });
+      setPopup({ visible: true, message: `Failed to add new Board: ${error}` });
     }
   };
 
   const addColumn = async (title) => {
     if (allBoards.length === 0) {
-      setPopup({ visible: true, message: "No chosen board to add column to." });
+      setPopup({ visible: true, message: `No chosen board to add column to.` });
       return;
     }
     const result = await reqAddColumn({ title, selectedBoardId });
