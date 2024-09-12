@@ -8,7 +8,6 @@ const CardForm = ({ isVisible, onClose, addCard, columnId }) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         addCard({ title, text, priority, columnId });
-
         setTitle('');
         setText('');
         setPriority('normal');
@@ -18,7 +17,7 @@ const CardForm = ({ isVisible, onClose, addCard, columnId }) => {
     };
 
     return isVisible ? (
-        <div className="cardform-overlay">
+        <div className="overlay">
             <div className="cardform">
                 <h2>New Task</h2>
                 <form onSubmit={handleSubmit}>

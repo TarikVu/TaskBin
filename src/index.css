@@ -61,7 +61,6 @@
   border-radius: 5px;
 }
 
-/* Reactive Buttons */
 .navbar-button:hover {
   background-color: var(--primary-button-hover);
 }
@@ -163,7 +162,6 @@
   margin: 0;
 }
 
-/* Reactive buttons */
 .column button:hover {
   background-color: var(--primary-button-hover);
 }
@@ -180,20 +178,6 @@
   max-width: 90%;
   color: white;
   font-family: inherit;
-}
-
-/* Card Form input */
-.cardform-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: var(--z-form);
 }
 
 .cardform h2 {
@@ -252,8 +236,6 @@
   color: white;
   border-radius: 5px;
   white-space: normal;
-
-
   padding: 2em;
 }
 
@@ -303,8 +285,8 @@
   background: none;
 }
 
-/* LoadingIndicator */
-.loading-overlay {
+/* Used to blur background and focus a component */
+.overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -319,10 +301,10 @@
   background: rgba(0, 0, 0, 0.5);
 }
 
+/* Leading UI */
 .spinner {
   border: 8px solid rgba(0, 0, 0, 0.1);
   border-left: 8px solid #ffffff;
-  /* Spinner color */
   border-radius: 50%;
   width: 50px;
   height: 50px;
@@ -337,4 +319,57 @@
   100% {
     transform: rotate(360deg);
   }
+}
+
+/* Popup Styles */
+.popup {
+  background: var(--background-1);
+  padding: 20px;
+  border-radius: 5px;
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: auto;
+  max-height: 300px;
+  z-index: var(--z-overlay);
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+.popup .header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+  font-size: 18px;
+  color: white;
+}
+
+/* Popup message container */
+.popup .message-container {
+  flex-grow: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background-color: white;
+  color: black;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  word-wrap: break-word;
+  min-height: 50px;
+  max-height: calc(100% - 60px);
+}
+
+/* Popup button */
+.popup button {
+  color: white;
+  background-color: var(--primary-button);
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  align-self: center;
 }
