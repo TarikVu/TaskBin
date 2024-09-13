@@ -67,9 +67,9 @@ const App = () => {
   };
 
   // --- API calls w/ services.js ---
-  const addBoard = async (data) => {
+  const addBoard = async ({ title }) => {
     try {
-      const result = await reqAddBoard({ ...data, userId });
+      const result = await reqAddBoard({ title, userId });
       const newBoard = result.board;
       setAllBoards((prevBoards) => [...prevBoards, newBoard]);
       setSelectedBoardId(newBoard._id);
@@ -84,6 +84,7 @@ const App = () => {
       setPopup({ visible: true, message: `No chosen board to add column to.` });
       return;
     }
+
     const result = await reqAddColumn({ title, selectedBoardId });
     if (result.ok) {
       setBoard(await reqFetchBoard(selectedBoardId, userId));
@@ -104,13 +105,12 @@ const App = () => {
     }
   };
 
-  ////
   const delBoard = async (boardId) => {
     if (!boardId) {
       setPopup({ visible: true, message: "No selected Board to Delete." });
       return;
     }
-    setIsLoading(true); // Show loading indicator
+    setIsLoading(true);
     try {
       const result = await reqDeleteBoard(boardId);
       if (result.ok) {
