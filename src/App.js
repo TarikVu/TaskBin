@@ -6,6 +6,7 @@ import Board from './board';
 // API Calling
 import {
   signOut,
+  reqFetchAllBoards,
   reqFetchBoard,
   reqAddBoard,
   reqAddColumn,
@@ -27,8 +28,7 @@ const App = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/boards/${userId}`);
-        const result = await response.json();
+        const result = await reqFetchAllBoards(userId); // Use the new function
         setAllBoards(result);
         if (result.length > 0) {
           setSelectedBoardId(result[0]._id);
@@ -46,7 +46,7 @@ const App = () => {
     const fetchSelectedBoard = async () => {
       if (selectedBoardId) {
         try {
-          const result = await reqFetchBoard({ selectedBoardId, userId });
+          const result = await reqFetchBoard({ boardId: selectedBoardId, userId });
           setBoard(result);
         } catch (error) {
           setPopup({ visible: true, message: `Error Loading Board: ${error}` });
@@ -73,7 +73,8 @@ const App = () => {
       const newBoard = result.board;
       setAllBoards((prevBoards) => [...prevBoards, newBoard]);
       setSelectedBoardId(newBoard._id);
-      setBoard(await reqFetchBoard(newBoard._id, userId));
+      setBoard(
+        await reqFetchBoard({ boardId: newBoard._id, userId }));
     } catch (error) {
       setPopup({ visible: true, message: `Failed to add new Board: ${error}` });
     }
@@ -85,9 +86,10 @@ const App = () => {
       return;
     }
 
-    const result = await reqAddColumn({ title, selectedBoardId });
+    const result = await reqAddColumn({ boardId: selectedBoardId, title });
     if (result.ok) {
-      setBoard(await reqFetchBoard({ selectedBoardId, userId }));
+      setBoard(
+        await reqFetchBoard({ boardId: selectedBoardId, userId }));
     }
     else {
       setPopup({ visible: true, message: "Server Encountered an error adding a new Column." });
@@ -96,9 +98,11 @@ const App = () => {
 
   const addCard = async ({ title, text, priority, columnId }) => {
     if (allBoards.length === 0) { return; }
+
     const result = await reqAddCard({ title, text, priority, columnId });
     if (result.ok) {
-      setBoard(await reqFetchBoard({ selectedBoardId, userId }));
+      setBoard(
+        await reqFetchBoard({ boardId: selectedBoardId, userId }));
     }
     else {
       setPopup({ visible: true, message: "Server Encountered an error adding a new Card." });
@@ -119,7 +123,7 @@ const App = () => {
           // Set selected board to first board or empty if none exist.
           if (updatedBoards.length > 0) {
             setSelectedBoardId(updatedBoards[0]._id);
-            reqFetchBoard(updatedBoards[0]._id, userId).then(setBoard);
+            reqFetchBoard({ boardId: updatedBoards[0]._id, userId }).then(setBoard);
           } else {
             setSelectedBoardId('');
             setBoard({ columns: [] });
@@ -141,7 +145,8 @@ const App = () => {
     try {
       const result = await reqDeleteColumn({ columnId, selectedBoardId });
       if (result.ok) {
-        setBoard(await reqFetchBoard({ selectedBoardId, userId }));
+        setBoard(
+          await reqFetchBoard({ boardId: selectedBoardId, userId }));
       } else {
         console.error("Failed to delete column");
         setPopup({ visible: true, message: `Server encountered an error deleting Column.` });
@@ -157,7 +162,8 @@ const App = () => {
     try {
       const result = await reqDeleteCard({ columnId, cardId });
       if (result.ok) {
-        setBoard(await reqFetchBoard({ selectedBoardId, userId }));
+        setBoard(
+          await reqFetchBoard({ boardId: selectedBoardId, userId }));
       } else {
         console.error("Failed to delete card");
       }

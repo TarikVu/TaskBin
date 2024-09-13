@@ -4,8 +4,20 @@ const signOut = () => {
     console.log("Logout pressed");
 };
 
+const reqFetchAllBoards = async (userId) => {
+    try {
+        const response = await fetch(`http://localhost:5000/boards/${userId}`);
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return await response.json();
+    } catch (error) {
+        throw new Error(`Error fetching boards: ${error.message}`);
+    }
+};
+
 // Fetches and returns the Board of boardId
-const reqFetchBoard = async ({ selectedBoardId: boardId, userId }) => {
+const reqFetchBoard = async ({ boardId, userId }) => {
     try {
         // FETCH BOARD
         const boardResponse = await fetch(`http://localhost:5000/boards/${boardId}/${userId}`);
@@ -53,7 +65,6 @@ const reqAddBoard = async ({ title, userId }) => {
     // Parse response to JSON
     if (response.ok) {
         const data = await response.json();
-        console.log("Response data:", data);  // This should contain the new board
         return data; // Return parsed JSON containing the new board
     } else {
         const errorData = await response.json();
@@ -62,12 +73,12 @@ const reqAddBoard = async ({ title, userId }) => {
     }
 };
 
-const reqAddColumn = async ({ title, selectedBoardId }) => {
+const reqAddColumn = async ({ boardId, title }) => {
     console.log("Attempting to add Column...");
     const response = await fetch('http://localhost:5000/columns', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ title: title, boardId: selectedBoardId }),
+        body: JSON.stringify({ boardId, title }),
     });
     return response;
 };
@@ -110,6 +121,7 @@ const reqDeleteCard = async ({ columnId, cardId }) => {
 
 export {
     signOut,
+    reqFetchAllBoards,
     reqFetchBoard,
     reqAddBoard,
     reqAddColumn,

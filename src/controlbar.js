@@ -16,7 +16,7 @@ const ControlBar = ({
 
   const handleBoardChange = (event) => {
     const selectedBoardId = event.target.value;
-    onBoardSelect(selectedBoardId);
+    onBoardSelect({ boardId: selectedBoardId });
   };
 
   return (
@@ -53,7 +53,7 @@ const ControlBar = ({
           </option>
         ))}
       </select>
-    </div>
+    </div >
   );
 };
 
