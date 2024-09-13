@@ -87,11 +87,9 @@ app.get('/columns/:id', async (req, res) => {
     try {
         const columnId = req.params.id;
         const column = await Column.findById(columnId);
-
         if (!column) {
             return res.status(404).json({ error: 'Column not found' });
         }
-
         res.status(200).json(column);
     } catch (error) {
         res.status(500).json({ error: error.message });
@@ -122,7 +120,6 @@ app.post('/boards', async (req, res) => {
         });
         await newBoard.save();
         return res.status(200).json({ board: newBoard });
-
     } catch (error) {
         console.error('Error creating board:', error);
         return res.status(400).json({ error: error.message });
@@ -131,13 +128,10 @@ app.post('/boards', async (req, res) => {
 
 // Upload a Column and add a reference to the board 
 app.post('/columns', async (req, res) => {
-    console.log("Column Post Request pending...");
     const { title, boardId } = req.body;
-
     try {
         const newColumn = new Column({ title });
         await newColumn.save();
-        console.log('Column Post request success', newColumn);
 
         // Add reference of the new column to the board
         const result = await Board.updateOne(
@@ -180,7 +174,7 @@ app.post('/cards', async (req, res) => {
     }
 });
 
-// DELETE endpoint to handle board deletion
+// Delete a Board
 app.delete('/boards/:boardId', async (req, res) => {
     const { boardId } = req.params;
     try {
@@ -204,7 +198,6 @@ app.delete('/boards/:boardId', async (req, res) => {
 // Delete a Column from a Board
 app.delete('/boards/:boardId/columns/:columnId', async (req, res) => {
     const { boardId, columnId } = req.params;
-    //const { boardId } = req.body;
     try {
         // Find the column and populate its cards
         const column = await Column.findById(columnId).populate('cards');
@@ -230,12 +223,9 @@ app.delete('/boards/:boardId/columns/:columnId', async (req, res) => {
     }
 });
 
+// Delete a Card from a Column
 app.delete('/columns/:columnId/cards/:cardId', async (req, res) => {
-    console.log("req del card");
     const { columnId, cardId } = req.params;
-    console.log(columnId, cardId);
-    //const { columnId } = req.body;
-
     try {
         const card = await Card.findById(cardId);
         if (!card) {
