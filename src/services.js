@@ -41,7 +41,9 @@ const reqFetchBoard = async (boardId, userId) => {
 };
 
 // POST API REQUESTS
-const reqAddBoard = async ({ title, userId = 1 }) => {
+// Return the new board data from the server if 
+// POST was successful, otherwise throw an error.
+const reqAddBoard = async ({ title, userId }) => {
     console.log("Attempting to add Board...");
     const response = await fetch('http://localhost:5000/boards', {
         method: 'POST',

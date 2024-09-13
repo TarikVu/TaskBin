@@ -62,7 +62,7 @@ const Board = mongoose.model('Board', boardSchema);
 // FetchData 
 app.get('/boards', async (req, res) => {
     try {
-        const userId = req.query.userId || '1'; // Default to userId '1'
+        const { userId } = req.body;
         const boards = await Board.find({ userId });
         res.status(200).json(boards);
     } catch (error) {
@@ -71,10 +71,8 @@ app.get('/boards', async (req, res) => {
 });
 
 app.get('/boards/:boardId', async (req, res) => {
-
     try {
         const boardId = req.params.boardId;
-
         const userId = req.query.userId || '1'; // Default userId if not provided
         const board = await Board.findOne({ _id: boardId, userId }); // Find board by ID and userId
         if (!board) {
