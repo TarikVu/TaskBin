@@ -252,6 +252,25 @@
   text-overflow: ellipsis;
 }
 
+.card-priority {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  font-size: 12px;
+}
+
+.urgent-priority {
+  color: red;
+}
+
+.high-priority {
+  color: orange;
+}
+
+.normal-priority {
+  color: green;
+}
+
 .card .delete-button {
   position: absolute;
   top: 5px;

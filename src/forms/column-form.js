@@ -6,7 +6,7 @@ const ColumnForm = ({ isVisible, onClose, addColumn }) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         setTitle('');
-        addColumn(title);
+        addColumn({ title });
         onClose();
     }
 

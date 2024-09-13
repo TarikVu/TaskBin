@@ -58,11 +58,10 @@ const Card = mongoose.model('Card', cardSchema);
 const Column = mongoose.model('Column', columnSchema);
 const Board = mongoose.model('Board', boardSchema);
 
-
 // FetchData 
-app.get('/boards', async (req, res) => {
+app.get('/boards/:userId', async (req, res) => {
     try {
-        const { userId } = req.body;
+        const userId = req.params.userId;
         const boards = await Board.find({ userId });
         res.status(200).json(boards);
     } catch (error) {
@@ -70,10 +69,10 @@ app.get('/boards', async (req, res) => {
     }
 });
 
-app.get('/boards/:boardId', async (req, res) => {
+app.get('/boards/:boardId/:userId', async (req, res) => {
     try {
         const boardId = req.params.boardId;
-        const userId = req.query.userId || '1'; // Default userId if not provided
+        const userId = req.params.userId || '1'; // Default userId if not provided
         const board = await Board.findOne({ _id: boardId, userId }); // Find board by ID and userId
         if (!board) {
             return res.status(404).json({ error: 'Board not found' });
@@ -83,7 +82,6 @@ app.get('/boards/:boardId', async (req, res) => {
         res.status(400).json({ error: error.message });
     }
 });
-
 
 app.get('/columns/:id', async (req, res) => {
     try {
@@ -203,9 +201,10 @@ app.delete('/boards/:boardId', async (req, res) => {
     }
 });
 
-app.delete('/columns/:columnId', async (req, res) => {
-    const { columnId } = req.params;
-    const { boardId } = req.body;
+// Delete a Column from a Board
+app.delete('/boards/:boardId/columns/:columnId', async (req, res) => {
+    const { boardId, columnId } = req.params;
+    //const { boardId } = req.body;
     try {
         // Find the column and populate its cards
         const column = await Column.findById(columnId).populate('cards');
@@ -231,9 +230,11 @@ app.delete('/columns/:columnId', async (req, res) => {
     }
 });
 
-app.delete('/cards/:cardId', async (req, res) => {
-    const { cardId } = req.params;
-    const { columnId } = req.body;
+app.delete('/columns/:columnId/cards/:cardId', async (req, res) => {
+    console.log("req del card");
+    const { columnId, cardId } = req.params;
+    console.log(columnId, cardId);
+    //const { columnId } = req.body;
 
     try {
         const card = await Card.findById(cardId);

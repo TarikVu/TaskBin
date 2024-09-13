@@ -5,10 +5,10 @@ const signOut = () => {
 };
 
 // Fetches and returns the Board of boardId
-const reqFetchBoard = async (boardId, userId) => {
+const reqFetchBoard = async ({ selectedBoardId: boardId, userId }) => {
     try {
         // FETCH BOARD
-        const boardResponse = await fetch(`http://localhost:5000/boards/${boardId}?userId=${userId}`);
+        const boardResponse = await fetch(`http://localhost:5000/boards/${boardId}/${userId}`);
         const board = await boardResponse.json();
         const columnIds = board.columns || [];
 
@@ -27,7 +27,6 @@ const reqFetchBoard = async (boardId, userId) => {
             // FETCH CARDS
             const cards = await Promise.all(cardIds.map(async (cardId) => {
                 const cardResponse = await fetch(`http://localhost:5000/cards/${cardId}`);
-                console.log("card res", cardResponse);
                 return await cardResponse.json();
             }));
 
@@ -83,7 +82,7 @@ const reqAddCard = async ({ title, text, priority, columnId }) => {
     return response;
 }
 
-const reqDeleteBoard = async (boardId) => {
+const reqDeleteBoard = async ({ boardId }) => {
     const response = await fetch(`http://localhost:5000/boards/${boardId}`, {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
@@ -91,21 +90,19 @@ const reqDeleteBoard = async (boardId) => {
     return response;
 };
 
-const reqDeleteColumn = async (columnId, boardId) => {
+const reqDeleteColumn = async ({ columnId, selectedBoardId: boardId }) => {
     console.log("delete from: ", boardId);
-    const response = await fetch(`http://localhost:5000/columns/${columnId}`, {
+    const response = await fetch(`http://localhost:5000/boards/${boardId}/columns/${columnId}`, {
         method: 'DELETE',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ boardId })
+        headers: { 'Content-Type': 'application/json' }
     })
     return response;
 }
 
-const reqDeleteCard = async (cardId, columnId) => {
-    const response = await fetch(`http://localhost:5000/cards/${cardId}`, {
+const reqDeleteCard = async ({ columnId, cardId }) => {
+    const response = await fetch(`http://localhost:5000/columns/${columnId}/cards/${cardId}`, {
         method: 'DELETE',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ columnId })
+        headers: { 'Content-Type': 'application/json' }
     });
     return response;
 };

@@ -41,7 +41,7 @@ const ControlBar = ({
         Add New Column
       </button>
 
-      <button onClick={() => delBoard(selectedBoard._id)}>
+      <button onClick={() => delBoard({ boardId: selectedBoard._id })}>
         Delete Board
       </button>
 

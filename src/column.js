@@ -21,7 +21,7 @@ const Column = ({ column, delColumn, addCard, delCard }) => {
                         columnId={column._id}
                     />
                     <div className="column_header">
-                        <button onClick={() => delColumn(column._id)}>
+                        <button onClick={() => delColumn({ columnId: column._id })}>
                             X
                         </button>
                         <h1>{column.title}</h1>
