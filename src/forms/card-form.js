@@ -1,25 +1,61 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
-const CardForm = ({ isVisible, onClose, addCard, columnId }) => {
+// CardForm is responsible for creating a new card or editing a card
+// Prop defaulting is used to handle AddCard & DeleteCard conditional props.
+const CardForm = ({
+    // Conditional props
+    card = null,
+    addCard = () => { },
+    editCard = () => { },
+
+    // Required Props
+    columnId,
+    isVisible,
+    onClose,
+}) => {
+
+
     const [title, setTitle] = useState('');
     const [text, setText] = useState('');
     const [priority, setPriority] = useState('normal');
 
+    // Initialize form fields if card is provided
+    useEffect(() => {
+        if (card) {
+            setTitle(card.title);
+            setText(card.text);
+            setPriority(card.priority || 'normal');
+        } else {
+            setTitle('');
+            setText('');
+            setPriority('normal');
+        }
+    }, [card]);
+
     const handleSubmit = (e) => {
         e.preventDefault();
-        addCard({ title, text, priority, columnId });
-        setTitle('');
-        setText('');
-        setPriority('normal');
-
-        // return the data via reqAddCard
+        if (card) {
+            editCard({ title, text, priority, columnId });
+        } else {
+            addCard({ title, text, priority, columnId });
+            setTitle('');
+            setText('');
+            setPriority('normal');
+        }
         onClose();
+
+
     };
 
-    return isVisible ? (
+    // Early return if not visible
+    if (!isVisible) {
+        return null;
+    }
+
+    return (
         <div className="overlay">
-            <div className="cardform">
-                <h2>New Task</h2>
+            <div className="card-form">
+                <h2>{card ? 'Edit Task' : 'New Task'}</h2>
                 <form onSubmit={handleSubmit}>
                     <label>
                         Title
@@ -50,13 +86,13 @@ const CardForm = ({ isVisible, onClose, addCard, columnId }) => {
                         </select>
                     </label>
                     <div className="button-group">
-                        <button type="submit">Add Card</button>
+                        <button type="submit">{card ? 'Save Changes' : 'Add Card'}</button>
                         <button type="button" onClick={onClose}>Cancel</button>
                     </div>
                 </form>
             </div>
         </div>
-    ) : null;
+    );
 };
 
-export default CardForm; 
+export default CardForm;

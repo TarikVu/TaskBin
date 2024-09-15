@@ -1,30 +1,46 @@
-// Card UI displayed in a Column. 
-// TODO: Add button functionality
-// Planned add a way to have a close-up look
-const Card = ({ card, columnId, delCard }) => (
-    <div className="card">
-        <button className="delete-button"
-            onClick={() => delCard({
-                columnId: columnId,
-                cardId: card._id
-            })}>
-            X
-        </button>
-        <button className="edit-button" >Edit</button>
-        <h3>{card.title}</h3>
-        <p>{card.text}</p>
+import { useState } from "react";
+import CardForm from "./forms/card-form";
+const Card = ({ card, columnId, delCard, editCard }) => {
 
-        <span className={`card-priority ${getPriorityClass(card.priority)}`}>
-            {card.priority}
-        </span>
+    const [isCardFormVisible, setIsCardFormVisible] = useState(false);
 
-    </div>
-);
+    const getPriorityClass = (priority) => {
+        if (priority === 'urgent') return 'urgent-priority';
+        if (priority === 'high') return 'high-priority';
+        if (priority === 'normal') return 'normal-priority';
+        return '';
+    }
+    return (
+        <>
+            <div className="card" onClick={() => setIsCardFormVisible(true)}>
+                <button
+                    className="delete-button"
+                    onClick={(e) => {
+                        e.stopPropagation(); // Prevents the card click from triggering
+                        delCard({ columnId, cardId: card._id });
+                    }}
+                >
+                    X
+                </button>
+                <h3>{card.title}</h3>
+                <p>{card.text}</p>
+                <span className={`card-priority ${getPriorityClass(card.priority)}`}>
+                    {card.priority}
+                </span>
+            </div>
 
-const getPriorityClass = (priority) => {
-    if (priority === 'urgent') return 'urgent-priority';
-    if (priority === 'high') return 'high-priority';
-    if (priority === 'normal') return 'normal-priority';
-    return '';
-}
+
+            <CardForm
+                card={card}
+                isVisible={isCardFormVisible}
+                onClose={() => setIsCardFormVisible(false)}
+                editCard={editCard}
+                columnId={columnId}
+            />
+
+        </>
+    );
+};
+
 export default Card;
+

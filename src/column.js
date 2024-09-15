@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import CardForm from './forms/card-form';
 import Card from './card';
 
-const Column = ({ column, delColumn, addCard, delCard }) => {
+const Column = ({ column, delColumn, addCard, delCard, editCard }) => {
 
     const cards = column.cards || [];
     const [isCardFormVisible, setIsCardFormVisible] = useState(false);
@@ -36,7 +36,8 @@ const Column = ({ column, delColumn, addCard, delCard }) => {
                                 key={card._id}
                                 card={card}
                                 columnId={column._id}
-                                delCard={delCard} />
+                                delCard={delCard}
+                                editCard={editCard} />
                         ))
                         :
                         <div>No cards available</div>

@@ -157,7 +157,6 @@ const App = () => {
   };
 
   const delCard = async ({ columnId, cardId }) => {
-    if (!cardId || !columnId) { return; }
     setIsLoading(true);
     try {
       const result = await reqDeleteCard({ columnId, cardId });
@@ -174,6 +173,9 @@ const App = () => {
     }
   };
 
+  const editCard = async ({ title, text, priority, columnId }) => {
+    // Define a reqEditCard in services, and define an endpoint in server.
+  }
   // Lightweight component to disable UI while loading operations
   const LoadingIndicator = () => {
     return (
@@ -217,6 +219,7 @@ const App = () => {
         delColumn={delColumn}
         addCard={addCard}
         delCard={delCard}
+        editCard={editCard}
       />
       {isLoading && <LoadingIndicator />}
       {popup.visible && (

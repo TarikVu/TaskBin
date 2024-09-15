@@ -170,64 +170,6 @@
   background-color: var(--primary-button-click);
 }
 
-.cardform {
-  background: var(--background-1);
-  padding: 20px;
-  border-radius: 5px;
-  width: 400px;
-  max-width: 90%;
-  color: white;
-  font-family: inherit;
-}
-
-.cardform h2 {
-  margin-top: 0;
-  text-align: center;
-}
-
-.cardform label {
-  display: block;
-  margin-bottom: 10px;
-}
-
-.cardform input,
-.cardform textarea {
-  width: calc(100%);
-  padding: 8px;
-  margin-top: 4px;
-  box-sizing: border-box;
-  font-family: inherit;
-}
-
-.cardform .button-group {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-}
-
-.cardform button {
-  flex: 1;
-  background-color: var(--primary-button);
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  cursor: pointer;
-  border-radius: 5px;
-  margin: 0 10px;
-}
-
-/* Makes Form Buttons reactive. */
-.cardform button:hover {
-  background-color: var(--primary-button-hover);
-}
-
-.cardform button:active {
-  background-color: var(--primary-button-click);
-}
-
-.cardform select {
-  margin-left: 8px;
-}
 
 .card {
   position: relative;
@@ -237,6 +179,7 @@
   border-radius: 5px;
   white-space: normal;
   padding: 2em;
+  cursor: pointer;
 }
 
 .card h3 {
@@ -282,27 +225,71 @@
   cursor: pointer;
   background-color: var(--background-1);
   border-radius: 20px;
-}
 
-.card .edit-button {
-  position: absolute;
-  top: 5px;
-  right: 20px;
-  background: none;
-  border: none;
-  color: white;
-  font-size: 16px;
-  cursor: pointer;
-  transition: none;
 }
 
 .card .delete-button:hover {
   color: darkred;
 }
 
-.card .edit-button:hover {
-  background: none;
+.card-form {
+  background: var(--background-1);
+  padding: 20px;
+  border-radius: 5px;
+  width: 400px;
+  max-width: 90%;
+  color: white;
+  font-family: inherit;
 }
+
+.card-form h2 {
+  margin-top: 0;
+  text-align: center;
+}
+
+.card-form label {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.card-form input,
+.card-form textarea {
+  width: calc(100%);
+  padding: 8px;
+  margin-top: 4px;
+  box-sizing: border-box;
+  font-family: inherit;
+}
+
+.card-form .button-group {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.card-form button {
+  flex: 1;
+  background-color: var(--primary-button);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 5px;
+  margin: 0 10px;
+}
+
+.card-form button:hover {
+  background-color: var(--primary-button-hover);
+}
+
+.card-form button:active {
+  background-color: var(--primary-button-click);
+}
+
+.card-form select {
+  margin-left: 8px;
+}
+
 
 /* Used to blur background and focus a component */
 .overlay {
