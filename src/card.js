@@ -1,23 +1,22 @@
 import { useState, useEffect } from "react";
 import CardForm from "./forms/card-form";
 
-const Card = ({ card: initialCard, columnId, delCard, editCard }) => {
-    // Local state to track the card's data
-    const [card, setCard] = useState(initialCard);
+const Card = ({ card: cardState, columnId, delCard, editCard }) => {
+
+    const [card, setCard] = useState(cardState);
     const [isCardFormVisible, setIsCardFormVisible] = useState(false);
 
-    // When the card prop (initialCard) changes, sync it with local state
     useEffect(() => {
-        setCard(initialCard);
-    }, [initialCard]);
+        setCard(cardState);
+    }, [cardState]);
 
-    // Handles updating the card after editing
+    // Call API to edit the card
     const handleCardUpdate = async (updatedCardData) => {
-        const updatedCard = await editCard(updatedCardData); // Call API to edit the card
+        const updatedCard = await editCard(updatedCardData);
         if (updatedCard) {
-            setCard(updatedCard); // Update local state with new card data
+            setCard(updatedCard);
         }
-        setIsCardFormVisible(false); // Hide the form after editing
+        setIsCardFormVisible(false);
     };
 
     // Priority CSS class logic
