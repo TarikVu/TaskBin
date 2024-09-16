@@ -62,15 +62,8 @@ const reqAddBoard = async ({ title, userId }) => {
         body: JSON.stringify({ title, userId }),
     });
 
-    // Parse response to JSON
-    if (response.ok) {
-        const data = await response.json();
-        return data; // Return parsed JSON containing the new board
-    } else {
-        const errorData = await response.json();
-        console.error("Failed to add board:", errorData.error);
-        throw new Error(errorData.error);
-    }
+    return response;
+
 };
 
 const reqAddColumn = async ({ boardId, title }) => {
@@ -118,6 +111,17 @@ const reqDeleteCard = async ({ columnId, cardId }) => {
     return response;
 };
 
+const reqEditCard = async ({ title, text, priority, cardId, columnId }) => {
+    const response = await fetch(`http://localhost:5000/columns/${columnId}/cards/${cardId}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ title, text, priority })
+    });
+    return response;
+
+};
+
+
 
 export {
     signOut,
@@ -128,5 +132,6 @@ export {
     reqAddCard,
     reqDeleteBoard,
     reqDeleteColumn,
-    reqDeleteCard
+    reqDeleteCard,
+    reqEditCard
 };

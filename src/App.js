@@ -13,7 +13,8 @@ import {
   reqAddCard,
   reqDeleteBoard,
   reqDeleteColumn,
-  reqDeleteCard
+  reqDeleteCard,
+  reqEditCard
 } from './services';
 
 const App = () => {
@@ -68,15 +69,24 @@ const App = () => {
 
   // --- API calls w/ services.js ---
   const addBoard = async ({ title }) => {
+    setIsLoading(true);
     try {
       const result = await reqAddBoard({ title, userId });
-      const newBoard = result.board;
-      setAllBoards((prevBoards) => [...prevBoards, newBoard]);
-      setSelectedBoardId(newBoard._id);
-      setBoard(
-        await reqFetchBoard({ boardId: newBoard._id, userId }));
+      if (result.ok) {
+        const data = await result.json();
+        const newBoard = data.board;
+        setAllBoards((prevBoards) => [...prevBoards, newBoard]);
+        setSelectedBoardId(newBoard._id);
+        setBoard(
+          await reqFetchBoard({ boardId: newBoard._id, userId }));
+      }
+      else {
+        setPopup({ visible: true, message: `Unable to create new board` });
+      }
     } catch (error) {
-      setPopup({ visible: true, message: `Failed to add new Board: ${error}` });
+      setPopup({ visible: true, message: `Error connecting to server` });
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -86,26 +96,33 @@ const App = () => {
       return;
     }
 
-    const result = await reqAddColumn({ boardId: selectedBoardId, title });
-    if (result.ok) {
-      setBoard(
-        await reqFetchBoard({ boardId: selectedBoardId, userId }));
-    }
-    else {
-      setPopup({ visible: true, message: "Server Encountered an error adding a new Column." });
+    try {
+      const result = await reqAddColumn({ boardId: selectedBoardId, title });
+      if (result.ok) {
+        setBoard(
+          await reqFetchBoard({ boardId: selectedBoardId, userId }));
+      }
+      else {
+        setPopup({ visible: true, message: "Server Encountered an error adding a new Column." });
+      }
+    } catch {
+      setPopup({ visible: true, message: `Error connecting to server` });
     }
   };
 
   const addCard = async ({ title, text, priority, columnId }) => {
     if (allBoards.length === 0) { return; }
-
-    const result = await reqAddCard({ title, text, priority, columnId });
-    if (result.ok) {
-      setBoard(
-        await reqFetchBoard({ boardId: selectedBoardId, userId }));
+    try {
+      const result = await reqAddCard({ title, text, priority, columnId });
+      if (result.ok) {
+        setBoard(await reqFetchBoard({ boardId: selectedBoardId, userId }));
+      }
+      else {
+        setPopup({ visible: true, message: "Server Encountered an error adding a new Card." });
+      }
     }
-    else {
-      setPopup({ visible: true, message: "Server Encountered an error adding a new Card." });
+    catch {
+      setPopup({ visible: true, message: `Error connecting to server` });
     }
   };
 
@@ -134,7 +151,9 @@ const App = () => {
         setPopup({ visible: true, message: `Server encountered an error Deleting Board.` });
       }
     }
-    finally {
+    catch {
+      setPopup({ visible: true, message: `Error connecting to server` });
+    } finally {
       setIsLoading(false);
     }
   };
@@ -148,9 +167,10 @@ const App = () => {
         setBoard(
           await reqFetchBoard({ boardId: selectedBoardId, userId }));
       } else {
-        console.error("Failed to delete column");
         setPopup({ visible: true, message: `Server encountered an error deleting Column.` });
       }
+    } catch {
+      setPopup({ visible: true, message: `Error connecting to server` });
     } finally {
       setIsLoading(false);
     }
@@ -161,21 +181,34 @@ const App = () => {
     try {
       const result = await reqDeleteCard({ columnId, cardId });
       if (result.ok) {
-        setBoard(
-          await reqFetchBoard({ boardId: selectedBoardId, userId }));
+        setBoard(await reqFetchBoard({ boardId: selectedBoardId, userId }));
       } else {
-        console.error("Failed to delete card");
+        setPopup({ visible: true, message: `Server encountered an error deleting card` });
       }
-    } catch (error) {
-      console.error('Error deleting card:', error);
+    } catch {
+      setPopup({ visible: true, message: `Error connecting to server` });
     } finally {
       setIsLoading(false);
     }
   };
 
-  const editCard = async ({ title, text, priority, columnId }) => {
-    // Define a reqEditCard in services, and define an endpoint in server.
-  }
+  const editCard = async ({ title, text, priority, cardId, columnId }) => {
+    setIsLoading(true);
+    try {
+      const result = await reqEditCard({ title, text, priority, cardId, columnId });
+      if (result.ok) {
+        const updatedCard = await result.json();
+        return updatedCard;  // Return the updated card
+      } else {
+        setPopup({ visible: true, message: `Server encountered an error updating card ${result.message}` });
+      }
+    } catch (error) {
+      setPopup({ visible: true, message: `Error connecting to the server ${error}` });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   // Lightweight component to disable UI while loading operations
   const LoadingIndicator = () => {
     return (

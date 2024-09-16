@@ -35,7 +35,7 @@ const CardForm = ({
     const handleSubmit = (e) => {
         e.preventDefault();
         if (card) {
-            editCard({ title, text, priority, columnId });
+            editCard({ title, text, priority, cardId: card._id, columnId });
         } else {
             addCard({ title, text, priority, columnId });
             setTitle('');

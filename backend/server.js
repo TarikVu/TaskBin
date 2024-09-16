@@ -249,6 +249,30 @@ app.delete('/columns/:columnId/cards/:cardId', async (req, res) => {
     }
 });
 
+//--- Patch Requests ---
+app.patch('/columns/:columnId/cards/:cardId', async (req, res) => {
+    const { cardId } = req.params;
+    const { title, text, priority } = req.body;
+
+    try {
+        const updatedCard = await Card.findByIdAndUpdate(
+            cardId,
+            { title, text, priority },
+            { new: true, runValidators: true }
+        );
+
+        if (!updatedCard) {
+            return res.status(404).json({ message: 'Card not found' });
+        }
+
+        res.status(200).json(updatedCard);
+    } catch (error) {
+        console.error('Error updating card:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+});
+
+
 
 
 // Start the server
