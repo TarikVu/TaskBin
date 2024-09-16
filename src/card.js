@@ -1,24 +1,6 @@
-import { useState, useEffect } from "react";
-import CardForm from "./forms/card-form";
+import React from 'react';
 
-const Card = ({ card: cardState, columnId, delCard, editCard }) => {
-
-    const [card, setCard] = useState(cardState);
-    const [isCardFormVisible, setIsCardFormVisible] = useState(false);
-
-    useEffect(() => {
-        setCard(cardState);
-    }, [cardState]);
-
-    // Call API to edit the card
-    const handleCardUpdate = async (updatedCardData) => {
-        const updatedCard = await editCard(updatedCardData);
-        if (updatedCard) {
-            setCard(updatedCard);
-        }
-        setIsCardFormVisible(false);
-    };
-
+const Card = ({ card, columnId, delCard, onCardClick }) => {
     // Priority CSS class logic
     const getPriorityClass = (priority) => {
         if (priority === 'urgent') return 'urgent-priority';
@@ -28,33 +10,22 @@ const Card = ({ card: cardState, columnId, delCard, editCard }) => {
     };
 
     return (
-        <>
-            <div className="card" onClick={() => setIsCardFormVisible(true)}>
-                <button
-                    className="delete-button"
-                    onClick={(e) => {
-                        e.stopPropagation(); // Prevent form visibility toggle on delete
-                        delCard({ columnId, cardId: card._id });
-                    }}
-                >
-                    X
-                </button>
-                <h3>{card.title}</h3>
-                <p>{card.text}</p>
-                <span className={`card-priority ${getPriorityClass(card.priority)}`}>
-                    {card.priority}
-                </span>
-            </div>
-
-            {/* CardForm is used to edit the card */}
-            <CardForm
-                card={card}
-                isVisible={isCardFormVisible}
-                onClose={() => setIsCardFormVisible(false)}
-                editCard={handleCardUpdate}
-                columnId={columnId}
-            />
-        </>
+        <div className="card" onClick={() => onCardClick(card)}> {/* Trigger CardForm visibility and pass card data */}
+            <button
+                className="delete-button"
+                onClick={(e) => {
+                    e.stopPropagation();
+                    delCard({ columnId, cardId: card._id });
+                }}
+            >
+                X
+            </button>
+            <h3>{card.title}</h3>
+            <p>{card.text}</p>
+            <span className={`card-priority ${getPriorityClass(card.priority)}`}>
+                {card.priority}
+            </span>
+        </div>
     );
 };
 

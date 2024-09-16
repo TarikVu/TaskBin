@@ -14,7 +14,6 @@ const CardForm = ({
     onClose,
 }) => {
 
-
     const [title, setTitle] = useState('');
     const [text, setText] = useState('');
     const [priority, setPriority] = useState('normal');
@@ -35,16 +34,16 @@ const CardForm = ({
     const handleSubmit = (e) => {
         e.preventDefault();
         if (card) {
+            // Handled in Column.js for card re-rendering
             editCard({ title, text, priority, cardId: card._id, columnId });
         } else {
+            // Goes straight to App.js to be handled
             addCard({ title, text, priority, columnId });
             setTitle('');
             setText('');
             setPriority('normal');
         }
         onClose();
-
-
     };
 
     // Early return if not visible
