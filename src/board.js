@@ -1,7 +1,13 @@
 import React from 'react';
 import Column from './column';
 
-const Board = ({ board, delColumn, addCard, delCard, editCard }) => {
+const Board = ({
+    board,
+    delColumn,
+    editColumn,
+    addCard,
+    delCard,
+    editCard }) => {
     const columns = board.columns || [];
 
     return (
@@ -13,6 +19,7 @@ const Board = ({ board, delColumn, addCard, delCard, editCard }) => {
                             key={column._id}
                             column={column}
                             delColumn={delColumn}
+                            editColumn={editColumn}
                             addCard={addCard}
                             delCard={delCard}
                             editCard={editCard}

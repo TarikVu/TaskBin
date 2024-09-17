@@ -272,6 +272,30 @@ app.patch('/columns/:columnId/cards/:cardId', async (req, res) => {
     }
 });
 
+app.patch('/columns/:columnId', async (req, res) => {
+    const { columnId } = req.params;
+    const { title } = req.body;
+    console.log('title', title);
+
+    try {
+        const updatedColumn = await Column.findByIdAndUpdate(
+            columnId,
+            { title },
+            { new: true, runValidators: true }
+        );
+
+        if (!updatedColumn) {
+            return res.status(404).json({ message: 'Column not found' });
+        }
+
+        res.status(200).json(updatedColumn);
+    }
+    catch (error) {
+        console.error('Error updating Column', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+});
+
 
 
 

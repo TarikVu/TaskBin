@@ -118,7 +118,15 @@ const reqEditCard = async ({ title, text, priority, cardId, columnId }) => {
         body: JSON.stringify({ title, text, priority })
     });
     return response;
+};
 
+const reqEditColumn = async ({ columnId, title }) => {
+    const response = await fetch(`http://localhost:5000/columns/${columnId}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ title })
+    });
+    return response;
 };
 
 
@@ -133,5 +141,6 @@ export {
     reqDeleteBoard,
     reqDeleteColumn,
     reqDeleteCard,
-    reqEditCard
+    reqEditCard,
+    reqEditColumn
 };

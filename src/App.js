@@ -14,7 +14,8 @@ import {
   reqDeleteBoard,
   reqDeleteColumn,
   reqDeleteCard,
-  reqEditCard
+  reqEditCard,
+  reqEditColumn
 } from './services';
 
 const App = () => {
@@ -160,7 +161,7 @@ const App = () => {
 
   const delColumn = async ({ columnId }) => {
     if (!columnId) { return; }
-    setIsLoading(true);
+
     try {
       const result = await reqDeleteColumn({ columnId, selectedBoardId });
       if (result.ok) {
@@ -171,13 +172,11 @@ const App = () => {
       }
     } catch {
       setPopup({ visible: true, message: `Error connecting to server` });
-    } finally {
-      setIsLoading(false);
     }
   };
 
   const delCard = async ({ columnId, cardId }) => {
-    setIsLoading(true);
+
     try {
       const result = await reqDeleteCard({ columnId, cardId });
       if (result.ok) {
@@ -187,13 +186,11 @@ const App = () => {
       }
     } catch {
       setPopup({ visible: true, message: `Error connecting to server` });
-    } finally {
-      setIsLoading(false);
     }
   };
 
   const editCard = async ({ title, text, priority, cardId, columnId }) => {
-    setIsLoading(true);
+
     try {
       const result = await reqEditCard({ title, text, priority, cardId, columnId });
       if (result.ok) {
@@ -204,10 +201,22 @@ const App = () => {
       }
     } catch (error) {
       setPopup({ visible: true, message: `Error connecting to the server ${error}` });
-    } finally {
-      setIsLoading(false);
     }
   };
+
+  const editColumn = async ({ columnId, title }) => {
+    try {
+      const result = await reqEditColumn({ columnId, title });
+      if (result.ok) {
+        const updatedColumn = await result.json();
+        return updatedColumn;  // Return the updated card
+      } else {
+        setPopup({ visible: true, message: `Server encountered an error updating column ${result.message}` });
+      }
+    } catch (error) {
+      setPopup({ visible: true, message: `Error connecting to the server ${error}` });
+    }
+  }
 
   // Lightweight component to disable UI while loading operations
   const LoadingIndicator = () => {
@@ -250,6 +259,7 @@ const App = () => {
       <Board
         board={board}
         delColumn={delColumn}
+        editColumn={editColumn}
         addCard={addCard}
         delCard={delCard}
         editCard={editCard}
