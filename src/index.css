@@ -15,7 +15,6 @@
   padding: 2rem;
 
   /* Reused colors for consistent theming */
-
   --background-1: #333;
   --primary-button: #008CBA;
   --primary-button-hover: #00aaff;
@@ -25,7 +24,6 @@
   --z-modal: 1000;
   --z-form: 2000;
   --z-overlay: 3000;
-
 }
 
 .app {
@@ -34,7 +32,6 @@
   /* If you want the app to take full viewport height */
   box-sizing: border-box;
 }
-
 
 /* NavBar.css */
 .navbar {
@@ -68,7 +65,6 @@
 .navbar-button:active {
   background-color: var(--primary-button-click);
 }
-
 
 .board {
   display: flex;
@@ -140,26 +136,33 @@
   left: 0;
   right: 0;
   padding: 10px;
+  margin: 5px;
   border-bottom: 1px solid #ddd;
   background-color: var(--background-1);
+  height: 35px;
 }
 
 .column_header h1 {
   flex: 1;
+  margin: 0 10px;
   font-size: 20px;
+  font-weight: 400;
   color: white;
   text-align: center;
-  margin: 0;
+  font-family: inherit;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
-.column_header button {
+.column_header_button {
+  margin: 0 10px;
   background-color: #008CBA;
   color: white;
   border: none;
   padding: 6px 12px;
   cursor: pointer;
   border-radius: 5px;
-  margin: 0;
 }
 
 .column button:hover {
@@ -170,24 +173,28 @@
   background-color: var(--primary-button-click);
 }
 
-.column form {
+.column_form {
   flex: 1;
-  /* Allow the form to take up available space */
+  margin: 0 10px;
   display: flex;
-  /* Use flexbox for centering */
   justify-content: center;
-  /* Center input horizontally */
-}
-
-
-.column form input {
-  width: 100%;
-
-  max-width: 400px;
   box-sizing: border-box;
 }
 
-
+.column_form_input {
+  width: 100%;
+  max-width: 400px;
+  font-size: 20px;
+  font-weight: 400;
+  font-family: inherit;
+  color: white;
+  background-color: var(--background-1);
+  border: none;
+  padding: 6px;
+  box-sizing: border-box;
+  text-align: center;
+  outline: none;
+}
 
 .card {
   position: relative;
@@ -243,7 +250,6 @@
   cursor: pointer;
   background-color: var(--background-1);
   border-radius: 20px;
-
 }
 
 .card .delete-button:hover {
@@ -258,6 +264,7 @@
   max-width: 90%;
   color: white;
   font-family: inherit;
+  box-sizing: border-box;
 }
 
 .card-form h2 {
@@ -270,14 +277,24 @@
   margin-bottom: 10px;
 }
 
-.card-form input,
-.card-form textarea {
-  width: calc(100%);
+.card-form-input {
+  width: calc(100% - 16px);
+  height: fit-content;
   padding: 8px;
   margin-top: 4px;
   box-sizing: border-box;
   font-family: inherit;
 }
+
+.card-form-textarea {
+  width: calc(100% - 16px);
+  height: 200px;
+  padding: 8px;
+  margin-top: 4px;
+  box-sizing: border-box;
+  font-family: inherit;
+}
+
 
 .card-form .button-group {
   display: flex;
@@ -307,7 +324,6 @@
 .card-form select {
   margin-left: 8px;
 }
-
 
 /* Used to blur background and focus a component */
 .overlay {

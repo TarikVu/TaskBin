@@ -165,7 +165,7 @@ app.post('/cards', async (req, res) => {
         );
 
         if (result.modifiedCount > 0) {
-            return res.status(200).json({ message: 'Card added to column successfully' });
+            return res.status(200).json(newCard);
         } else {
             return res.status(500).json({ message: 'Failed to update Column' });
         }

@@ -31,13 +31,14 @@ const CardForm = ({
         }
     }, [card]);
 
-    const handleSubmit = () => {
+    const handleSubmit = (event) => {
+        event.preventDefault(); // Prevent default form submission
         if (card) {
             // Handled in Column.js for card re-rendering
             editCard({ title, text, priority, cardId: card._id, columnId });
         } else {
             // Goes straight to App.js to be handled
-            addCard({ title, text, priority, columnId });
+            addCard({ title, text, priority});
             setTitle('');
             setText('');
             setPriority('normal');
@@ -65,6 +66,7 @@ const CardForm = ({
                     <label>
                         Title
                         <input
+                            className='card-form-input'
                             type="text"
                             value={title}
                             onChange={(e) => setTitle(e.target.value)}
@@ -74,6 +76,7 @@ const CardForm = ({
                     <label>
                         Text
                         <textarea
+                            className='card-form-textarea'
                             value={text}
                             onChange={(e) => setText(e.target.value)}
                             required

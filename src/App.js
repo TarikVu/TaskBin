@@ -116,7 +116,8 @@ const App = () => {
     try {
       const result = await reqAddCard({ title, text, priority, columnId });
       if (result.ok) {
-        setBoard(await reqFetchBoard({ boardId: selectedBoardId, userId }));
+        const data = await result.json();
+        return data;
       }
       else {
         setPopup({ visible: true, message: "Server Encountered an error adding a new Card." });
@@ -176,11 +177,10 @@ const App = () => {
   };
 
   const delCard = async ({ columnId, cardId }) => {
-
     try {
       const result = await reqDeleteCard({ columnId, cardId });
       if (result.ok) {
-        setBoard(await reqFetchBoard({ boardId: selectedBoardId, userId }));
+        return true;
       } else {
         setPopup({ visible: true, message: `Server encountered an error deleting card` });
       }
@@ -190,7 +190,6 @@ const App = () => {
   };
 
   const editCard = async ({ title, text, priority, cardId, columnId }) => {
-
     try {
       const result = await reqEditCard({ title, text, priority, cardId, columnId });
       if (result.ok) {

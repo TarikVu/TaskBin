@@ -11,14 +11,29 @@ const Column = ({
     editCard }) => {
 
     const [isCardFormVisible, setIsCardFormVisible] = useState(false);
+    const [cards, setCards] = useState(column.cards);
     const [selectedCard, setSelectedCard] = useState(null);
     const [isEditing, setIsEditing] = useState(false);
     const [newTitle, setNewTitle] = useState(column.title);
 
-    const handleCardClick = (card) => {
+    const handleCardSelect = (card) => {
         setSelectedCard(card);
+        console.log(card);
         setIsCardFormVisible(true);
     };
+    const handleAddCard = async ({ title, text, priority }) => {
+        const newCard = await addCard({ title, text, priority, columnId: column._id });
+        if (newCard) {
+            setCards(prevCards => [...prevCards, newCard]);
+        }
+    };
+
+    const handleDelCard = ({ cardId }) => {
+        if (delCard({ columnId: column._id, cardId })) {
+            const updatedCards = cards.filter(card => card._id !== cardId);
+            setCards(updatedCards);
+        }
+    }
 
     const handleCardUpdate = async (updatedCardData) => {
         const updatedCard = await editCard(updatedCardData);
@@ -26,16 +41,20 @@ const Column = ({
             const updatedCards = column.cards.map(card =>
                 card._id === updatedCard._id ? updatedCard : card
             );
-            column.cards = updatedCards;
-            setSelectedCard(null);
+            setCards(updatedCards);
+            setSelectedCard(null); // is this causing the bug?
             setIsCardFormVisible(false);
         }
+        // Editing a card after adding it sometimes removes it from the DOM
     };
 
     const handleSetTitle = async (event) => {
-        event.preventDefault(); // Prevent default form submission
-
-
+        event.preventDefault();
+        if (newTitle === '') {
+            setNewTitle(column.title);
+            setIsEditing(false);
+            return;
+        }
         if (newTitle !== column.title) {
             const updatedColumn = await editColumn({ columnId: column._id, title: newTitle });
             if (updatedColumn) {
@@ -57,7 +76,7 @@ const Column = ({
                                 setIsCardFormVisible(false);
                                 setSelectedCard(null);
                             }}
-                            addCard={addCard}
+                            addCard={handleAddCard}
                             editCard={handleCardUpdate}
                             columnId={column._id}
                         />
@@ -66,6 +85,7 @@ const Column = ({
                             {/* Delete Column Button */}
                             {!isEditing && (
                                 <button
+                                    className='column_header_button'
                                     onClick={() => delColumn({ columnId: column._id })}>
                                     X
                                 </button>
@@ -73,14 +93,19 @@ const Column = ({
 
                             {/* Title Box */}
                             {isEditing ? (
-                                <form onSubmit={handleSetTitle}>
+                                <form
+                                    className="column_form"
+                                    onSubmit={handleSetTitle}>
                                     <input
+                                        className='column_form_input'
                                         type="text"
+                                        maxLength={20}
                                         value={newTitle}
                                         onChange={(e) => setNewTitle(e.target.value)}
                                         onBlur={handleSetTitle}  // Save on blur
                                         autoFocus
                                         required
+
                                     />
                                 </form>
                             ) : (
@@ -89,8 +114,10 @@ const Column = ({
 
                             {/* Add card Button */}
                             {!isEditing && (
-                                <button onClick={() => setIsCardFormVisible(true)}>
-                                    + Add Card
+                                <button
+                                    className='column_header_button'
+                                    onClick={() => setIsCardFormVisible(true)}>
+                                    +
                                 </button>
                             )
                             }
@@ -98,14 +125,14 @@ const Column = ({
                         </div>
 
                         {/* Mapping the cards for the column */}
-                        {column.cards.length > 0 ? (
-                            column.cards.map(card => (
+                        {cards.length > 0 ? (
+                            cards.map(card => (
                                 <Card
                                     key={card._id}
                                     card={card}
                                     columnId={column._id}
-                                    delCard={delCard}
-                                    onCardClick={handleCardClick}
+                                    delCard={handleDelCard}
+                                    onCardClick={handleCardSelect}
                                 />
                             ))
                         ) : (
