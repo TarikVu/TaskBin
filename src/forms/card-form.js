@@ -31,8 +31,7 @@ const CardForm = ({
         }
     }, [card]);
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
+    const handleSubmit = () => {
         if (card) {
             // Handled in Column.js for card re-rendering
             editCard({ title, text, priority, cardId: card._id, columnId });
@@ -45,6 +44,13 @@ const CardForm = ({
         }
         onClose();
     };
+
+    const handleOnClose = () => {
+        setTitle('');
+        setText('');
+        setPriority('normal');
+        onClose();
+    }
 
     // Early return if not visible
     if (!isVisible) {
@@ -86,7 +92,7 @@ const CardForm = ({
                     </label>
                     <div className="button-group">
                         <button type="submit">{card ? 'Save Changes' : 'Add Card'}</button>
-                        <button type="button" onClick={onClose}>Cancel</button>
+                        <button type="button" onClick={handleOnClose}>Cancel</button>
                     </div>
                 </form>
             </div>
