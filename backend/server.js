@@ -156,7 +156,6 @@ app.post('/cards', async (req, res) => {
     try {
         const newCard = new Card({ title, text, priority });
         await newCard.save();
-        console.log('Card Post request success', newCard);
 
         // Add reference of the new card to it's column
         const result = await Column.updateOne(
@@ -275,7 +274,6 @@ app.patch('/columns/:columnId/cards/:cardId', async (req, res) => {
 app.patch('/columns/:columnId', async (req, res) => {
     const { columnId } = req.params;
     const { title } = req.body;
-    console.log('title', title);
 
     try {
         const updatedColumn = await Column.findByIdAndUpdate(
