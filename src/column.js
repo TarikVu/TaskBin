@@ -18,9 +18,9 @@ const Column = ({
 
     const handleCardSelect = (card) => {
         setSelectedCard(card);
-        console.log(card);
         setIsCardFormVisible(true);
     };
+
     const handleAddCard = async ({ title, text, priority }) => {
         const newCard = await addCard({ title, text, priority, columnId: column._id });
         if (newCard) {
@@ -30,23 +30,24 @@ const Column = ({
 
     const handleDelCard = ({ cardId }) => {
         if (delCard({ columnId: column._id, cardId })) {
-            const updatedCards = cards.filter(card => card._id !== cardId);
-            setCards(updatedCards);
+            setCards((card) => cards.filter(card => card._id !== cardId));
         }
     }
 
-    const handleCardUpdate = async (updatedCardData) => {
+    const handleEditCard = async (updatedCardData) => {
         const updatedCard = await editCard(updatedCardData);
+
         if (updatedCard) {
-            const updatedCards = column.cards.map(card =>
-                card._id === updatedCard._id ? updatedCard : card
+            setCards(prevCards =>
+                prevCards.map(card =>
+                    card._id === updatedCard._id ? updatedCard : card
+                )
             );
-            setCards(updatedCards);
-            setSelectedCard(null); // is this causing the bug?
+            setSelectedCard(null);
             setIsCardFormVisible(false);
         }
-        // Editing a card after adding it sometimes removes it from the DOM
     };
+
 
     const handleSetTitle = async (event) => {
         event.preventDefault();
@@ -77,7 +78,7 @@ const Column = ({
                                 setSelectedCard(null);
                             }}
                             addCard={handleAddCard}
-                            editCard={handleCardUpdate}
+                            editCard={handleEditCard}
                             columnId={column._id}
                         />
 
