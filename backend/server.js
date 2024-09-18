@@ -1,62 +1,26 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const Card = require('./models/card');
+const Column = require('./models/column');
+const Board = require('./models/board');
+const User = require('./models/user');
 
+const bcrypt = require('bcryptjs');
+// const salt = await bcrypt.genSalt(10);
+// const hashedPassword = await bcrypt.hash(password,salt);
+
+const uri = 'mongodb+srv://taskBin:oDN1d6gcSCNyIpfE@taskbinfree.p0skw.mongodb.net/TaskBin?retryWrites=true&w=majority';
+
+// Middleware
 const app = express();
 app.use(express.json());
 app.use(cors());
 
 
-const uri = 'mongodb+srv://taskBin:oDN1d6gcSCNyIpfE@taskbinfree.p0skw.mongodb.net/TaskBin?retryWrites=true&w=majority';
 
 // Connect to MongoDB
 mongoose.connect(uri);
-
-// SCHEMAS //
-
-const cardSchema = new mongoose.Schema({
-    title: {
-        type: String,
-        required: true,
-    },
-    text: {
-        type: String,
-        required: true,
-    },
-    priority: {
-        type: String,
-        enum: ['normal', 'high', 'urgent'],
-        default: 'normal',
-    },
-}, { timestamps: true });
-
-const columnSchema = new mongoose.Schema({
-    title: {
-        type: String,
-        required: true,
-    },
-    cards: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Card',
-    }],
-}, { timestamps: true });
-
-const boardSchema = new mongoose.Schema({
-    title: {
-        type: String,
-        required: true,
-    },
-    columns: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Column',
-    }],
-    userId: { type: Number, default: 1 } // Default to userId 1
-}, { timestamps: true });
-
-// Create the models
-const Card = mongoose.model('Card', cardSchema);
-const Column = mongoose.model('Column', columnSchema);
-const Board = mongoose.model('Board', boardSchema);
 
 // FetchData 
 app.get('/boards/:userId', async (req, res) => {
