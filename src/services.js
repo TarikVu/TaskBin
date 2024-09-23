@@ -51,7 +51,17 @@ const reqFetchBoard = async ({ boardId, userId }) => {
     }
 };
 
-// POST API REQUESTS
+// --- POST API REQUESTS --- 
+const reqSignUpUser = async ({ userName, email, password }) => {
+    const response = await fetch('http://localhost:5000/signup',
+        {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ userName, email, password }),
+        });
+    return response;
+};
+
 // Return the new board data from the server if 
 // POST was successful, otherwise throw an error.
 const reqAddBoard = async ({ title, userId }) => {
@@ -61,9 +71,7 @@ const reqAddBoard = async ({ title, userId }) => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ title, userId }),
     });
-
     return response;
-
 };
 
 const reqAddColumn = async ({ boardId, title }) => {
@@ -142,5 +150,6 @@ export {
     reqDeleteColumn,
     reqDeleteCard,
     reqEditCard,
-    reqEditColumn
+    reqEditColumn,
+    reqSignUpUser
 };
