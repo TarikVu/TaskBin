@@ -5,8 +5,13 @@ const signOut = () => {
 };
 
 const reqFetchAllBoards = async (userId) => {
+    const token = localStorage.getItem('jwt'); // Get the stored JWT
     try {
-        const response = await fetch(`http://localhost:5000/boards/${userId}`);
+        const response = await fetch(`http://localhost:5000/boards/${userId}`, {
+            headers: {
+                'Authorization': `Bearer ${token}` // Include the JWT in the Authorization header
+            }
+        });
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }
@@ -15,6 +20,7 @@ const reqFetchAllBoards = async (userId) => {
         throw new Error(`Error fetching boards: ${error.message}`);
     }
 };
+
 
 // Fetches and returns the Board of boardId
 const reqFetchBoard = async ({ boardId, userId }) => {

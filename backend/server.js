@@ -1,6 +1,6 @@
 require('dotenv').config();
 const cors = require('cors');
-const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 const express = require('express');
 const mongoose = require('mongoose');
 const Card = require('./models/card');
@@ -16,6 +16,23 @@ app.use(cors());
 // Connect to MongoDB
 mongoose.connect(process.env.MONGO_URI);
 
+const authenticateToken = (req, res, next) => {
+    const token = req.headers['authorization']?.split(' ')[1]; // Get token from Authorization header
+
+    console.log("authenticating token...");
+    if (!token) {
+        return res.sendStatus(401); // Unauthorized
+    }
+
+    jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+        if (err) {
+            return res.sendStatus(403); // Forbidden
+        }
+        req.user = user; // Attach user info to request
+        next(); // Proceed to the next middleware
+    });
+};
+
 // Signup Route
 app.post('/signup', async (req, res) => {
     const { username, email, password } = req.body;
@@ -28,17 +45,21 @@ app.post('/signup', async (req, res) => {
         }
 
         // Create a new user
+        // user schema hashes pass for us.
         const newUser = new User({
             username,
             email,
-            password // No need to hash the password here
+            password
         });
 
         // Save the user to the database
         await newUser.save();
 
-        // Send a success response
-        res.status(201).json({ message: 'User created successfully' });
+        // Create a JWT
+        const token = jwt.sign({ userId: newUser._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+        // Send a success response with the token
+        res.status(201).json({ token, userId: newUser._id });
     } catch (error) {
         console.error('Error during signup:', error);
         res.status(500).json({ message: 'Internal server error' });
@@ -47,9 +68,11 @@ app.post('/signup', async (req, res) => {
 
 
 // FetchData 
-app.get('/boards/:userId', async (req, res) => {
+app.get('/boards/:userId', authenticateToken, async (req, res) => {
     try {
         const userId = req.params.userId;
+        console.log(`fetching for user ${userId}`);
+
         const boards = await Board.find({ userId });
         res.status(200).json(boards);
     } catch (error) {

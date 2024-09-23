@@ -18,8 +18,10 @@ const Signup = () => {
 
             if (response.status === 201) {
                 const data = await response.json();
-                const userId = data.userId; // Assuming the response contains the user ID
-                navigate(`/board/${userId}`); // Navigate to the board with user ID
+                const token = data.token; // Assuming the JWT is in the response
+                const userId = data.userId; // Get userId from response
+                localStorage.setItem('jwt', token); // Store the JWT
+                navigate(`/home/${userId}`); // Navigate to the board with user ID
             } else if (response.status === 400) {
                 const errorData = await response.json();
                 setPopup({ visible: true, message: errorData.message });
@@ -31,6 +33,7 @@ const Signup = () => {
             setPopup({ visible: true, message: 'An unexpected error occurred. Please try again.' });
         }
     };
+
 
     // Popup component that handles message display and closing the popup
     const Popup = ({ message, onClose }) => {
