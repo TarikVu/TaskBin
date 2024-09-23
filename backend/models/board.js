@@ -10,9 +10,9 @@ const boardSchema = new mongoose.Schema({
         ref: 'Column',
     }],
     userId: {
-        type: Number,
-        default: 1
-    } // Default to userId 1
+        type: String, // Change this to String if it should hold ObjectIDs
+        required: true
+    }
 }, { timestamps: true });
 
 const Board = mongoose.model('Board', boardSchema);

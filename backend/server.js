@@ -16,10 +16,13 @@ app.use(cors());
 // Connect to MongoDB
 mongoose.connect(process.env.MONGO_URI);
 
+/* const uri = 'mongodb+srv://taskBin:oDN1d6gcSCNyIpfE@taskbinfree.p0skw.mongodb.net/TaskBin?retryWrites=true&w=majority';
+mongoose.connect(uri); */
+
 const authenticateToken = (req, res, next) => {
     const token = req.headers['authorization']?.split(' ')[1]; // Get token from Authorization header
 
-    console.log("authenticating token...");
+    console.log(`authenticating token... ` & { token });
     if (!token) {
         return res.sendStatus(401); // Unauthorized
     }
