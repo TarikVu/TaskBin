@@ -1,7 +1,10 @@
+// App.js
 import React, { useEffect, useState } from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import NavBar from './navbar';
 import ControlBar from './controlbar';
 import Board from './board';
+import Signup from './signup'; // Import the Signup component
 
 // API Calling
 import {
@@ -245,32 +248,42 @@ const App = () => {
   };
 
   return (
-    <div className="app">
-      <NavBar onButtonClick={signOut} />
-      <ControlBar
-        allBoards={allBoards}
-        selectedBoard={board}
-        onBoardSelect={selectBoard}
-        addBoard={addBoard}
-        addColumn={addColumn}
-        delBoard={delBoard}
-      />
-      <Board
-        board={board}
-        delColumn={delColumn}
-        editColumn={editColumn}
-        addCard={addCard}
-        delCard={delCard}
-        editCard={editCard}
-      />
-      {isLoading && <LoadingIndicator />}
-      {popup.visible && (
-        <Popup
-          message={popup.message}
-          onClose={() => setPopup({ visible: false, message: '' })}
-        />
-      )}
-    </div>
+    <Router>
+      <div className="app">
+        <NavBar onButtonClick={signOut} />
+        <Routes>
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/board" element={
+            <>
+              <ControlBar
+                allBoards={allBoards}
+                selectedBoard={board}
+                onBoardSelect={selectBoard}
+                addBoard={addBoard}
+                addColumn={addColumn}
+                delBoard={delBoard}
+              />
+              <Board
+                board={board}
+                delColumn={delColumn}
+                editColumn={editColumn}
+                addCard={addCard}
+                delCard={delCard}
+                editCard={editCard}
+              />
+            </>
+          } />
+          <Route path="/" element={<Signup />} /> {/* Redirect to signup if no specific route */}
+        </Routes>
+        {isLoading && <LoadingIndicator />}
+        {popup.visible && (
+          <Popup
+            message={popup.message}
+            onClose={() => setPopup({ visible: false, message: '' })}
+          />
+        )}
+      </div>
+    </Router>
   );
 };
 

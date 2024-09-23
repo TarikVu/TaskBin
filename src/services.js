@@ -52,12 +52,12 @@ const reqFetchBoard = async ({ boardId, userId }) => {
 };
 
 // --- POST API REQUESTS --- 
-const reqSignUpUser = async ({ userName, email, password }) => {
+const reqSignUpUser = async ({ username, email, password }) => {
     const response = await fetch('http://localhost:5000/signup',
         {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ userName, email, password }),
+            body: JSON.stringify({ username, email, password }),
         });
     return response;
 };
