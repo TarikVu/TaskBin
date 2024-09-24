@@ -14,29 +14,27 @@ const Login = () => {
         try {
             const response = await reqLoginUser({ email, password });
 
+            // ok
             if (response.status === 200) {
                 const data = await response.json();
-                const token = data.token; // Assuming the JWT is in the response
-                const userId = data.userId; // Get userId from response
+                const token = data.token;
+                const userId = data.userId;
                 localStorage.setItem('jwt', token); // Store the JWT
                 navigate(`/home/${userId}`); // Navigate to the home page with the user ID
-            } else if (response.status === 400 || response.status === 401) {
-                const errorData = await response.json();
-                setPopup({ visible: true, message: errorData.message });
-            } else if (response.status === 500) {
+            } else {
                 const errorData = await response.json();
                 setPopup({ visible: true, message: errorData.message });
             }
+
         } catch (error) {
             setPopup({ visible: true, message: 'An unexpected error occurred. Please try again.' });
         }
     };
 
     const navSignup = () => {
-        navigate('/signup'); // Redirect to signup page
+        navigate('/signup');
     };
 
-    // Popup component that handles message display and closing the popup
     const Popup = ({ message, onClose }) => {
         return (
             <div className='overlay'>

@@ -29,7 +29,6 @@
 .app {
   width: 100%;
   height: 100vh;
-  /* If you want the app to take full viewport height */
   box-sizing: border-box;
 }
 
@@ -71,7 +70,6 @@
 .login button {
   padding: 10px 15px;
   background-color: #007bff;
-  /* Bootstrap primary color */
   color: white;
   border: none;
   border-radius: 4px;
@@ -80,7 +78,6 @@
 
 .login button:hover {
   background-color: #0056b3;
-  /* Darker shade for hover effect */
 }
 
 
@@ -522,11 +519,8 @@
   align-items: center;
   justify-content: center;
   height: 100vh;
-  /* Full viewport height */
   background-color: #f8d7da;
-  /* Light red background */
   color: #721c24;
-  /* Dark red text */
   text-align: center;
 }
 
@@ -545,7 +539,6 @@
   font-size: 1rem;
   color: white;
   background-color: #c82333;
-  /* Dark red button */
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -553,7 +546,6 @@
 
 .forbidden button:hover {
   background-color: #a71c24;
-  /* Darker red on hover */
 }
 
 /* NotFound.css */
@@ -563,11 +555,8 @@
   align-items: center;
   justify-content: center;
   height: 100vh;
-  /* Full viewport height */
   background-color: #e9ecef;
-  /* Light grey background */
   color: #343a40;
-  /* Dark grey text */
   text-align: center;
 }
 
@@ -586,7 +575,6 @@
   font-size: 1rem;
   color: white;
   background-color: #6c757d;
-  /* Grey button */
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -594,5 +582,4 @@
 
 .not-found button:hover {
   background-color: #5a6268;
-  /* Darker grey on hover */
 }

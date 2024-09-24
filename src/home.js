@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-//import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import NavBar from './navbar';
 import ControlBar from './controlbar';
 import Board from './board';
@@ -21,7 +20,6 @@ import {
 
 const Home = () => {
     const navigate = useNavigate();
-
     const { userId } = useParams();
     const [allBoards, setAllBoards] = useState([]);
     const [board, setBoard] = useState({ columns: [] });
@@ -29,12 +27,11 @@ const Home = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [popup, setPopup] = useState({ visible: false, message: '' });
 
-
     useEffect(() => {
         const fetchData = async () => {
             setIsLoading(true);
             try {
-                const result = await reqFetchAllBoards(userId); // Use the new function
+                const result = await reqFetchAllBoards(userId);
                 setAllBoards(result);
                 if (result.length > 0) {
                     setSelectedBoardId(result[0]._id);
@@ -48,7 +45,7 @@ const Home = () => {
         };
 
         fetchData();
-    }, [userId, navigate]); // Add userId here
+    }, [userId, navigate]);
 
     // If selectedBoardId changes, update the board
     useEffect(() => {
@@ -67,12 +64,8 @@ const Home = () => {
     }, [selectedBoardId, userId]);
 
     const signOut = async () => {
-
-        // Handle successful logout (e.g., redirect to login page)
         localStorage.removeItem('jwt'); // Clear JWT
         navigate('/');
-        console.log("Logout successful");
-
     };
 
     // Invokes useEffect => fetchSelectedBoard
@@ -112,7 +105,6 @@ const Home = () => {
             setPopup({ visible: true, message: `No chosen board to add column to.` });
             return;
         }
-
         try {
             const result = await reqAddColumn({ boardId: selectedBoardId, title });
             if (result.ok) {
@@ -210,7 +202,7 @@ const Home = () => {
             const result = await reqEditCard({ title, text, priority, cardId, columnId });
             if (result.ok) {
                 const updatedCard = await result.json();
-                return updatedCard;  // Return the updated card
+                return updatedCard;
             } else {
                 setPopup({ visible: true, message: `Server encountered an error updating card ${result.message}` });
             }
@@ -224,7 +216,7 @@ const Home = () => {
             const result = await reqEditColumn({ columnId, title });
             if (result.ok) {
                 const updatedColumn = await result.json();
-                return updatedColumn;  // Return the updated card
+                return updatedColumn;
             } else {
                 setPopup({ visible: true, message: `Server encountered an error updating column ${result.message}` });
             }

@@ -1,6 +1,21 @@
-// This class is responsible for interacting with the Taskbin backend API.
+const reqLoginUser = async ({ email, password }) => {
+    const response = await fetch('http://localhost:5000/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+    });
+    return response;
+};
 
-
+const reqSignUpUser = async ({ username, email, password }) => {
+    const response = await fetch('http://localhost:5000/signup',
+        {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, email, password }),
+        });
+    return response;
+};
 
 const reqFetchAllBoards = async (userId) => {
     const token = localStorage.getItem('jwt'); // Get the stored JWT
@@ -58,25 +73,6 @@ const reqFetchBoard = async ({ boardId, userId }) => {
     }
 };
 
-// --- POST API REQUESTS --- 
-const reqLoginUser = async ({ email, password }) => {
-    const response = await fetch('http://localhost:5000/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
-    });
-    return response;
-};
-
-const reqSignUpUser = async ({ username, email, password }) => {
-    const response = await fetch('http://localhost:5000/signup',
-        {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ username, email, password }),
-        });
-    return response;
-};
 
 // Return the new board data from the server if 
 // POST was successful, otherwise throw an error.

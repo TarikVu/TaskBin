@@ -10,7 +10,7 @@ const boardSchema = new mongoose.Schema({
         ref: 'Column',
     }],
     userId: {
-        type: String, // Change this to String if it should hold ObjectIDs
+        type: String,
         required: true
     }
 }, { timestamps: true });

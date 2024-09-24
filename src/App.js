@@ -1,4 +1,3 @@
-
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Home from './home';
 import Login from './login';
@@ -7,8 +6,8 @@ import Forbidden from './forbidden';
 import NotFound from './notFound';
 const App = () => {
   return (
-    <Router>
-      <div className="app">
+    <div className="app">
+      <Router>
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
@@ -17,9 +16,9 @@ const App = () => {
           <Route path="/" element={<Login />} /> {/* Redirect to signup if no specific route */}
           <Route path="*" element={<NotFound />} />
         </Routes>
+      </Router>
+    </div>
 
-      </div>
-    </Router>
   );
 };
 
