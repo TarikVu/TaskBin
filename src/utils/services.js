@@ -1,3 +1,5 @@
+// This class handles the intermediary step of interacting with our server.
+
 const reqLoginUser = async ({ email, password }) => {
     const response = await fetch('http://localhost:5000/login', {
         method: 'POST',
@@ -18,17 +20,15 @@ const reqSignUpUser = async ({ username, email, password }) => {
 };
 
 const reqFetchAllBoards = async (userId) => {
-    const token = localStorage.getItem('jwt'); // Get the stored JWT
-    console.log('JWT:', token); // Log the token to check
+    const token = localStorage.getItem('jwt'); // Get the stored JWT 
     try {
         const response = await fetch(`http://localhost:5000/boards/${userId}`, {
             headers: {
-                'Authorization': `Bearer ${token}` // Include the JWT in the Authorization header
+                'Authorization': `Bearer ${token}`
             }
         });
-        console.log('Response status:', response.status); // Log the response status
         if (!response.ok) {
-            const errorText = await response.text(); // Get the error text
+            const errorText = await response.text();
             throw new Error(`Network response was not ok: ${errorText}`);
         }
         return await response.json();
@@ -148,8 +148,6 @@ const reqEditColumn = async ({ columnId, title }) => {
     });
     return response;
 };
-
-
 
 export {
     reqFetchAllBoards,

@@ -1,9 +1,9 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Home from './home';
-import Login from './login';
-import Signup from './signup';
-import Forbidden from './forbidden';
-import NotFound from './notFound';
+import Home from './routes/home';
+import Login from './routes/login';
+import Signup from './routes/signup';
+import Forbidden from './routes/forbidden';
+import NotFound from './routes/notFound';
 const App = () => {
   return (
     <div className="app">

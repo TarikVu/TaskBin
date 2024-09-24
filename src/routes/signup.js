@@ -1,7 +1,7 @@
 // Signup.js
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
-import { reqSignUpUser } from './services';
+import { reqSignUpUser } from '../utils/services';
 
 const Signup = () => {
     const [popup, setPopup] = useState({ visible: false, message: '' });

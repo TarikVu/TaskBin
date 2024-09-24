@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import CardForm from './forms/card-form';
+import CardForm from '../forms/card-form';
 import Card from './card';
 
 const Column = ({

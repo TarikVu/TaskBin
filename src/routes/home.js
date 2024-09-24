@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import NavBar from './navbar';
-import ControlBar from './controlbar';
-import Board from './board';
+import NavBar from '../components/navbar';
+import ControlBar from '../components/controlbar';
+import Board from '../components/board';
 import { useParams, useNavigate } from 'react-router-dom';
 
 // API Calling
@@ -16,7 +16,7 @@ import {
     reqDeleteCard,
     reqEditCard,
     reqEditColumn
-} from './services';
+} from '../utils/services';
 
 const Home = () => {
     const navigate = useNavigate();

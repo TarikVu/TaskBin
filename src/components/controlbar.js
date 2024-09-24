@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import ColumnForm from './forms/column-form';
-import BoardForm from './forms/board-form';
+import ColumnForm from '../forms/column-form';
+import BoardForm from '../forms/board-form';
 
 const ControlBar = ({
   allBoards,
