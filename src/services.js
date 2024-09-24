@@ -1,7 +1,11 @@
 // This class is responsible for interacting with the Taskbin backend API.
 
-const signOut = () => {
-    console.log("Logout pressed");
+const signOut = async () => {
+    const response = await fetch('http://localhost:5000/logout', {
+        method: 'POST',
+        credentials: 'include', // Include cookies for session management
+    });
+    return response;
 };
 
 const reqFetchAllBoards = async (userId) => {
@@ -61,6 +65,15 @@ const reqFetchBoard = async ({ boardId, userId }) => {
 };
 
 // --- POST API REQUESTS --- 
+const reqLoginUser = async ({ email, password }) => {
+    const response = await fetch('http://localhost:5000/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+    });
+    return response;
+};
+
 const reqSignUpUser = async ({ username, email, password }) => {
     const response = await fetch('http://localhost:5000/signup',
         {
@@ -160,5 +173,6 @@ export {
     reqDeleteCard,
     reqEditCard,
     reqEditColumn,
-    reqSignUpUser
+    reqSignUpUser,
+    reqLoginUser
 };

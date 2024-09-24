@@ -3,7 +3,8 @@ import React, { useEffect, useState } from 'react';
 import NavBar from './navbar';
 import ControlBar from './controlbar';
 import Board from './board';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
+
 // API Calling
 import {
     signOut,
@@ -20,6 +21,8 @@ import {
 } from './services';
 
 const Home = () => {
+    const navigate = useNavigate();
+
     const { userId } = useParams();
     const [allBoards, setAllBoards] = useState([]);
     const [board, setBoard] = useState({ columns: [] });
@@ -60,6 +63,18 @@ const Home = () => {
         fetchSelectedBoard();
     }, [selectedBoardId, userId]);
 
+    const handleSignOut = async () => {
+
+        const response = signOut();
+        if (response.ok) {
+            // Handle successful logout (e.g., redirect to login page)
+            localStorage.removeItem('jwt'); // Clear JWT
+            navigate('/');
+            console.log("Logout successful");
+        } else {
+            // Handle error during logout (e.g., show an error message)
+        }
+    };
     // Invokes useEffect => fetchSelectedBoard
     const selectBoard = ({ boardId }) => {
         if (boardId) {
@@ -247,7 +262,7 @@ const Home = () => {
 
 
     return (
-        <><NavBar onButtonClick={signOut} />
+        <><NavBar onButtonClick={handleSignOut} />
             <ControlBar
                 allBoards={allBoards}
                 selectedBoard={board}

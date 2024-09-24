@@ -1,11 +1,9 @@
-// Signup.js
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
-import { reqSignUpUser } from './services';
+import { reqLoginUser } from './services'; // You would define this API call in your services file
 
-const Signup = () => {
+const Login = () => {
     const [popup, setPopup] = useState({ visible: false, message: '' });
-    const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
@@ -14,15 +12,15 @@ const Signup = () => {
         e.preventDefault();
 
         try {
-            const response = await reqSignUpUser({ username, email, password });
+            const response = await reqLoginUser({ email, password });
 
-            if (response.status === 201) {
+            if (response.status === 200) {
                 const data = await response.json();
                 const token = data.token; // Assuming the JWT is in the response
                 const userId = data.userId; // Get userId from response
                 localStorage.setItem('jwt', token); // Store the JWT
-                navigate(`/home/${userId}`); // Navigate to the board with user ID
-            } else if (response.status === 400) {
+                navigate(`/home/${userId}`); // Navigate to the home page with the user ID
+            } else if (response.status === 400 || response.status === 401) {
                 const errorData = await response.json();
                 setPopup({ visible: true, message: errorData.message });
             } else if (response.status === 500) {
@@ -34,10 +32,9 @@ const Signup = () => {
         }
     };
 
-    const navLogin = () => {
-        navigate('/login');
-    }
-
+    const navSignup = () => {
+        navigate('/signup'); // Redirect to signup page
+    };
 
     // Popup component that handles message display and closing the popup
     const Popup = ({ message, onClose }) => {
@@ -53,8 +50,8 @@ const Signup = () => {
     };
 
     return (
-        <div className="signup">
-            <h2>Signup</h2>
+        <div className="login">
+            <h2>Login</h2>
             {popup.visible && (
                 <Popup
                     message={popup.message}
@@ -63,10 +60,6 @@ const Signup = () => {
             )}
             <form onSubmit={handleSubmit}>
                 <div>
-                    <label>Username:</label>
-                    <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} required />
-                </div>
-                <div>
                     <label>Email:</label>
                     <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
                 </div>
@@ -74,12 +67,11 @@ const Signup = () => {
                     <label>Password:</label>
                     <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
                 </div>
-                <button type="submit">Sign Up</button>
-                <button type="button" onClick={navLogin}> Back to Login</button>
-
+                <button type="submit">Login</button>
+                <button type="button" onClick={navSignup}> Sign Up</button>
             </form>
         </div>
     );
 };
 
-export default Signup;
+export default Login;
