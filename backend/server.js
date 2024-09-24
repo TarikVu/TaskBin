@@ -23,7 +23,6 @@ mongoose.connect(uri); */
 const authenticateToken = (req, res, next) => {
     const token = req.headers['authorization']?.split(' ')[1]; // Get token from Authorization header
 
-    console.log(`authenticating token... ` & { token });
     if (!token) {
         return res.sendStatus(401); // Unauthorized
     }
@@ -42,23 +41,23 @@ app.post('/login', async (req, res) => {
     const { email, password } = req.body;
 
     try {
-        // Check if the user exists
-        console.log("checking existing user");
+        // Check if the user exists 
         const existingUser = await User.findOne({ email });
         if (!existingUser) {
             return res.status(400).json({ message: 'Invalid email or password' });
         }
-        console.log("checking password validity");
 
         // Check if the password is correct
         const isPasswordValid = await bcrypt.compare(password, existingUser.password);
         if (!isPasswordValid) {
             return res.status(400).json({ message: 'Invalid email or password' });
         }
-        console.log("creating token");
 
         // Create a JWT
-        const token = jwt.sign({ userId: existingUser._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+        const token = jwt.sign(
+            { userId: existingUser._id },
+            process.env.JWT_SECRET,
+            { expiresIn: '1h' });
 
         // Send a success response with the token
         res.status(200).json({ token, userId: existingUser._id });
@@ -67,17 +66,7 @@ app.post('/login', async (req, res) => {
         res.status(500).json({ message: 'Internal server error' });
     }
 });
-// In your Express server file
 
-app.post('/logout', (req, res) => {
-    req.session.destroy((err) => {
-        if (err) {
-            return res.status(500).json({ message: 'Could not log out.' });
-        }
-        res.clearCookie('connect.sid'); // Optional: clear the session cookie
-        res.status(200).json({ message: 'Logged out successfully.' });
-    });
-});
 
 
 // Signup Route

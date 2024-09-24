@@ -7,7 +7,6 @@ import { useParams, useNavigate } from 'react-router-dom';
 
 // API Calling
 import {
-    signOut,
     reqFetchAllBoards,
     reqFetchBoard,
     reqAddBoard,
@@ -63,18 +62,15 @@ const Home = () => {
         fetchSelectedBoard();
     }, [selectedBoardId, userId]);
 
-    const handleSignOut = async () => {
+    const signOut = async () => {
 
-        const response = signOut();
-        if (response.ok) {
-            // Handle successful logout (e.g., redirect to login page)
-            localStorage.removeItem('jwt'); // Clear JWT
-            navigate('/');
-            console.log("Logout successful");
-        } else {
-            // Handle error during logout (e.g., show an error message)
-        }
+        // Handle successful logout (e.g., redirect to login page)
+        localStorage.removeItem('jwt'); // Clear JWT
+        navigate('/');
+        console.log("Logout successful");
+
     };
+
     // Invokes useEffect => fetchSelectedBoard
     const selectBoard = ({ boardId }) => {
         if (boardId) {
@@ -262,7 +258,7 @@ const Home = () => {
 
 
     return (
-        <><NavBar onButtonClick={handleSignOut} />
+        <><NavBar onButtonClick={signOut} />
             <ControlBar
                 allBoards={allBoards}
                 selectedBoard={board}

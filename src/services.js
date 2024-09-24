@@ -1,12 +1,6 @@
 // This class is responsible for interacting with the Taskbin backend API.
 
-const signOut = async () => {
-    const response = await fetch('http://localhost:5000/logout', {
-        method: 'POST',
-        credentials: 'include', // Include cookies for session management
-    });
-    return response;
-};
+
 
 const reqFetchAllBoards = async (userId) => {
     const token = localStorage.getItem('jwt'); // Get the stored JWT
