@@ -1,6 +1,4 @@
 import React from 'react';
-
-// A basic Navigation bar that currently holds the logout button.
 function NavBar({ onButtonClick }) {
     return (
         <nav className="navbar">
