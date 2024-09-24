@@ -105,8 +105,6 @@ app.post('/signup', async (req, res) => {
 app.get('/boards/:userId', authenticateToken, async (req, res) => {
     try {
         const userId = req.params.userId;
-        console.log(`fetching for user ${userId}`);
-
         const boards = await Board.find({ userId });
         res.status(200).json(boards);
     } catch (error) {
