@@ -1,67 +1,112 @@
+require('dotenv').config();
+const cors = require('cors');
+const jwt = require('jsonwebtoken');
 const express = require('express');
 const mongoose = require('mongoose');
-const cors = require('cors');
+const Card = require('./models/card');
+const Column = require('./models/column');
+const Board = require('./models/board');
+const User = require('./models/user');
+const bcrypt = require('bcryptjs');
 
+// Middleware
 const app = express();
 app.use(express.json());
 app.use(cors());
 
-
-const uri = 'mongodb+srv://taskBin:oDN1d6gcSCNyIpfE@taskbinfree.p0skw.mongodb.net/TaskBin?retryWrites=true&w=majority';
-
 // Connect to MongoDB
-mongoose.connect(uri);
+mongoose.connect(process.env.MONGO_URI);
 
-// SCHEMAS //
+/* const uri = 'mongodb+srv://taskBin:oDN1d6gcSCNyIpfE@taskbinfree.p0skw.mongodb.net/TaskBin?retryWrites=true&w=majority';
+mongoose.connect(uri); */
 
-const cardSchema = new mongoose.Schema({
-    title: {
-        type: String,
-        required: true,
-    },
-    text: {
-        type: String,
-        required: true,
-    },
-    priority: {
-        type: String,
-        enum: ['normal', 'high', 'urgent'],
-        default: 'normal',
-    },
-}, { timestamps: true });
+const authenticateToken = (req, res, next) => {
+    const token = req.headers['authorization']?.split(' ')[1]; // Get token from Authorization header
 
-const columnSchema = new mongoose.Schema({
-    title: {
-        type: String,
-        required: true,
-    },
-    cards: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Card',
-    }],
-}, { timestamps: true });
+    if (!token) {
+        return res.sendStatus(401); // Unauthorized
+    }
 
-const boardSchema = new mongoose.Schema({
-    title: {
-        type: String,
-        required: true,
-    },
-    columns: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Column',
-    }],
-    userId: { type: Number, default: 1 } // Default to userId 1
-}, { timestamps: true });
+    jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+        if (err) {
+            return res.sendStatus(403); // Forbidden
+        }
+        req.user = user; // Attach user info to request
+        next(); // Proceed to the next middleware
+    });
+};
 
-// Create the models
-const Card = mongoose.model('Card', cardSchema);
-const Column = mongoose.model('Column', columnSchema);
-const Board = mongoose.model('Board', boardSchema);
+// Login Route
+app.post('/login', async (req, res) => {
+    const { email, password } = req.body;
 
-// FetchData 
-app.get('/boards/:userId', async (req, res) => {
+    try {
+        // Check if the user exists 
+        const existingUser = await User.findOne({ email });
+        if (!existingUser) {
+            return res.status(400).json({ message: 'Invalid email or password' });
+        }
+
+        // Check if the password is correct
+        const isPasswordValid = await bcrypt.compare(password, existingUser.password);
+        if (!isPasswordValid) {
+            return res.status(400).json({ message: 'Invalid email or password' });
+        }
+
+        // Create a JWT
+        const token = jwt.sign(
+            { userId: existingUser._id },
+            process.env.JWT_SECRET,
+            { expiresIn: '1h' });
+
+        // Send a success response with the token
+        res.status(200).json({ token, userId: existingUser._id });
+    } catch (error) {
+        console.error('Error during login:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+});
+
+
+
+// Signup Route
+app.post('/signup', async (req, res) => {
+    const { username, email, password } = req.body;
+
+    try {
+        // Check if the user already exists
+        const existingUser = await User.findOne({ email });
+        if (existingUser) {
+            return res.status(400).json({ message: 'User already exists' });
+        }
+
+        // Create a new user
+        // user schema hashes pass for us.
+        const newUser = new User({
+            username,
+            email,
+            password
+        });
+
+        // Save the user to the database
+        await newUser.save();
+
+        // Create a JWT
+        const token = jwt.sign({ userId: newUser._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+        // Send a success response with the token
+        res.status(201).json({ token, userId: newUser._id });
+    } catch (error) {
+        console.error('Error during signup:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+});
+
+app.get('/boards/:userId', authenticateToken, async (req, res) => {
     try {
         const userId = req.params.userId;
+        console.log(`fetching for user ${userId}`);
+
         const boards = await Board.find({ userId });
         res.status(200).json(boards);
     } catch (error) {
@@ -72,8 +117,8 @@ app.get('/boards/:userId', async (req, res) => {
 app.get('/boards/:boardId/:userId', async (req, res) => {
     try {
         const boardId = req.params.boardId;
-        const userId = req.params.userId || '1'; // Default userId if not provided
-        const board = await Board.findOne({ _id: boardId, userId }); // Find board by ID and userId
+        const userId = req.params.userId;
+        const board = await Board.findOne({ _id: boardId, userId });
         if (!board) {
             return res.status(404).json({ error: 'Board not found' });
         }
@@ -116,7 +161,7 @@ app.post('/boards', async (req, res) => {
     try {
         const newBoard = new Board({
             title: req.body.title,
-            userId: req.body.userId || 1 // Default to userId 1
+            userId: req.body.userId
         });
         await newBoard.save();
         return res.status(200).json({ board: newBoard });
@@ -156,7 +201,6 @@ app.post('/cards', async (req, res) => {
     try {
         const newCard = new Card({ title, text, priority });
         await newCard.save();
-        console.log('Card Post request success', newCard);
 
         // Add reference of the new card to it's column
         const result = await Column.updateOne(
@@ -275,7 +319,6 @@ app.patch('/columns/:columnId/cards/:cardId', async (req, res) => {
 app.patch('/columns/:columnId', async (req, res) => {
     const { columnId } = req.params;
     const { title } = req.body;
-    console.log('title', title);
 
     try {
         const updatedColumn = await Column.findByIdAndUpdate(
@@ -295,8 +338,6 @@ app.patch('/columns/:columnId', async (req, res) => {
         res.status(500).json({ message: 'Internal server error' });
     }
 });
-
-
 
 
 // Start the server

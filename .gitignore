@@ -38,4 +38,7 @@ jspm_packages
 .DS_Store
 
 
+backend/.env
+.env
+
 .env

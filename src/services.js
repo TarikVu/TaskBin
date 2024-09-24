@@ -1,20 +1,42 @@
-// This class is responsible for interacting with the Taskbin backend API.
+const reqLoginUser = async ({ email, password }) => {
+    const response = await fetch('http://localhost:5000/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+    });
+    return response;
+};
 
-const signOut = () => {
-    console.log("Logout pressed");
+const reqSignUpUser = async ({ username, email, password }) => {
+    const response = await fetch('http://localhost:5000/signup',
+        {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, email, password }),
+        });
+    return response;
 };
 
 const reqFetchAllBoards = async (userId) => {
+    const token = localStorage.getItem('jwt'); // Get the stored JWT
+    console.log('JWT:', token); // Log the token to check
     try {
-        const response = await fetch(`http://localhost:5000/boards/${userId}`);
+        const response = await fetch(`http://localhost:5000/boards/${userId}`, {
+            headers: {
+                'Authorization': `Bearer ${token}` // Include the JWT in the Authorization header
+            }
+        });
+        console.log('Response status:', response.status); // Log the response status
         if (!response.ok) {
-            throw new Error('Network response was not ok');
+            const errorText = await response.text(); // Get the error text
+            throw new Error(`Network response was not ok: ${errorText}`);
         }
         return await response.json();
     } catch (error) {
         throw new Error(`Error fetching boards: ${error.message}`);
     }
 };
+
 
 // Fetches and returns the Board of boardId
 const reqFetchBoard = async ({ boardId, userId }) => {
@@ -51,7 +73,7 @@ const reqFetchBoard = async ({ boardId, userId }) => {
     }
 };
 
-// POST API REQUESTS
+
 // Return the new board data from the server if 
 // POST was successful, otherwise throw an error.
 const reqAddBoard = async ({ title, userId }) => {
@@ -61,9 +83,7 @@ const reqAddBoard = async ({ title, userId }) => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ title, userId }),
     });
-
     return response;
-
 };
 
 const reqAddColumn = async ({ boardId, title }) => {
@@ -132,7 +152,6 @@ const reqEditColumn = async ({ columnId, title }) => {
 
 
 export {
-    signOut,
     reqFetchAllBoards,
     reqFetchBoard,
     reqAddBoard,
@@ -142,5 +161,7 @@ export {
     reqDeleteColumn,
     reqDeleteCard,
     reqEditCard,
-    reqEditColumn
+    reqEditColumn,
+    reqSignUpUser,
+    reqLoginUser
 };
