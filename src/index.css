@@ -514,3 +514,85 @@
   cursor: pointer;
   align-self: center;
 }
+
+/* Forbidden.css */
+.forbidden {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  /* Full viewport height */
+  background-color: #f8d7da;
+  /* Light red background */
+  color: #721c24;
+  /* Dark red text */
+  text-align: center;
+}
+
+.forbidden h1 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+}
+
+.forbidden p {
+  font-size: 1.2rem;
+  margin-bottom: 30px;
+}
+
+.forbidden button {
+  padding: 10px 20px;
+  font-size: 1rem;
+  color: white;
+  background-color: #c82333;
+  /* Dark red button */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.forbidden button:hover {
+  background-color: #a71c24;
+  /* Darker red on hover */
+}
+
+/* NotFound.css */
+.not-found {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  /* Full viewport height */
+  background-color: #e9ecef;
+  /* Light grey background */
+  color: #343a40;
+  /* Dark grey text */
+  text-align: center;
+}
+
+.not-found h1 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+}
+
+.not-found p {
+  font-size: 1.2rem;
+  margin-bottom: 30px;
+}
+
+.not-found button {
+  padding: 10px 20px;
+  font-size: 1rem;
+  color: white;
+  background-color: #6c757d;
+  /* Grey button */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.not-found button:hover {
+  background-color: #5a6268;
+  /* Darker grey on hover */
+}

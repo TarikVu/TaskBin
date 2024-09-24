@@ -32,6 +32,7 @@ const Home = () => {
 
     useEffect(() => {
         const fetchData = async () => {
+            setIsLoading(true);
             try {
                 const result = await reqFetchAllBoards(userId); // Use the new function
                 setAllBoards(result);
@@ -39,12 +40,15 @@ const Home = () => {
                     setSelectedBoardId(result[0]._id);
                 }
             } catch (error) {
-                setPopup({ visible: true, message: `Error Loading Boards: ${error}` });
+                navigate('/forbidden');
+            }
+            finally {
+                setIsLoading(false);
             }
         };
 
         fetchData();
-    }, [userId]); // Add userId here
+    }, [userId, navigate]); // Add userId here
 
     // If selectedBoardId changes, update the board
     useEffect(() => {
