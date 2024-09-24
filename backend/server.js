@@ -102,8 +102,6 @@ app.post('/signup', async (req, res) => {
     }
 });
 
-
-// FetchData 
 app.get('/boards/:userId', authenticateToken, async (req, res) => {
     try {
         const userId = req.params.userId;
@@ -119,8 +117,8 @@ app.get('/boards/:userId', authenticateToken, async (req, res) => {
 app.get('/boards/:boardId/:userId', async (req, res) => {
     try {
         const boardId = req.params.boardId;
-        const userId = req.params.userId || '1'; // Default userId if not provided
-        const board = await Board.findOne({ _id: boardId, userId }); // Find board by ID and userId
+        const userId = req.params.userId;
+        const board = await Board.findOne({ _id: boardId, userId });
         if (!board) {
             return res.status(404).json({ error: 'Board not found' });
         }
@@ -163,7 +161,7 @@ app.post('/boards', async (req, res) => {
     try {
         const newBoard = new Board({
             title: req.body.title,
-            userId: req.body.userId || 1 // Default to userId 1
+            userId: req.body.userId
         });
         await newBoard.save();
         return res.status(200).json({ board: newBoard });
@@ -340,8 +338,6 @@ app.patch('/columns/:columnId', async (req, res) => {
         res.status(500).json({ message: 'Internal server error' });
     }
 });
-
-
 
 
 // Start the server
