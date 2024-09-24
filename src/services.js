@@ -156,7 +156,6 @@ const reqEditColumn = async ({ columnId, title }) => {
 
 
 export {
-    signOut,
     reqFetchAllBoards,
     reqFetchBoard,
     reqAddBoard,
