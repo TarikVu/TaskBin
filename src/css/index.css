@@ -14,6 +14,7 @@
   --border: 1px solid #ddd;
   --background-1: #333;
   --background-2: #f4f4f4;
+  --scrollbar-color: #333 #ddd;
   --primary-button: #008CBA;
   --primary-button-hover: #00aaff;
   --primary-button-click: #006f8c;
@@ -23,13 +24,12 @@
   --z-form: 2000;
   --z-overlay: 3000;
 }
-
-/* Global Reset */
+ 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  /* Ensure box sizing is consistent */
+  scrollbar-width: thin; 
 }
 
 html,
@@ -67,20 +67,20 @@ body {
 
 
 /* Used to blur background and focus a component */
+/* Overlay Styles */
 .overlay {
-  position: fixed;
+  position: fixed; /* Ensure it fills the viewport */
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  justify-content: center;
-  align-items: center;
-
-  /* These block the background */
-  z-index: var(--z-overlay);
   display: flex;
-  background: rgba(0, 0, 0, 0.5);
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  z-index: var(--z-overlay);
+  background: rgba(0, 0, 0, 0.5); /* Overlay background */
 }
+
 
 /* Leading UI */
 .spinner {

@@ -4,7 +4,7 @@
     background-color: var(--background-2);
     width: 100%;
     left: 0;
-
+    max-height: 150px;
 }
 
 .control-bar .title-description {
@@ -15,9 +15,9 @@
 .control-bar .description {
     padding: 5px;
     overflow-y: scroll;
-    max-height: 150px;
+    max-height: 50px;
     border: var(--border);
-
+    scrollbar-color: var(--scrollbar-color);
 }
 
 

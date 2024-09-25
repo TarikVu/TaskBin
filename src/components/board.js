@@ -14,6 +14,7 @@ const Board = ({
     return (
         <main className="board"> 
                 <div className='columns_container'>
+                    <div className='columns_table'>
                     {columns.length > 0 ? (
                         columns.map(column => (
                             <Column
@@ -29,6 +30,7 @@ const Board = ({
                     ) : (
                         <div>No columns</div>
                     )}
+                    </div>
                 </div> 
         </main>
     );
