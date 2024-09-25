@@ -13,8 +13,6 @@ const Login = () => {
 
         try {
             const response = await reqLoginUser({ email, password });
-
-            // ok
             if (response.status === 200) {
                 const data = await response.json();
                 const token = data.token;
