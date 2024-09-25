@@ -1,13 +1,15 @@
+
+
 .columns_container {
-    flex: 1;
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
-    overflow-x: scroll;
-    overflow-y: auto;
+    overflow-x: auto; /* Allow horizontal scrolling */
+    overflow-y: auto; /* Allow vertical scrolling */
     padding: 10px;
     border: 1px solid #ddd;
     width: 100%;
+    height: calc(100% - 40px); /* Adjust height to fill remaining space */
     box-sizing: border-box;
 }
 
@@ -15,13 +17,12 @@
     width: 300px;
     background-color: #f4f4f4;
     box-sizing: border-box;
-    overflow-y: auto;
+    overflow-y: auto; /* Allow vertical scrolling in each column */
     margin: 0 10px;
     border: 1px solid #ddd;
     color: black;
-    flex-shrink: 0;
+    flex-shrink: 0; /* Prevent columns from shrinking */
 }
-
 .column_header {
     display: flex;
     align-items: center;
@@ -30,10 +31,8 @@
     left: 0;
     right: 0;
     padding: 10px;
-    margin: 5px;
-    border-bottom: 1px solid #ddd;
     background-color: var(--background-1);
-    height: 35px;
+    height: 40px;
 }
 
 .column_header h1 {

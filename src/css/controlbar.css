@@ -1,16 +1,41 @@
 .control-bar {
     display: flex;
-    justify-content: flex-start;
-    flex-direction: column;
-    padding: 10px;
-    background-color: #eee;
-    border-bottom: 1px solid #ddd;
-    margin-bottom: 10px;
+    padding-top: 20px;
+    background-color: var(--background-2);
+    width: 100%;
+    left: 0;
+
+}
+
+.control-bar .title-description {
+    margin: 10px;
+    flex: 3;
+}
+
+.control-bar .description {
+    padding: 5px;
+    overflow-y: scroll;
+    max-height: 150px;
+    border: var(--border);
+
+}
+
+
+.control-bar .controls {
+    flex: 1;
+}
+
+.control-bar h1 {
+    color: black;
+}
+
+.control-bar p {
+    color: black
 }
 
 .control-bar button {
     margin-right: 10px;
-    padding: 10px 20px;
+    padding: 10px 10px;
     border: none;
     background-color: var(--primary-button);
     color: white;

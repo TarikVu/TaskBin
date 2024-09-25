@@ -254,7 +254,8 @@ const Home = () => {
 
 
     return (
-        <><NavBar onButtonClick={signOut} />
+        <div className='home'>
+            <NavBar onButtonClick={signOut} />
             <ControlBar
                 allBoards={allBoards}
                 selectedBoard={board}
@@ -278,7 +279,7 @@ const Home = () => {
                     onClose={() => setPopup({ visible: false, message: '' })}
                 />
             )}
-        </>
+        </div>
     );
 };
 

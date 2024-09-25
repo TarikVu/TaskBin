@@ -1,7 +1,6 @@
 .board {
     display: flex;
     flex-direction: column;
-    padding: 60px 10px 10px;
     height: calc(100vh - 60px);
     overflow-x: auto;
     overflow-y: hidden;
