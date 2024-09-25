@@ -1,3 +1,4 @@
+import '../css/board.css'
 import React from 'react';
 import Column from './column';
 
@@ -12,7 +13,7 @@ const Board = ({
 
     return (
         <main className="board">
-            <div className='columns-container'>
+            <div className='columns_container'>
                 {columns.length > 0 ? (
                     columns.map(column => (
                         <Column

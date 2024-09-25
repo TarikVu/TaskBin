@@ -1,0 +1,32 @@
+/* NavBar.css */
+.navbar {
+    background-color: var(--background-1);
+    color: white;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    box-sizing: border-box;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: var(--z-modal);
+}
+
+.navbar-button {
+    background-color: var(--primary-button);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.navbar-button:hover {
+    background-color: var(--primary-button-hover);
+}
+
+.navbar-button:active {
+    background-color: var(--primary-button-click);
+}

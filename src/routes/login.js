@@ -1,3 +1,4 @@
+import '../css/loginSignup.css';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import { reqLoginUser } from '../utils/services'; // You would define this API call in your services file

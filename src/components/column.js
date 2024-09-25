@@ -1,3 +1,4 @@
+import '../css/column.css';
 import React, { useState } from 'react';
 import CardForm from '../forms/card-form';
 import Card from './card';
@@ -95,10 +96,10 @@ const Column = ({
                             {/* Title Box */}
                             {isEditing ? (
                                 <form
-                                    className="column_form"
+                                    className="column_title_form"
                                     onSubmit={handleSetTitle}>
                                     <input
-                                        className='column_form_input'
+                                        className='column_title_form_input'
                                         type="text"
                                         maxLength={20}
                                         value={newTitle}

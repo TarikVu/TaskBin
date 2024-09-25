@@ -1,3 +1,4 @@
+import '../css/navbar.css'
 import React from 'react';
 function NavBar({ onButtonClick }) {
     return (

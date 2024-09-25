@@ -1,0 +1,27 @@
+.control-bar {
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+    padding: 10px;
+    background-color: #eee;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 10px;
+}
+
+.control-bar button {
+    margin-right: 10px;
+    padding: 10px 20px;
+    border: none;
+    background-color: var(--primary-button);
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.control-bar button:hover {
+    background-color: var(--primary-button-hover);
+}
+
+.control-bar button:active {
+    background-color: var(--primary-button-hover);
+}

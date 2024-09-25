@@ -1,3 +1,4 @@
+import '../css/card.css';
 import React from 'react';
 
 const Card = ({ card, columnId, delCard, onCardClick }) => {

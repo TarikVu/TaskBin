@@ -1,0 +1,128 @@
+.card {
+    position: relative;
+    background-color: darkslategrey;
+    margin: 15px 20px;
+    color: white;
+    border-radius: 5px;
+    white-space: normal;
+    padding: 2em;
+    cursor: pointer;
+}
+
+.card h3 {
+    margin: 0 0 10px 0;
+    color: white;
+}
+
+.card p {
+    color: white;
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.card-priority {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    font-size: 12px;
+}
+
+.urgent-priority {
+    color: red;
+}
+
+.high-priority {
+    color: orange;
+}
+
+.normal-priority {
+    color: lightgreen;
+}
+
+.card .delete-button {
+    position: absolute;
+    top: 5px;
+    left: 10px;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: var(--background-1);
+    border-radius: 20px;
+}
+
+.card .delete-button:hover {
+    color: darkred;
+}
+
+.card-form {
+    background: var(--background-1);
+    padding: 20px;
+    border-radius: 5px;
+    width: 400px;
+    max-width: 90%;
+    color: white;
+    font-family: inherit;
+    box-sizing: border-box;
+}
+
+.card-form h2 {
+    margin-top: 0;
+    text-align: center;
+}
+
+.card-form label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.card-form-input {
+    width: calc(100% - 16px);
+    height: fit-content;
+    padding: 8px;
+    margin-top: 4px;
+    box-sizing: border-box;
+    font-family: inherit;
+}
+
+.card-form-textarea {
+    width: calc(100% - 16px);
+    height: 200px;
+    padding: 8px;
+    margin-top: 4px;
+    box-sizing: border-box;
+    font-family: inherit;
+}
+
+
+.card-form .button-group {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.card-form button {
+    flex: 1;
+    background-color: var(--primary-button);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin: 0 10px;
+}
+
+.card-form button:hover {
+    background-color: var(--primary-button-hover);
+}
+
+.card-form button:active {
+    background-color: var(--primary-button-click);
+}
+
+.card-form select {
+    margin-left: 8px;
+}
