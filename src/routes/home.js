@@ -172,6 +172,7 @@ const Home = () => {
         if (!columnId) { return; }
 
         try {
+            setIsLoading(true);
             const result = await reqDeleteColumn({ columnId, selectedBoardId });
             if (result.ok) {
                 setBoard(
@@ -180,7 +181,11 @@ const Home = () => {
                 setPopup({ visible: true, message: `Server encountered an error deleting Column.` });
             }
         } catch {
+            setIsLoading(false);
             setPopup({ visible: true, message: `Error connecting to server` });
+        }
+        finally{
+            setIsLoading(false);
         }
     };
 
@@ -254,7 +259,8 @@ const Home = () => {
 
 
     return (
-        <><NavBar onButtonClick={signOut} />
+        <div className='home'>
+            <NavBar onButtonClick={signOut} />
             <ControlBar
                 allBoards={allBoards}
                 selectedBoard={board}
@@ -278,7 +284,7 @@ const Home = () => {
                     onClose={() => setPopup({ visible: false, message: '' })}
                 />
             )}
-        </>
+        </div>
     );
 };
 

@@ -10,12 +10,11 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  max-width: 100%;
-  margin: 0 auto;
-  padding: 2rem;
-
   /* Reused colors for consistent theming */
+  --border: 1px solid #ddd;
   --background-1: #333;
+  --background-2: #f4f4f4;
+  --scrollbar-color: #333 #ddd;
   --primary-button: #008CBA;
   --primary-button-hover: #00aaff;
   --primary-button-click: #006f8c;
@@ -25,28 +24,63 @@
   --z-form: 2000;
   --z-overlay: 3000;
 }
-
-.app {
-  width: 100%;
-  height: 100vh;
+ 
+* {
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
+  scrollbar-width: thin; 
 }
 
+html,
+body {
+  width: 100%;
+  /* Ensure full width */
+  height: 100%;
+  /* Ensure full height */
+}
+
+.app {
+  display: flex;
+  /* Flex container */
+  flex-direction: column;
+  /* Arrange children vertically */
+  width: 100%;
+  /* Full width */
+  height: 100vh;
+  /* Full viewport height */
+  box-sizing: border-box;
+  /* Include padding in width */
+}
+
+.home {
+  width: 100%;
+  /* Full width */
+  padding-top: 20px;
+  /* Add padding if necessary */
+  margin: 0;
+  /* Reset margin */
+  box-sizing: border-box;
+  /* Include padding in width */
+}
+
+
+
 /* Used to blur background and focus a component */
+/* Overlay Styles */
 .overlay {
-  position: fixed;
+  position: fixed; /* Ensure it fills the viewport */
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  justify-content: center;
-  align-items: center;
-
-  /* These block the background */
-  z-index: var(--z-overlay);
   display: flex;
-  background: rgba(0, 0, 0, 0.5);
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  z-index: var(--z-overlay);
+  background: rgba(0, 0, 0, 0.5); /* Overlay background */
 }
+
 
 /* Leading UI */
 .spinner {

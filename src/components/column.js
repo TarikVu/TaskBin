@@ -71,6 +71,7 @@ const Column = ({
             {!column ? (<div>Loading...</div>) :
                 (
                     <div>
+                        
                         <CardForm
                             card={selectedCard}
                             isVisible={isCardFormVisible}
@@ -82,7 +83,6 @@ const Column = ({
                             editCard={handleEditCard}
                             columnId={column._id}
                         />
-
                         <div className="column_header">
                             {/* Delete Column Button */}
                             {!isEditing && (
@@ -92,7 +92,7 @@ const Column = ({
                                     X
                                 </button>
                             )}
-
+    
                             {/* Title Box */}
                             {isEditing ? (
                                 <form
@@ -107,13 +107,12 @@ const Column = ({
                                         onBlur={handleSetTitle}  // Save on blur
                                         autoFocus
                                         required
-
                                     />
                                 </form>
                             ) : (
                                 <h1 onClick={() => setIsEditing(true)}>{newTitle}</h1>
                             )}
-
+    
                             {/* Add card Button */}
                             {!isEditing && (
                                 <button
@@ -121,25 +120,28 @@ const Column = ({
                                     onClick={() => setIsCardFormVisible(true)}>
                                     +
                                 </button>
-                            )
-                            }
-
+                            )}
                         </div>
 
-                        {/* Mapping the cards for the column */}
-                        {cards.length > 0 ? (
-                            cards.map(card => (
-                                <Card
-                                    key={card._id}
-                                    card={card}
-                                    columnId={column._id}
-                                    delCard={handleDelCard}
-                                    onCardClick={handleCardSelect}
-                                />
-                            ))
-                        ) : (
-                            <div>No cards available</div>
-                        )}
+                       
+
+                        {/* New content container */}
+                        <div className="column_content">
+                            {/* Mapping the cards for the column */}
+                            {cards.length > 0 ? (
+                                cards.map(card => (
+                                    <Card
+                                        key={card._id}
+                                        card={card}
+                                        columnId={column._id}
+                                        delCard={handleDelCard}
+                                        onCardClick={handleCardSelect}
+                                    />
+                                ))
+                            ) : (
+                                <div>No cards available</div>
+                            )}
+                        </div>
                     </div>
                 )}
         </div>

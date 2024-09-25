@@ -1,20 +1,21 @@
 /* NavBar.css */
 .navbar {
+    display: flex;
+    position: fixed;
+    width: 100%;
     background-color: var(--background-1);
     color: white;
-    padding: 10px;
-    display: flex;
+    height: 30px;
+    top:0;
+    left:0;
     justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    box-sizing: border-box;
-    position: fixed;
-    top: 0;
-    left: 0;
     z-index: var(--z-modal);
+    height:40px;
+    align-items: center;
+    padding:10px; 
 }
 
-.navbar-button {
+.navbar-button { 
     background-color: var(--primary-button);
     color: white;
     border: none;
