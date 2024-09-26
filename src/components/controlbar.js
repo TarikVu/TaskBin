@@ -30,15 +30,19 @@ const ControlBar = ({
       <div className='controls'>
         <div className='controls-select'>
           <p>Select a board</p>
-          <select onChange={handleBoardChange} value={selectedBoard._id || ''}>
-            <option value=""></option>
-            {allBoards.map(board => (
-              <option key={board._id} value={board._id}>
-                {board.title}
-              </option>
-            ))}
+          <select onChange={handleBoardChange} value={selectedBoard?._id || ''}>
+            {allBoards.length > 0 ? (
+              allBoards.map(board => (
+                <option key={board._id} value={board._id}>
+                  {board.title}
+                </option>
+              ))
+            ) : (
+              <option value="" disabled>No Boards</option>
+            )}
           </select>
         </div>
+
         <div className='controls-buttons'>
           <BoardForm
             isVisible={isBoardFormVisible}
@@ -61,8 +65,6 @@ const ControlBar = ({
           <button onClick={() => setIsColumnFormVisible(true)}>
             New Column
           </button>
-
-
         </div>
 
       </div>
