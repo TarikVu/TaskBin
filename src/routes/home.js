@@ -184,7 +184,7 @@ const Home = () => {
             setIsLoading(false);
             setPopup({ visible: true, message: `Error connecting to server` });
         }
-        finally{
+        finally {
             setIsLoading(false);
         }
     };

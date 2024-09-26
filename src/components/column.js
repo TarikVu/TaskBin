@@ -71,7 +71,7 @@ const Column = ({
             {!column ? (<div>Loading...</div>) :
                 (
                     <div>
-                        
+
                         <CardForm
                             card={selectedCard}
                             isVisible={isCardFormVisible}
@@ -92,7 +92,7 @@ const Column = ({
                                     X
                                 </button>
                             )}
-    
+
                             {/* Title Box */}
                             {isEditing ? (
                                 <form
@@ -112,7 +112,7 @@ const Column = ({
                             ) : (
                                 <h1 onClick={() => setIsEditing(true)}>{newTitle}</h1>
                             )}
-    
+
                             {/* Add card Button */}
                             {!isEditing && (
                                 <button
@@ -123,7 +123,7 @@ const Column = ({
                             )}
                         </div>
 
-                       
+
 
                         {/* New content container */}
                         <div className="column_content">

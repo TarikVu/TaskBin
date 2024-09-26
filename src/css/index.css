@@ -24,44 +24,33 @@
   --z-form: 2000;
   --z-overlay: 3000;
 }
- 
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  scrollbar-width: thin; 
+  scrollbar-width: thin;
 }
 
 html,
 body {
   width: 100%;
-  /* Ensure full width */
   height: 100%;
-  /* Ensure full height */
 }
 
 .app {
   display: flex;
-  /* Flex container */
   flex-direction: column;
-  /* Arrange children vertically */
   width: 100%;
-  /* Full width */
   height: 100vh;
-  /* Full viewport height */
   box-sizing: border-box;
-  /* Include padding in width */
 }
 
 .home {
   width: 100%;
-  /* Full width */
   padding-top: 20px;
-  /* Add padding if necessary */
   margin: 0;
-  /* Reset margin */
   box-sizing: border-box;
-  /* Include padding in width */
 }
 
 
@@ -69,16 +58,16 @@ body {
 /* Used to blur background and focus a component */
 /* Overlay Styles */
 .overlay {
-  position: fixed; /* Ensure it fills the viewport */
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   display: flex;
-  justify-content: center; /* Center horizontally */
-  align-items: center; /* Center vertically */
+  justify-content: center;
+  align-items: center;
   z-index: var(--z-overlay);
-  background: rgba(0, 0, 0, 0.5); /* Overlay background */
+  background: rgba(0, 0, 0, 0.5);
 }
 
 
