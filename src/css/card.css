@@ -60,16 +60,19 @@
 
 .card-form {
     background: var(--background-1);
-    padding: 20px; 
-    width: 400px; /* Fixed width */
-    max-width: 100%; /* Allow it to be responsive */
+    padding: 20px;
+    width: 400px;
+    max-width: 100%;
     color: white;
     font-family: inherit;
     box-sizing: border-box;
-    margin: auto; /* Center it in the overlay */
-    border-radius: 5px; /* Optional: for rounded corners */
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3); /* Optional: for shadow effect */
+    margin: auto;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
 }
+
+
+
 
 .card-form h2 {
     margin-top: 0;

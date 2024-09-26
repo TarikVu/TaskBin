@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import ReactDOM from 'react-dom';
 
 // CardForm is responsible for creating a new card or editing a card
 // Prop defaulting is used to handle AddCard & DeleteCard conditional props.
+// addCard is passed a prop when being accessed by the addCard button
+// editCard is passed a prop when being accessed by clicking on an existing card.
 const CardForm = ({
     // Conditional props
     card = null,
@@ -38,7 +41,7 @@ const CardForm = ({
             editCard({ title, text, priority, cardId: card._id, columnId });
         } else {
             // Goes straight to App.js to be handled
-            addCard({ title, text, priority});
+            addCard({ title, text, priority });
             setTitle('');
             setText('');
             setPriority('normal');
@@ -54,11 +57,11 @@ const CardForm = ({
     }
 
     // Early return if not visible
-    if (!isVisible) {
-        return null;
-    }
+    if (!isVisible) { return null; }
 
-    return (
+    // The Card form will be rendered w/ react portal to bypass
+    // it's parent container's constraints.
+    return ReactDOM.createPortal(
         <div className="overlay">
             <div className="card-form">
                 <h2>{card ? 'Edit Task' : 'New Task'}</h2>
@@ -99,7 +102,8 @@ const CardForm = ({
                     </div>
                 </form>
             </div>
-        </div>
+        </div>,
+        document.body // Render the overlay outside of the parent component, under the body
     );
 };
 
