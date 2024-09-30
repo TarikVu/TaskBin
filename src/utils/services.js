@@ -149,6 +149,16 @@ const reqEditColumn = async ({ columnId, title }) => {
     return response;
 };
 
+const reqEditBoard = async ({ boardId, title, description }) => {
+    console.log(boardId)
+    const response = await fetch(`http://localhost:5000/boards/${boardId}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ title, description })
+    });
+    return response;
+};
+
 export {
     reqFetchAllBoards,
     reqFetchBoard,
@@ -161,5 +171,6 @@ export {
     reqEditCard,
     reqEditColumn,
     reqSignUpUser,
-    reqLoginUser
+    reqLoginUser,
+    reqEditBoard
 };

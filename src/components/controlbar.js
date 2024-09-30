@@ -1,30 +1,62 @@
 import '../css/controlbar.css';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ColumnForm from '../forms/column-form';
 import BoardForm from '../forms/board-form';
 
 const ControlBar = ({
   allBoards,
   selectedBoard,
+  boardTitle,
+  boardDesc,
   onBoardSelect,
   addBoard,
   addColumn,
-  delBoard
+  delBoard,
+  editBoard
 }) => {
 
   const [isBoardFormVisible, setIsBoardFormVisible] = useState(false);
   const [isColumnFormVisible, setIsColumnFormVisible] = useState(false);
+  const [title, setTitle] = useState(boardTitle);
+  const [description, setDescription] = useState(boardDesc);
+
+  // Sync title and description with props when the board changes
+  useEffect(() => {
+    setTitle(boardTitle);
+    setDescription(boardDesc);
+  }, [boardTitle, boardDesc]);
 
   const handleBoardChange = (event) => {
     const selectedBoardId = event.target.value;
     onBoardSelect({ boardId: selectedBoardId });
   };
 
+  const handleBlurTitle = () => {
+    // Send the request to update the board only on blur
+    editBoard({ title, description });
+  };
+
+  const handleBlurDescription = () => {
+    // Send the request to update the board only on blur
+    editBoard({ title, description });
+  };
+
   return (
     <div className="control-bar">
       <div className='title-description'>
-        <h1 className='title'>Title</h1>
-        <p className='description'>Description Lorem itsum oppous naDescription Lorem itsum oppous narutoDescription Lorem itsum oppous narutoDescription Lorem itsum oppous narutoDescription Lorem itsum oppous narutoDescription Lorem itsum oppous narutoDescription Lorem itsum oppous narutoDescription Lorem itsum oppous narutoDescription Lorem itsum oppous narutoDescription Lorem itsum oppous narutoDescription Lorem itsum oppous narutoDescription Lorem itsum oppoDescription Lorem itsum oppous narutoDescription Lorem itsum oppous narutoDescription Lorem itsum oppous narutoDescription Lorem itsum oppous narutoDescription Lorem itsum oppous narutoDescription Lorem itsum oppous narutoDescription Lorem itsum oppous narutoDescription Lorem itsum oppous narutoDescription Lorem itsum oppous narutoDescription Lorem itsum oppous narutous narutoDescription Lorem itsum oppous narutorutoDescription Lorem itsum oppous narutoDescription Lorem itsum oppous narutoDescription Lorem itsum oppous narutoDescription Lorem itsum oppous narutoDescription Lorem itsum oppous narutoDescription Lorem itsum oppous naruto</p>
+        <input
+          type="text"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}  // Update the local state only on change
+          onBlur={handleBlurTitle}  // Send the request on blur
+          maxLength={50}
+        />
+        <textarea
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}  // Update the local state only on change
+          onBlur={handleBlurDescription}  // Send the request on blur
+          maxLength={500}
+        />
       </div>
 
       <div className='controls'>

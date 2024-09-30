@@ -8,17 +8,41 @@
 }
 
 .control-bar .title-description {
+    display: flex;
+    flex-direction: column;
+
     margin: 10px;
     flex: 3;
 }
 
-.control-bar .description {
+.control-bar input {
+    text-align: center;
+    border: none;
+    font-size: 20px;
+    background-color: transparent;
+    margin-bottom: 10px;
+}
+
+.control-bar input:focus {
+    border: 1px solid var(--border);
+    background-color: white;
+}
+
+.control-bar textarea {
     padding: 5px;
     overflow-y: scroll;
-    max-height: 80px;
+    height: 1000%;
+    /* Ensures consistent maximum height */
     border: var(--border);
     scrollbar-color: var(--scrollbar-color);
+    resize: none;
+    /* Prevents resizing by the user */
 }
+
+.control-bar textarea:focus {
+    border: 1px solid var(--border);
+}
+
 
 .control-bar h1 {
     color: black;
@@ -54,6 +78,7 @@
     justify-content: center;
     align-items: center;
     text-align: center;
+    margin-bottom: 10px;
 
 }
 

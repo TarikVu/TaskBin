@@ -5,6 +5,9 @@ const boardSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    description: {
+        type: String
+    },
     columns: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Column',

@@ -9,22 +9,30 @@ const ColumnForm = ({ isVisible, onClose, addColumn }) => {
         addColumn({ title });
         onClose();
     }
-
+    const handleCancel = () => {
+        setTitle('');
+        onClose();
+    }
     return isVisible ?
-        <form onSubmit={handleSubmit}>
-            <label>
-                Title
-                <input
-                    type="text"
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
-                    required
-                />
-            </label>
-
-            <button type="submit">Add Column</button>
-            <button type="button" onClick={onClose}>Cancel</button>
-        </form> : null;
+        <div className="overlay">
+            <form className="column-form" onSubmit={handleSubmit}>
+                <label>
+                    New Column Title
+                    <input
+                        autoFocus={true}
+                        type="text"
+                        value={title}
+                        onChange={(e) => setTitle(e.target.value)}
+                        required
+                        maxLength={20}
+                    />
+                </label>
+                <div className="button-group">
+                    <button type="submit">Add Column</button>
+                    <button type="button" onClick={handleCancel}>Cancel</button>
+                </div>
+            </form>
+        </div> : null;
 }
 
 export default ColumnForm;

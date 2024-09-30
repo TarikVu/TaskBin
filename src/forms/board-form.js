@@ -6,26 +6,32 @@ const BoardForm = ({ isVisible, onClose, addBoard }) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         setTitle('');
-        // send title back to app.js level for api call
         addBoard({ title });
         onClose();
     }
-
+    const handleCancel = () => {
+        setTitle('');
+        onClose();
+    }
     return isVisible ?
-        <form onSubmit={handleSubmit}>
-            <label>
-                Title
-                <input
-                    type="text"
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
-                    required
-                />
-            </label>
-
-            <button type="submit">Add Board</button>
-            <button type="button" onClick={onClose}>Cancel</button>
-        </form> : null;
+        <div className="overlay">
+            <form className="board-form" onSubmit={handleSubmit}>
+                <label>
+                    New Board Title
+                    <input
+                        type="text"
+                        autoFocus={true}
+                        value={title}
+                        onChange={(e) => setTitle(e.target.value)}
+                        required
+                    />
+                </label>
+                <div className="button-group">
+                    <button type="submit">Add Board</button>
+                    <button type="button" onClick={handleCancel}>Cancel</button>
+                </div>
+            </form>
+        </div> : null;
 }
 
 export default BoardForm;

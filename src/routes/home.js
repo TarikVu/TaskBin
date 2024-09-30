@@ -15,18 +15,20 @@ import {
     reqDeleteColumn,
     reqDeleteCard,
     reqEditCard,
-    reqEditColumn
+    reqEditColumn,
+    reqEditBoard
 } from '../utils/services';
 
 const Home = () => {
     const navigate = useNavigate();
     const { userId } = useParams();
     const [allBoards, setAllBoards] = useState([]);
-    const [board, setBoard] = useState({ columns: [] });
+    const [board, setBoard] = useState({ title: 'New Board', description: '', columns: [] });
     const [selectedBoardId, setSelectedBoardId] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [popup, setPopup] = useState({ visible: false, message: '' });
 
+    // Fetch all boards
     useEffect(() => {
         const fetchData = async () => {
             setIsLoading(true);
@@ -230,6 +232,17 @@ const Home = () => {
         }
     }
 
+    const editBoard = async ({ title, description }) => {
+        try {
+            const result = await reqEditBoard({ boardId: board._id, title, description });
+            if (!result.ok) {
+                setPopup({ visible: true, message: `Server encountered an error updating Board ${result.message}` });
+            }
+        } catch (error) {
+            setPopup({ visible: true, message: `Error connecting to the server ${error}` });
+        }
+    }
+
     // Lightweight component to disable UI while loading operations
     const LoadingIndicator = () => {
         return (
@@ -264,10 +277,13 @@ const Home = () => {
             <ControlBar
                 allBoards={allBoards}
                 selectedBoard={board}
+                boardTitle={board.title}
+                boardDesc={board.description}
                 onBoardSelect={selectBoard}
                 addBoard={addBoard}
                 addColumn={addColumn}
                 delBoard={delBoard}
+                editBoard={editBoard}
             />
             <Board
                 board={board}
