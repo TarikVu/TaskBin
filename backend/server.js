@@ -342,7 +342,6 @@ app.patch('/boards/:boardId', async (req, res) => {
     const { boardId } = req.params;
     const { title } = req.body;
     const { description } = req.body;
-
     try {
         const updatedBoard = await Board.findByIdAndUpdate(
             boardId,

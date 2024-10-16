@@ -44,6 +44,7 @@ const reqFetchBoard = async ({ boardId, userId }) => {
         // FETCH BOARD
         const boardResponse = await fetch(`http://localhost:5000/boards/${boardId}/${userId}`);
         const board = await boardResponse.json();
+        console.log("board", board);
         const columnIds = board.columns || [];
 
         // Spread Empty array of columns

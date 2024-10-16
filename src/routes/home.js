@@ -55,7 +55,10 @@ const Home = () => {
             if (selectedBoardId) {
                 try {
                     const result = await reqFetchBoard({ boardId: selectedBoardId, userId });
-                    setBoard(result);
+                    setBoard({
+                        ...result,
+                        description: result.description || "",
+                    });
                 } catch (error) {
                     setPopup({ visible: true, message: `Error Loading Board: ${error}` });
                 }
