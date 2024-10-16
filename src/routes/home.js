@@ -49,7 +49,7 @@ const Home = () => {
         fetchData();
     }, [userId, navigate]);
 
-    // If selectedBoardId changes, update the board
+    // If selectedBoardId changes then update the board
     useEffect(() => {
         const fetchSelectedBoard = async () => {
             if (selectedBoardId) {
