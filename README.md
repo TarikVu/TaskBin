@@ -65,31 +65,4 @@ Record all changes on a backend data structure and update the Database with the 
     - [Embedded Data Versus References](https://www.mongodb.com/docs/manual/data-modeling/concepts/embedding-vs-references/#std-label-data-modeling-referencing)
 
 
-## Other
-
-
-(Next steps:)
-rewatch the video and look into using the .env file. later when app is deployed
-the fetch requests from the front end will need their uri's changed in order
-to communicate with the deployed backend.  Also note 
-Ensure that your deployment environment (like EC2, AWS Lambda, Heroku, etc.) is properly configured to handle CORS (Cross-Origin Resource Sharing) if your frontend and backend are on different domains.
-
-- Issue 8/28 setup project again with create react app 
-```
-npx create-react-app my-react-app
-```
-should have this setup with a public folder, running on laptop is giving errors. very weird why i can run npm start on my desktop but not my laptop...
-```
-my-react-app/
-├── node_modules/
-├── public/
-│   └── index.html
-├── src/
-│   ├── App.js
-│   ├── index.js
-│   └── ...
-├── .gitignore
-├── package.json
-├── README.md
-└── yarn.lock or package-lock.json
-```
+ 
