@@ -20,7 +20,7 @@ Preview:
 ## <a name = "DBS"></a> Database Schema 
 The database for TaskBin will Utilize MongoDB as a NoSQL Database.
 The data stored is heiarchal, and will be therefore Referenced with one-to many relationships as shown in the image below. See more on MongoDB
-<img src="your-image-url.jpg" style="width: 75%;" alt="Description">
+<img src="https://github.com/TarikVu/imgs/blob/main/TaskBin/TaskBinDB.PNG?raw=true" style="width: 75%;" alt="Description">
 
 
 ## <a name = "design"></a> Design Choices
