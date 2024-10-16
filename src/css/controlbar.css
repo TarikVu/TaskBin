@@ -10,9 +10,14 @@
 .control-bar .title-description {
     display: flex;
     flex-direction: column;
-
     margin: 10px;
     flex: 3;
+}
+
+.control-bar .title-description p {
+    padding-top: 40px;
+    font-size: large;
+    text-align: center;
 }
 
 .control-bar input {
@@ -32,11 +37,11 @@
     padding: 5px;
     overflow-y: scroll;
     height: 1000%;
-    /* Ensures consistent maximum height */
     border: var(--border);
     scrollbar-color: var(--scrollbar-color);
     resize: none;
-    /* Prevents resizing by the user */
+    font: inherit;
+    font-size: small;
 }
 
 .control-bar textarea:focus {

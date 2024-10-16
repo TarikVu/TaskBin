@@ -31,33 +31,36 @@ const ControlBar = ({
     onBoardSelect({ boardId: selectedBoardId });
   };
 
-  const handleBlurTitle = () => {
-    // Send the request to update the board only on blur
+  // Send the request to update the board only on blur
+  const handleBlur = () => {
     editBoard({ title, description });
   };
 
-  const handleBlurDescription = () => {
-    // Send the request to update the board only on blur
-    editBoard({ title, description });
-  };
 
   return (
     <div className="control-bar">
       <div className='title-description'>
-        <input
-          type="text"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}  // Update the local state only on change
-          onBlur={handleBlurTitle}  // Send the request on blur
-          maxLength={50}
-        />
-        <textarea
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}  // Update the local state only on change
-          onBlur={handleBlurDescription}  // Send the request on blur
-          maxLength={500}
-        />
+        {selectedBoard._id ? (
+          <>
+            <input
+              value={title}
+              type="text"
+              onChange={(e) => setTitle(e.target.value)}  // Update the local state only on change
+              onBlur={handleBlur}  // Send the request on blur
+              maxLength={50}
+            />
+            <textarea
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}  // Update the local state only on change
+              onBlur={handleBlur}  // Send the request on blur
+              maxLength={500}
+            />
+          </>
+        ) : (
+          <p>You have no Task Boards!</p>
+        )}
       </div>
+
 
       <div className='controls'>
         <div className='controls-select'>
