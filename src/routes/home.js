@@ -238,13 +238,25 @@ const Home = () => {
     const editBoard = async ({ title, description }) => {
         try {
             const result = await reqEditBoard({ boardId: board._id, title, description });
-            if (!result.ok) {
+            if (result.ok) {
+                setBoard(prevBoard => ({
+                    ...prevBoard,
+                    title,
+                    description
+                }));
+
+                // Update the allBoards array with the new board title
+                setAllBoards(prevBoards => prevBoards.map(b =>
+                    b._id === board._id ? { ...b, title } : b
+                ));
+            } else {
                 setPopup({ visible: true, message: `Server encountered an error updating Board ${result.message}` });
             }
         } catch (error) {
             setPopup({ visible: true, message: `Error connecting to the server ${error}` });
         }
-    }
+    };
+
 
     // Lightweight component to disable UI while loading operations
     const LoadingIndicator = () => {
