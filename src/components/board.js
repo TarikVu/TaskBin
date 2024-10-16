@@ -11,10 +11,12 @@ const Board = ({
     editCard }) => {
     const columns = board.columns || [];
 
+    // set up for Drag and drop cols here, 
+    // may need to add a way to order them on db backend.
     return (
-        <main className="board"> 
-                <div className='columns_container'>
-                    <div className='columns_table'>
+        <main className="board">
+            <div className='columns_container'>
+                <div className='columns_table'>
                     {columns.length > 0 ? (
                         columns.map(column => (
                             <Column
@@ -30,8 +32,8 @@ const Board = ({
                     ) : (
                         <div>No columns</div>
                     )}
-                    </div>
-                </div> 
+                </div>
+            </div>
         </main>
     );
 };
