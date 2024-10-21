@@ -3,6 +3,7 @@ import NavBar from '../components/navbar';
 import ControlBar from '../components/controlbar';
 import Board from '../components/board';
 import { useParams, useNavigate } from 'react-router-dom';
+import { DndContext } from '@dnd-kit/core';
 
 // API Calling
 import {
@@ -300,14 +301,17 @@ const Home = () => {
                 delBoard={delBoard}
                 editBoard={editBoard}
             />
-            <Board
-                board={board}
-                delColumn={delColumn}
-                editColumn={editColumn}
-                addCard={addCard}
-                delCard={delCard}
-                editCard={editCard}
-            />
+            <DndContext> {/* Just wrap the Board component */}
+                <Board
+                    board={board}
+                    delColumn={delColumn}
+                    editColumn={editColumn}
+                    addCard={addCard}
+                    delCard={delCard}
+                    editCard={editCard}
+                    setBoard={setBoard} // Ensure setBoard is passed here
+                />
+            </DndContext>
             {isLoading && <LoadingIndicator />}
             {popup.visible && (
                 <Popup

@@ -19,7 +19,18 @@
     scrollbar-color: var(--scrollbar-color);
 }
 
+.dcolumn{
+    margin : 10px;
+    padding-top: 10px;
+    background-color: red;
+    z-index: 0;
+    pointer-events: none;
+}
+
 .column {
+    position: relative;
+    pointer-events: auto;
+    z-index: var(--z-form);
     width: 300px;
     background-color: #f4f4f4;
     box-sizing: border-box;
