@@ -15,7 +15,7 @@ const Board = ({
     const columns = board.columns || [];
 
     const handleDragEnd = (event) => {
-        event.preventDefault();
+        
         const { active, over } = event;
 
         // Check if over is null or the dragged item and the drop target are the same
