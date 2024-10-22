@@ -71,7 +71,7 @@ const Column = ({
     return (
         <div ref={setNodeRef}  >
             {!column ? (<div>Loading...</div>) : (
-                <div className='column'>
+                <div  >
                     <CardForm
                         card={selectedCard}
                         isVisible={isCardFormVisible}
@@ -89,7 +89,7 @@ const Column = ({
                             <button
                                 className='column_header_button'
                                 onClick={() => delColumn({ columnId: column._id })}>
-                                X
+                                &#x1F5D9;
                             </button>
                         )}
 
@@ -118,7 +118,7 @@ const Column = ({
                             <button
                                 className='column_header_button'
                                 onClick={() => setIsCardFormVisible(true)}>
-                                +
+                               add card
                             </button>
                         )}
                     </div>

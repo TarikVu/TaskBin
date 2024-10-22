@@ -19,15 +19,32 @@
     scrollbar-color: var(--scrollbar-color);
 }
 
-.dcolumn{
-    margin : 10px;
-    padding-top: 10px;
-    background-color: red;
-    z-index: 0;
-    pointer-events: none;
+.dcolumn {
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding-top: 40px;
+    flex-direction: row;
+}
+
+.drag-handle {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 300px;
+    cursor: grab;
+    background-color: var(--background-1);
+    padding: 5px;
+
+}
+
+
+.drag-handle:active {
+    cursor: grabbing ;
 }
 
 .column {
+    flex: 1;
     position: relative;
     pointer-events: auto;
     z-index: var(--z-form);
@@ -35,12 +52,10 @@
     background-color: #f4f4f4;
     box-sizing: border-box;
     overflow-y: auto;
-    margin: 0 10px;
-    border: 1px solid #ddd;
+    margin: 0 10px; 
     color: black;
-    border-radius: 4px;
+    height: 100%;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    /* Adds a subtle box shadow */
 }
 
 .column_header {
@@ -71,7 +86,7 @@
 }
 
 .column_header_button {
-    margin: 0 10px;
+      
     background-color: #008CBA;
     color: white;
     border: none;
@@ -155,8 +170,7 @@
     flex: 1;
     background-color: var(--primary-button);
     color: white;
-    border: none;
-    padding: 10px 20px;
+    border: none; 
     cursor: pointer;
     border-radius: 5px;
     margin: 0 10px;

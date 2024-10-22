@@ -15,7 +15,6 @@ const Board = ({
     const columns = board.columns || [];
 
     const handleDragEnd = (event) => {
-        
         const { active, over } = event;
 
         // Check if over is null or the dragged item and the drop target are the same
@@ -39,21 +38,27 @@ const Board = ({
         });
 
         return (
+            <div className="dcolumn">
+                {/* Drag Handle */}
+                <div
+                    ref={setNodeRef}
+                    className="drag-handle"
+                    {...listeners}
+                    {...attributes}
+                >
+                    &#x2630;  
+                </div>
 
-            <div
-                ref={setNodeRef}
-                {...listeners}
-                {...attributes}
-                className='dcolumn' 
-            >
-                <Column
-                    column={column}
-                    delColumn={delColumn}
-                    editColumn={editColumn}
-                    addCard={addCard}
-                    delCard={delCard}
-                    editCard={editCard}
-                />
+                <div className='column'>
+                    <Column
+                        column={column}
+                        delColumn={delColumn}
+                        editColumn={editColumn}
+                        addCard={addCard}
+                        delCard={delCard}
+                        editCard={editCard}
+                    />
+                </div>
             </div>
         );
     };
@@ -61,8 +66,8 @@ const Board = ({
     return (
         <DndContext onDragEnd={handleDragEnd}>
             <main className="board">
-                <div className='columns_container'>
-                    <div className='columns_table'>
+                <div className="columns_container">
+                    <div className="columns_table">
                         {columns.length > 0 ? (
                             columns.map(column => (
                                 <DraggableColumn key={column._id} column={column} />
