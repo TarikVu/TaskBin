@@ -31,11 +31,27 @@
     position: absolute;
     top: 10px;
     left: 10px;
-    width: 300px;
+    width: 15%;
     cursor: grab;
     background-color: var(--background-1);
     padding: 5px;
 
+}
+/* Highlight dragging column */
+.dcolumn.dragging {
+    opacity: 0.5;
+    transform: scale(1.05);
+    transition: transform 0.2s ease;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    z-index: 1000; /* Ensure it's above other columns */
+}
+
+/* Drag overlay for transparent copy */
+.drag-overlay {
+    transform: scale(1.05);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    opacity: 0.8;
+    z-index: 1000;
 }
 
 
@@ -85,8 +101,7 @@
     text-overflow: ellipsis;
 }
 
-.column_header_button {
-      
+.column_header_button {   
     background-color: #008CBA;
     color: white;
     border: none;
