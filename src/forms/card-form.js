@@ -74,6 +74,7 @@ const CardForm = ({
                             value={title}
                             onChange={(e) => setTitle(e.target.value)}
                             required
+                            maxLength={20}
                         />
                     </label>
                     <label>

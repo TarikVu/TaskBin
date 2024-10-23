@@ -196,6 +196,7 @@ const Home = () => {
     };
 
     const delCard = async ({ columnId, cardId }) => {
+        console.log("Deleting card:", cardId);
         try {
             const result = await reqDeleteCard({ columnId, cardId });
             if (result.ok) {

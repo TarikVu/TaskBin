@@ -32,18 +32,18 @@ const Column = ({
         if (newCard) {
             const updatedCards = [...cards, newCard];
             setCards(updatedCards);
-
-            // Update the board columns by calling the function passed as a prop
-            propagateBoard(column._id, updatedCards);
+            propagateBoard({ columnId: column._id, updatedCards, newTitle });
         }
     };
 
-    const handleDelCard = ({ cardId }) => {
-        const updatedCards = cards.filter(card => card._id !== cardId);
-        setCards(updatedCards);
+    const handleDelCard = async ({ cardId }) => {
+        const response = await delCard({ columnId: column._id, cardId });
+        if (response) {
+            const updatedCards = cards.filter(card => card._id !== cardId);
+            setCards(updatedCards);
+            propagateBoard({ columnId: column._id, updatedCards, newTitle });
 
-        // Update the board columns by calling the function passed as a prop
-        propagateBoard(column._id, updatedCards);
+        }
     };
 
     const handleEditCard = async (updatedCardData) => {
@@ -53,12 +53,11 @@ const Column = ({
                 card._id === updatedCard._id ? updatedCard : card
             );
             setCards(updatedCards);
+            propagateBoard({ columnId: column._id, updatedCards, newTitle });
 
-            // Update the board columns by calling the function passed as a prop
-            propagateBoard(column._id, updatedCards);
+
         }
     };
-
 
     const handleSetTitle = async (event) => {
         event.preventDefault();
@@ -71,6 +70,7 @@ const Column = ({
             const updatedColumn = await editColumn({ columnId: column._id, title: newTitle });
             if (updatedColumn) {
                 setNewTitle(updatedColumn.title);
+                propagateBoard({ columnId: column._id, updatedCards: column.cards, newTitle: updatedColumn.title });
             }
         }
         setIsEditing(false);
