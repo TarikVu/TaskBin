@@ -25,7 +25,6 @@ const Board = ({
             return col;
         });
 
-        console.log("Prop board");
         setBoard(prevBoard => ({
             ...prevBoard,
             columns: updatedColumns,
