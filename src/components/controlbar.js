@@ -45,14 +45,14 @@ const ControlBar = ({
             <input
               value={title}
               type="text"
-              onChange={(e) => setTitle(e.target.value)}  // Update the local state only on change
-              onBlur={handleBlur}  // Send the request on blur
+              onChange={(e) => setTitle(e.target.value)}
+              onBlur={handleBlur}
               maxLength={50}
             />
             <textarea
               value={description}
-              onChange={(e) => setDescription(e.target.value)}  // Update the local state only on change
-              onBlur={handleBlur}  // Send the request on blur
+              onChange={(e) => setDescription(e.target.value)}
+              onBlur={handleBlur}
               maxLength={500}
             />
           </>

@@ -19,17 +19,59 @@
     scrollbar-color: var(--scrollbar-color);
 }
 
+.dcolumn {
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding-top: 40px;
+    flex-direction: row;
+}
+
+.drag-handle {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 15%;
+    cursor: grab;
+    background-color: var(--background-1);
+    padding: 5px;
+
+}
+/* Highlight dragging column */
+.dcolumn.dragging {
+    opacity: 0.5;
+    transform: scale(1.05);
+    transition: transform 0.2s ease;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    z-index: 1000; /* Ensure it's above other columns */
+}
+
+/* Drag overlay for transparent copy */
+.drag-overlay {
+    transform: scale(1.05);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    opacity: 0.8;
+    z-index: 1000;
+}
+
+
+.drag-handle:active {
+    cursor: grabbing ;
+}
+
 .column {
+    flex: 1;
+    position: relative;
+    pointer-events: auto;
+    z-index: var(--z-form);
     width: 300px;
     background-color: #f4f4f4;
     box-sizing: border-box;
     overflow-y: auto;
-    margin: 0 10px;
-    border: 1px solid #ddd;
+    margin: 0 10px; 
     color: black;
-    border-radius: 4px;
+    height: 100%;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    /* Adds a subtle box shadow */
 }
 
 .column_header {
@@ -59,8 +101,7 @@
     text-overflow: ellipsis;
 }
 
-.column_header_button {
-    margin: 0 10px;
+.column_header_button {   
     background-color: #008CBA;
     color: white;
     border: none;
@@ -144,8 +185,7 @@
     flex: 1;
     background-color: var(--primary-button);
     color: white;
-    border: none;
-    padding: 10px 20px;
+    border: none; 
     cursor: pointer;
     border-radius: 5px;
     margin: 0 10px;

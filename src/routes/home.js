@@ -3,6 +3,7 @@ import NavBar from '../components/navbar';
 import ControlBar from '../components/controlbar';
 import Board from '../components/board';
 import { useParams, useNavigate } from 'react-router-dom';
+import { DndContext } from '@dnd-kit/core';
 
 // API Calling
 import {
@@ -235,27 +236,41 @@ const Home = () => {
         }
     }
 
-    const editBoard = async ({ title, description }) => {
+    const editBoard = async ({ title, description, columns }) => {
         try {
-            const result = await reqEditBoard({ boardId: board._id, title, description });
+            console.log(columns);
+
+            // Create a payload with only the fields that are defined (not undefined or null)
+            const payload = {
+                ...(title && { title }),         // Include 'title' if it's defined
+                ...(description && { description }), // Include 'description' if it's defined
+                ...(columns && { columns })      // Include 'columns' if it's defined
+            };
+
+            const result = await reqEditBoard({ boardId: board._id, ...payload });
+
             if (result.ok) {
                 setBoard(prevBoard => ({
                     ...prevBoard,
-                    title,
-                    description
+                    ...(title && { title }),
+                    ...(description && { description }),
+                    ...(columns && { columns })
                 }));
 
-                // Update the allBoards array with the new board title
-                setAllBoards(prevBoards => prevBoards.map(b =>
-                    b._id === board._id ? { ...b, title } : b
-                ));
+                // Update the allBoards array with the new board title if the title is changed
+                if (title) {
+                    setAllBoards(prevBoards => prevBoards.map(b =>
+                        b._id === board._id ? { ...b, title } : b
+                    ));
+                }
             } else {
-                setPopup({ visible: true, message: `Server encountered an error updating Board ${result.message}` });
+                setPopup({ visible: true, message: `Server encountered an error updating Board: ${result.message}` });
             }
         } catch (error) {
-            setPopup({ visible: true, message: `Error connecting to the server ${error}` });
+            setPopup({ visible: true, message: `Error connecting to the server: ${error.message}` });
         }
     };
+
 
 
     // Lightweight component to disable UI while loading operations
@@ -300,14 +315,18 @@ const Home = () => {
                 delBoard={delBoard}
                 editBoard={editBoard}
             />
-            <Board
-                board={board}
-                delColumn={delColumn}
-                editColumn={editColumn}
-                addCard={addCard}
-                delCard={delCard}
-                editCard={editCard}
-            />
+            <DndContext> {/* Just wrap the Board component */}
+                <Board
+                    board={board}
+                    delColumn={delColumn}
+                    editColumn={editColumn}
+                    addCard={addCard}
+                    delCard={delCard}
+                    editCard={editCard}
+                    editBoard={editBoard}
+                    setBoard={setBoard}
+                />
+            </DndContext>
             {isLoading && <LoadingIndicator />}
             {popup.visible && (
                 <Popup

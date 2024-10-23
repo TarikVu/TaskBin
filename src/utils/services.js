@@ -150,15 +150,16 @@ const reqEditColumn = async ({ columnId, title }) => {
     return response;
 };
 
-const reqEditBoard = async ({ boardId, title, description }) => {
-    console.log(boardId)
+const reqEditBoard = async ({ boardId, title, description, columns }) => {
+    console.log(columns);
     const response = await fetch(`http://localhost:5000/boards/${boardId}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ title, description })
+        body: JSON.stringify({ title, description, columns })  // All props passed as-is
     });
     return response;
 };
+
 
 export {
     reqFetchAllBoards,
