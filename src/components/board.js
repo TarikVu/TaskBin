@@ -10,35 +10,37 @@ const Board = ({
     addCard,
     delCard,
     editCard,
-    setBoard,
+    editBoard,
 }) => {
     const columns = board.columns || [];
-    const [activeColumn, setActiveColumn] = useState(null); // To store the currently dragged column
+    const [activeColumn, setActiveColumn] = useState(null);
 
     const handleDragStart = (event) => {
         const { active } = event;
         const column = columns.find((column) => column._id === active.id);
-        setActiveColumn(column); // Set the active dragged column
+        setActiveColumn(column);
+
     };
 
     const handleDragEnd = (event) => {
         const { active, over } = event;
-        setActiveColumn(null); // Reset active column after drag ends
+        setActiveColumn(null);
 
         if (over && active.id !== over.id) {
             const oldIndex = columns.findIndex((column) => column._id === active.id);
             const newIndex = columns.findIndex((column) => column._id === over.id);
 
-            const newColumns = [...columns];
+            const newColumns = columns;
             const [movedColumn] = newColumns.splice(oldIndex, 1);
             newColumns.splice(newIndex, 0, movedColumn);
 
-            setBoard((prevBoard) => ({ ...prevBoard, columns: newColumns }));
+            console.log("editing");
+            editBoard({ columns: newColumns });
         }
     };
 
-      // DraggableColumn component - Only drag handle is draggable
-      const DraggableColumn = ({ column }) => {
+    // DraggableColumn component - Only drag handle is draggable
+    const DraggableColumn = ({ column }) => {
         return (
             <div className="dcolumn">
                 <DragHandle columnId={column._id} />
@@ -56,7 +58,7 @@ const Board = ({
         );
     };
 
-    // Separate DragHandle component - Only this is draggable
+    // Separate DragHandle component - Only this is draggable so the column's UI is usable.
     const DragHandle = ({ columnId }) => {
         const { attributes, listeners, setNodeRef, isDragging } = useDraggable({
             id: columnId,
@@ -64,7 +66,7 @@ const Board = ({
 
         return (
             <div
-                ref={setNodeRef} // Only the drag handle is draggable
+                ref={setNodeRef}
                 className={`drag-handle ${isDragging ? 'dragging' : ''}`}
                 {...listeners}
                 {...attributes}

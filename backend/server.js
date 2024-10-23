@@ -340,12 +340,19 @@ app.patch('/columns/:columnId', async (req, res) => {
 
 app.patch('/boards/:boardId', async (req, res) => {
     const { boardId } = req.params;
-    const { title } = req.body;
-    const { description } = req.body;
+    const { title, description, columns } = req.body;
+
+    // Create an update object only with the fields that are defined
+    const updateFields = {
+        ...(title && { title }),
+        ...(description && { description }),
+        ...(columns && { columns })
+    };
+
     try {
         const updatedBoard = await Board.findByIdAndUpdate(
             boardId,
-            { title, description },
+            updateFields,  // Update with only defined fields
             { new: true, runValidators: true }
         );
 
@@ -353,13 +360,13 @@ app.patch('/boards/:boardId', async (req, res) => {
             return res.status(404).json({ message: 'Board not found' });
         }
 
-        res.status(200).json({ message: 'Board updated' });
-    }
-    catch (error) {
+        res.status(200).json({ message: 'Board updated', board: updatedBoard });
+    } catch (error) {
         console.error('Error updating Board', error);
         res.status(500).json({ message: 'Internal server error' });
     }
 });
+
 
 
 
