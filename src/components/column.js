@@ -11,6 +11,7 @@ const Column = ({
     addCard,
     delCard,
     editCard,
+    propagateBoard,
 }) => {
     const [isCardFormVisible, setIsCardFormVisible] = useState(false);
     const [cards, setCards] = useState(column.cards);
@@ -29,28 +30,35 @@ const Column = ({
     const handleAddCard = async ({ title, text, priority }) => {
         const newCard = await addCard({ title, text, priority, columnId: column._id });
         if (newCard) {
-            setCards(prevCards => [...prevCards, newCard]);
+            const updatedCards = [...cards, newCard];
+            setCards(updatedCards);
+
+            // Update the board columns by calling the function passed as a prop
+            propagateBoard(column._id, updatedCards);
         }
     };
 
     const handleDelCard = ({ cardId }) => {
-        if (delCard({ columnId: column._id, cardId })) {
-            setCards(cards.filter(card => card._id !== cardId));
-        }
-    }
+        const updatedCards = cards.filter(card => card._id !== cardId);
+        setCards(updatedCards);
+
+        // Update the board columns by calling the function passed as a prop
+        propagateBoard(column._id, updatedCards);
+    };
 
     const handleEditCard = async (updatedCardData) => {
         const updatedCard = await editCard(updatedCardData);
         if (updatedCard) {
-            setCards(prevCards => 
-                prevCards.map(card => 
-                    card._id === updatedCard._id ? updatedCard : card
-                )
+            const updatedCards = cards.map(card =>
+                card._id === updatedCard._id ? updatedCard : card
             );
-            setSelectedCard(null);
-            setIsCardFormVisible(false);
+            setCards(updatedCards);
+
+            // Update the board columns by calling the function passed as a prop
+            propagateBoard(column._id, updatedCards);
         }
     };
+
 
     const handleSetTitle = async (event) => {
         event.preventDefault();
@@ -118,7 +126,7 @@ const Column = ({
                             <button
                                 className='column_header_button'
                                 onClick={() => setIsCardFormVisible(true)}>
-                               add card
+                                add card
                             </button>
                         )}
                     </div>

@@ -324,8 +324,7 @@ const Home = () => {
                     delCard={delCard}
                     editCard={editCard}
                     editBoard={editBoard}
-
-                // setBoard={setBoard}
+                    setBoard={setBoard}
                 />
             </DndContext>
             {isLoading && <LoadingIndicator />}

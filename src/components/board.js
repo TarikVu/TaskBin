@@ -11,9 +11,22 @@ const Board = ({
     delCard,
     editCard,
     editBoard,
+    setBoard,
 }) => {
     const columns = board.columns || [];
     const [activeColumn, setActiveColumn] = useState(null);
+
+    // Propagate changes made w/in a col to the board for rendering w/ dnd.
+    const propagateBoard = (columnId, updatedCards) => {
+        const updatedColumns = columns.map(col =>
+            col._id === columnId ? { ...col, cards: updatedCards } : col
+        );
+
+        setBoard(prevBoard => ({
+            ...prevBoard,
+            columns: updatedColumns
+        }));
+    };
 
     const handleDragStart = (event) => {
         const { active } = event;
@@ -52,6 +65,7 @@ const Board = ({
                         addCard={addCard}
                         delCard={delCard}
                         editCard={editCard}
+                        propagateBoard={propagateBoard}  // Pass the new function
                     />
                 </div>
             </div>
@@ -104,6 +118,7 @@ const Board = ({
                                     addCard={addCard}
                                     delCard={delCard}
                                     editCard={editCard}
+
                                 />
                             </div>
                         </div>
