@@ -78,7 +78,7 @@ const CardForm = ({
                         />
                     </label>
                     <label>
-                        Text
+                        Description
                         <textarea
                             className='card-form-textarea'
                             value={text}
