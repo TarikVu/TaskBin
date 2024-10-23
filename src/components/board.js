@@ -17,14 +17,17 @@ const Board = ({
     const [activeColumn, setActiveColumn] = useState(null);
 
     // Propagate changes made w/in a col to the board for rendering w/ dnd.
-    const propagateBoard = (columnId, updatedCards) => {
-        const updatedColumns = columns.map(col =>
-            col._id === columnId ? { ...col, cards: updatedCards } : col
-        );
+    const propagateBoard = (columnId, updatedCards, newTitle) => {
+        const updatedColumns = columns.map(col => {
+            if (col._id === columnId) {
+                return { ...col, cards: updatedCards, title: newTitle }; // Update title and cards
+            }
+            return col;
+        });
 
         setBoard(prevBoard => ({
             ...prevBoard,
-            columns: updatedColumns
+            columns: updatedColumns,
         }));
     };
 
@@ -52,7 +55,7 @@ const Board = ({
         }
     };
 
-    // DraggableColumn component - Only drag handle is draggable
+
     const DraggableColumn = ({ column }) => {
         return (
             <div className="dcolumn">
@@ -65,7 +68,7 @@ const Board = ({
                         addCard={addCard}
                         delCard={delCard}
                         editCard={editCard}
-                        propagateBoard={propagateBoard}  // Pass the new function
+                        propagateBoard={propagateBoard}
                     />
                 </div>
             </div>
