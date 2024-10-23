@@ -17,7 +17,7 @@ const Board = ({
     const [activeColumn, setActiveColumn] = useState(null);
 
     // Propagate changes made w/in a col to the board for rendering w/ dnd.
-    const propagateBoard = (columnId, updatedCards, newTitle) => {
+    const propagateBoard = ({ columnId, updatedCards, newTitle }) => {
         const updatedColumns = columns.map(col => {
             if (col._id === columnId) {
                 return { ...col, cards: updatedCards, title: newTitle }; // Update title and cards
@@ -25,6 +25,7 @@ const Board = ({
             return col;
         });
 
+        console.log("Prop board");
         setBoard(prevBoard => ({
             ...prevBoard,
             columns: updatedColumns,

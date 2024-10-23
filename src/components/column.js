@@ -32,14 +32,18 @@ const Column = ({
         if (newCard) {
             const updatedCards = [...cards, newCard];
             setCards(updatedCards);
-            propagateBoard(column._id, updatedCards);
+            propagateBoard({ columnId: column._id, updatedCards, newTitle });
         }
     };
 
-    const handleDelCard = ({ cardId }) => {
-        const updatedCards = cards.filter(card => card._id !== cardId);
-        setCards(updatedCards);
-        propagateBoard(column._id, updatedCards);
+    const handleDelCard = async ({ cardId }) => {
+        const response = await delCard({ columnId: column._id, cardId });
+        if (response) {
+            const updatedCards = cards.filter(card => card._id !== cardId);
+            setCards(updatedCards);
+            propagateBoard({ columnId: column._id, updatedCards, newTitle });
+
+        }
     };
 
     const handleEditCard = async (updatedCardData) => {
@@ -49,7 +53,9 @@ const Column = ({
                 card._id === updatedCard._id ? updatedCard : card
             );
             setCards(updatedCards);
-            propagateBoard(column._id, updatedCards);
+            propagateBoard({ columnId: column._id, updatedCards, newTitle });
+
+
         }
     };
 
@@ -64,7 +70,7 @@ const Column = ({
             const updatedColumn = await editColumn({ columnId: column._id, title: newTitle });
             if (updatedColumn) {
                 setNewTitle(updatedColumn.title);
-                propagateBoard(column._id, column.cards, updatedColumn.title);
+                propagateBoard({ columnId: column._id, updatedCards: column.cards, newTitle: updatedColumn.title });
             }
         }
         setIsEditing(false);
