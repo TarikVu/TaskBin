@@ -50,7 +50,6 @@ const Board = ({
             const [movedColumn] = newColumns.splice(oldIndex, 1);
             newColumns.splice(newIndex, 0, movedColumn);
 
-            console.log("editing");
             editBoard({ columns: newColumns });
         }
     };
