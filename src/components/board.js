@@ -10,6 +10,7 @@ const Board = ({
     addCard,
     delCard,
     editCard,
+    moveCard,
     editBoard,
     setBoard,
 }) => {
@@ -67,6 +68,7 @@ const Board = ({
                         addCard={addCard}
                         delCard={delCard}
                         editCard={editCard}
+                        moveCard={moveCard}
                         propagateBoard={propagateBoard}
                     />
                 </div>

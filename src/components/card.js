@@ -1,5 +1,6 @@
 import '../css/card.css';
 import React from 'react';
+import { useDraggable } from '@dnd-kit/core';
 
 const Card = ({ card, columnId, delCard, onCardClick }) => {
     const handleDelete = (e) => {
@@ -7,18 +8,36 @@ const Card = ({ card, columnId, delCard, onCardClick }) => {
         delCard({ columnId, cardId: card._id });
     };
 
+    const handleEdit = () => {
+        console.log("Edit clicked");
+        // Add your edit logic here
+    };
+
+    const { attributes, listeners, setNodeRef, isDragging } = useDraggable({
+        id: card._id, // Use card ID for the draggable element
+    });
+
     return (
-        <div className="card" onClick={() => onCardClick(card)}>
+        <div className={`card ${isDragging ? 'dragging' : ''}`} onClick={onCardClick}>
             <h3>{card.title}</h3>
             <div className="icon-container">
-                <span className="icon edit-icon" onClick={() => console.log("Edit clicked")}>
-                    &#9998; {/* Edit icon (pencil) */}
+                <span className="icon edit-icon" onClick={handleEdit}>
+                    &#9998;
                 </span>
+
                 <span className="icon delete-icon" onClick={handleDelete}>
-                    &#128465; {/* Trash can icon */}
+                    &#128465;
                 </span>
-                <span className="icon drag-icon" onClick={() => console.log("Drag clicked")}>
-                    &#x2630; {/* Drag handle icon (hamburger) */}
+
+                {/* Make the drag icon the draggable element */}
+                <span
+                    ref={setNodeRef} // Attach the draggable ref to the hamburger icon
+                    className="icon drag-icon"
+                    onClick={(e) => e.stopPropagation()} // Prevent card click event when dragging
+                    {...listeners} // Add drag listeners here
+                    {...attributes} // Add drag attributes here
+                >
+                    &#x2630;
                 </span>
             </div>
         </div>
