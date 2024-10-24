@@ -8,6 +8,9 @@ const Card = ({ card, columnId, delCard, onCardClick }) => {
         delCard({ columnId, cardId: card._id });
     };
 
+    const handleClick = () =>{
+        onCardClick(card);
+    };
     const handleEdit = () => {
         console.log("Edit clicked");
         // Add your edit logic here
@@ -18,7 +21,9 @@ const Card = ({ card, columnId, delCard, onCardClick }) => {
     });
 
     return (
-        <div className={`card ${isDragging ? 'dragging' : ''}`} onClick={onCardClick}>
+        <div
+            className={`card ${isDragging ? 'dragging' : ''}`}
+            onClick={handleClick}>
             <h3>{card.title}</h3>
             <div className="icon-container">
                 <span className="icon edit-icon" onClick={handleEdit}>
