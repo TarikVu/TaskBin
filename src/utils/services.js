@@ -44,7 +44,7 @@ const reqFetchBoard = async ({ boardId, userId }) => {
         // FETCH BOARD
         const boardResponse = await fetch(`http://localhost:5000/boards/${boardId}/${userId}`);
         const board = await boardResponse.json();
-        console.log("board", board);
+
         const columnIds = board.columns || [];
 
         // Spread Empty array of columns
@@ -151,12 +151,27 @@ const reqEditColumn = async ({ columnId, title }) => {
 };
 
 const reqEditBoard = async ({ boardId, title, description, columns }) => {
-    console.log(columns);
+
     const response = await fetch(`http://localhost:5000/boards/${boardId}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ title, description, columns })  // All props passed as-is
     });
+    return response;
+};
+
+const reqMoveCard = async ({ cardId, columnId, targetColumnId }) => {
+    const response = await fetch(`http://localhost:5000/columns/move`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ cardId, columnId, targetColumnId })
+    });
+
+    if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message);
+    }
+
     return response;
 };
 
@@ -174,5 +189,6 @@ export {
     reqEditColumn,
     reqSignUpUser,
     reqLoginUser,
-    reqEditBoard
+    reqEditBoard,
+    reqMoveCard
 };

@@ -367,6 +367,31 @@ app.patch('/boards/:boardId', async (req, res) => {
     }
 });
 
+// Move a card to a new column
+app.patch('/columns/move', async (req, res) => {
+    const { cardId, columnId, targetColumnId } = req.body;
+
+    console.log("Card", cardId);
+    console.log("column", columnId);
+    console.log("target", targetColumnId);
+    try {
+        // Find the card to move
+        const card = await Card.findById(cardId);
+        if (!card) {
+            return res.status(404).json({ message: 'Card not found' });
+        }
+
+        // Remove and add from old and new cols
+        await Column.findByIdAndUpdate(columnId, { $pull: { cards: cardId } });
+        await Column.findByIdAndUpdate(targetColumnId, { $addToSet: { cards: cardId } });
+
+        res.status(200).json({ message: 'Card moved successfully' });
+    } catch (error) {
+        console.error('Error moving card', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+});
+
 
 
 

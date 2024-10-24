@@ -12,6 +12,7 @@ const Column = ({
     delCard,
     editCard,
     propagateBoard,
+    moveCard
 }) => {
     const [isCardFormVisible, setIsCardFormVisible] = useState(false);
     const [cards, setCards] = useState(column.cards);
@@ -19,8 +20,7 @@ const Column = ({
     const [isEditing, setIsEditing] = useState(false);
     const [newTitle, setNewTitle] = useState(column.title);
 
-    // Drag and Drop
-    const { setNodeRef } = useDroppable({ id: column._id });
+
 
     const handleCardSelect = (card) => {
         setSelectedCard(card);
@@ -42,7 +42,6 @@ const Column = ({
             const updatedCards = cards.filter(card => card._id !== cardId);
             setCards(updatedCards);
             propagateBoard({ columnId: column._id, updatedCards, newTitle });
-
         }
     };
 
@@ -54,8 +53,6 @@ const Column = ({
             );
             setCards(updatedCards);
             propagateBoard({ columnId: column._id, updatedCards, newTitle });
-
-
         }
     };
 
@@ -76,10 +73,46 @@ const Column = ({
         setIsEditing(false);
     };
 
+    const { setNodeRef } = useDroppable({ id: column._id });
+
+    const handleDragEnd = async (event) => {
+        const { active, over } = event;
+
+        console.log(active);
+        // Check if a card is dropped over another column
+        if (over && active.id !== over.id) {
+            // Check if the dropped card is in a different column
+            const targetColumnId = over.id; // Assume the target column has the ID of its respective droppable
+            if (targetColumnId !== column._id) {
+
+                const response = await moveCard({ cardId: active.id, columnId: column._id, targetColumnId });
+                console.log(response);
+                if (response) {
+                    // Handle successful move (e.g., update state)
+                    propagateBoard({ columnId: targetColumnId, updatedCards: response.updatedCards, newTitle });
+                }
+            } else {
+                // Move within the same column
+                const oldIndex = cards.findIndex(card => card._id === active.id);
+                const newIndex = cards.findIndex(card => card._id === over.id);
+
+                const reorderedCards = Array.from(cards);
+                const [movedCard] = reorderedCards.splice(oldIndex, 1);
+                reorderedCards.splice(newIndex, 0, movedCard);
+
+                setCards(reorderedCards);
+                propagateBoard({ columnId: column._id, updatedCards: reorderedCards, newTitle });
+            }
+        }
+    };
+
+
+
+
     return (
-        <div ref={setNodeRef}  >
+        <div ref={setNodeRef} >
             {!column ? (<div>Loading...</div>) : (
-                <div  >
+                <div>
                     <CardForm
                         card={selectedCard}
                         isVisible={isCardFormVisible}
@@ -142,6 +175,7 @@ const Column = ({
                                     columnId={column._id}
                                     delCard={handleDelCard}
                                     onCardClick={handleCardSelect}
+                                    onDragEnd={handleDragEnd} // Pass the drag end handler
                                 />
                             ))
                         ) : (

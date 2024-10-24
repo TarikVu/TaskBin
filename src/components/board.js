@@ -10,6 +10,7 @@ const Board = ({
     addCard,
     delCard,
     editCard,
+    moveCard,
     editBoard,
     setBoard,
 }) => {
@@ -50,7 +51,6 @@ const Board = ({
             const [movedColumn] = newColumns.splice(oldIndex, 1);
             newColumns.splice(newIndex, 0, movedColumn);
 
-            console.log("editing");
             editBoard({ columns: newColumns });
         }
     };
@@ -68,6 +68,7 @@ const Board = ({
                         addCard={addCard}
                         delCard={delCard}
                         editCard={editCard}
+                        moveCard={moveCard}
                         propagateBoard={propagateBoard}
                     />
                 </div>

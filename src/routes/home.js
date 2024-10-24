@@ -17,7 +17,8 @@ import {
     reqDeleteCard,
     reqEditCard,
     reqEditColumn,
-    reqEditBoard
+    reqEditBoard,
+    reqMoveCard
 } from '../utils/services';
 
 const Home = () => {
@@ -196,7 +197,6 @@ const Home = () => {
     };
 
     const delCard = async ({ columnId, cardId }) => {
-        console.log("Deleting card:", cardId);
         try {
             const result = await reqDeleteCard({ columnId, cardId });
             if (result.ok) {
@@ -239,7 +239,6 @@ const Home = () => {
 
     const editBoard = async ({ title, description, columns }) => {
         try {
-            console.log(columns);
 
             // Create a payload with only the fields that are defined (not undefined or null)
             const payload = {
@@ -272,7 +271,18 @@ const Home = () => {
         }
     };
 
-
+    const moveCard = async ({ cardId, columnId, targetColumnId }) => {
+        try {
+            const result = await reqMoveCard({ cardId, columnId, targetColumnId });
+            if (result.ok) {
+                return true;
+            } else {
+                setPopup({ visible: true, message: `Server encountered an error updating card ${result.message}` });
+            }
+        } catch (error) {
+            setPopup({ visible: true, message: `Error connecting to the server ${error}` });
+        }
+    };
 
     // Lightweight component to disable UI while loading operations
     const LoadingIndicator = () => {
@@ -324,6 +334,7 @@ const Home = () => {
                     addCard={addCard}
                     delCard={delCard}
                     editCard={editCard}
+                    moveCard={moveCard}
                     editBoard={editBoard}
                     setBoard={setBoard}
                 />

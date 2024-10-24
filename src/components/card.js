@@ -1,31 +1,50 @@
 import '../css/card.css';
 import React from 'react';
+import { useDraggable } from '@dnd-kit/core';
 
 const Card = ({ card, columnId, delCard, onCardClick }) => {
-    // Priority CSS class logic
-    const getPriorityClass = (priority) => {
-        if (priority === 'urgent') return 'urgent-priority';
-        if (priority === 'high') return 'high-priority';
-        if (priority === 'normal') return 'normal-priority';
-        return '';
+    const handleDelete = (e) => {
+        e.stopPropagation(); // Prevent triggering card click event
+        delCard({ columnId, cardId: card._id });
     };
 
+    const handleClick = () =>{
+        onCardClick(card);
+    };
+    const handleEdit = () => {
+        console.log("Edit clicked");
+        // Add your edit logic here
+    };
+
+    const { attributes, listeners, setNodeRef, isDragging } = useDraggable({
+        id: card._id, // Use card ID for the draggable element
+    });
+
     return (
-        <div className="card" onClick={() => onCardClick(card)}> {/* Trigger CardForm visibility and pass card data */}
-            <button
-                className="delete-button"
-                onClick={(e) => {
-                    e.stopPropagation();
-                    delCard({ columnId, cardId: card._id });
-                }}
-            >
-                X
-            </button>
+        <div
+            className={`card ${isDragging ? 'dragging' : ''}`}
+            onClick={handleClick}>
             <h3>{card.title}</h3>
-            <p>{card.text}</p>
-            <span className={`card-priority ${getPriorityClass(card.priority)}`}>
-                {card.priority}
-            </span>
+            <div className="icon-container">
+                <span className="icon edit-icon" onClick={handleEdit}>
+                    &#9998;
+                </span>
+
+                <span className="icon delete-icon" onClick={handleDelete}>
+                    &#128465;
+                </span>
+
+                {/* Make the drag icon the draggable element */}
+                <span
+                    ref={setNodeRef} // Attach the draggable ref to the hamburger icon
+                    className="icon drag-icon"
+                    onClick={(e) => e.stopPropagation()} // Prevent card click event when dragging
+                    {...listeners} // Add drag listeners here
+                    {...attributes} // Add drag attributes here
+                >
+                    &#x2630;
+                </span>
+            </div>
         </div>
     );
 };
