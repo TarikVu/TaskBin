@@ -1,6 +1,6 @@
 import '../css/column.css';
 import React, { useState } from 'react';
-import { useDroppable } from '@dnd-kit/core';
+import { useDraggable, useDroppable } from '@dnd-kit/core';
 import CardForm from '../forms/card-form';
 import Card from './card';
 
@@ -78,11 +78,8 @@ const Column = ({
     const handleDragEnd = async (event) => {
         const { active, over } = event;
 
-        console.log(active);
-        // Check if a card is dropped over another column
         if (over && active.id !== over.id) {
-            // Check if the dropped card is in a different column
-            const targetColumnId = over.id; // Assume the target column has the ID of its respective droppable
+            const targetColumnId = over.id;
             if (targetColumnId !== column._id) {
 
                 const response = await moveCard({ cardId: active.id, columnId: column._id, targetColumnId });
@@ -105,9 +102,38 @@ const Column = ({
             }
         }
     };
+    const DraggableCard = ({ card }) => (
+        <div className="dcolumn">
+            <DragHandle id={card._id} />
+            <div className="column">
+                <Card
+                    key={card._id}
+                    card={card}
+                    columnId={column._id}
+                    delCard={handleDelCard}
+                    onCardClick={handleCardSelect}
+                    onDragEnd={handleDragEnd} // Pass the drag end handler
+                />
+            </div>
+        </div>
+    );
 
+    const DragHandle = ({ id }) => {
+        const { attributes, listeners, setNodeRef, isDragging } = useDraggable({
+            id: id,
+        });
 
-
+        return (
+            <div
+                ref={setNodeRef}
+                className={`drag-handle ${isDragging ? 'dragging' : ''}`}
+                {...listeners}
+                {...attributes}
+            >
+                &#x2630;
+            </div>
+        );
+    };
 
     return (
         <div ref={setNodeRef} >
@@ -169,14 +195,7 @@ const Column = ({
                         {/* Mapping the cards for the column */}
                         {cards.length > 0 ? (
                             cards.map(card => (
-                                <Card
-                                    key={card._id}
-                                    card={card}
-                                    columnId={column._id}
-                                    delCard={handleDelCard}
-                                    onCardClick={handleCardSelect}
-                                    onDragEnd={handleDragEnd} // Pass the drag end handler
-                                />
+                                <DraggableCard key={card._id} card={card} />
                             ))
                         ) : (
                             <div>No cards available</div>
