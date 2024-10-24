@@ -46,13 +46,6 @@
     z-index: 1000; /* Ensure it's above other columns */
 }
 
-/* Drag overlay for transparent copy */
-.drag-overlay {
-    transform: scale(1.05);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-    opacity: 0.8;
-    z-index: 1000;
-}
 
 
 .drag-handle:active {
