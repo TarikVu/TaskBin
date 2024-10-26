@@ -28,7 +28,8 @@ const Board = ({
             return col;
         });
 
-        console.log("columns",updatedColumns);
+        console.log("propagate board with ", updatedColumns);
+
         setBoard(prevBoard => ({
             ...prevBoard,
             columns: updatedColumns,
@@ -41,59 +42,72 @@ const Board = ({
         const card = columns.flatMap(col => col.cards).find((card) => card._id === active.id);
 
         if (column) {
-            setActiveColumn(column); // Handle column drag
+            setActiveColumn(column);
         } else if (card) {
-            setActiveCard(card); // Handle card drag
+            // Add columnId to activeCard state for removal, Card model does not include col id
+            const cardColumn = columns.find((col) => col.cards.some((c) => c._id === card._id));
+            setActiveCard({ ...card, columnId: cardColumn?._id });
         }
     };
 
+
     const handleDragEnd = (event) => {
         const { active, over } = event;
-        //setActiveColumn(null);
-        //setActiveCard(null); 
-      
+
         if (over) {
             const isColumn = columns.find((column) => column._id === over.id);
             const isCard = columns.flatMap(col => col.cards).find((card) => card._id === active.id);
-      
+
             if (isColumn && !isCard) {
                 // Handle column reordering
                 const oldIndex = columns.findIndex((column) => column._id === active.id);
                 const newIndex = columns.findIndex((column) => column._id === over.id);
-      
+
                 const newColumns = columns.slice();
                 const [movedColumn] = newColumns.splice(oldIndex, 1);
                 newColumns.splice(newIndex, 0, movedColumn);
-      
-                editBoard({ columns: newColumns });
+
+                editBoard({ columns: newColumns });  // Update columns
             } else if (isCard) {
                 // Handle card moving logic
-                const newColumnId = over.id; // The column we are dropping the card into
-                const oldColumnId = activeCard.columnId; // The column we are dragging the card from
-      
+                const newColumnId = over.id;
+                const oldColumnId = activeCard.columnId; // NULL CARD dOESNT HOLD COLUMN ID
+                console.log("Active card", activeCard);
+                console.log("old id", oldColumnId);
+
                 if (oldColumnId !== newColumnId) {
-                    // Remove the card from the old column
-                    const updatedOldColumn = columns.find(col => col._id === oldColumnId);
-                    
-                    if (updatedOldColumn && updatedOldColumn.cards) {
-                        const updatedCards = updatedOldColumn.cards.filter(card => card._id !== activeCard._id);
-                        // Update the old column with the remaining cards
-                        propagateBoard({ columnId: oldColumnId, updatedCards, newTitle: updatedOldColumn.title });
-                    }
-      
-                    // Add the card to the new column
-                    const updatedNewColumn = columns.find(col => col._id === newColumnId);
-                    
-                    if (updatedNewColumn && updatedNewColumn.cards) {
-                        const newCards = [...updatedNewColumn.cards, { ...activeCard, columnId: newColumnId }];
-                        // Update the new column with the added card
-                        propagateBoard({ columnId: newColumnId, updatedCards: newCards, newTitle: updatedNewColumn.title });
-                    }
+                    // Create a new copy of the columns array
+                    const updatedColumns = columns.map(column => {
+
+                        if (column._id === oldColumnId) {
+                            // Remove the card from the old column
+                            console.log("removing ");
+                            return {
+                                ...column,
+                                cards: column.cards.filter(card => card._id !== activeCard._id)
+                            };
+                        }
+                        else if (column._id === newColumnId) {
+                            // Add the card to the new column
+                            console.log("Adding ");
+
+                            return {
+                                ...column,
+                                cards: [...column.cards, { ...activeCard, columnId: newColumnId }]
+                            };
+                        }
+                        return column;
+
+                    });
+                    console.log(updatedColumns);
+
+                    // Update the board with the modified columns array
+                    editBoard({ columns: updatedColumns });
                 }
-                
             }
         }
     };
+
 
     const DraggableColumn = ({ column }) => {
         const { setNodeRef } = useDroppable({ id: column._id }); // Make the column a droppable area
