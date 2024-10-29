@@ -106,6 +106,8 @@ const Board = ({
                 }
             }
         }
+        setActiveCard(null);
+        setActiveColumn(null);
     };
 
 
