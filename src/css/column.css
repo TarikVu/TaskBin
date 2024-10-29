@@ -37,19 +37,19 @@
     padding: 5px;
 
 }
+
 /* Highlight dragging column */
 .dcolumn.dragging {
     opacity: 0.5;
     transform: scale(1.05);
     transition: transform 0.2s ease;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-    z-index: 1000; /* Ensure it's above other columns */
+    z-index: 1000;
+    /* Ensure it's above other columns */
 }
 
-
-
 .drag-handle:active {
-    cursor: grabbing ;
+    cursor: grabbing;
 }
 
 .column {
@@ -61,7 +61,7 @@
     background-color: #f4f4f4;
     box-sizing: border-box;
     overflow-y: auto;
-    margin: 0 10px; 
+    margin: 0 10px;
     color: black;
     height: 100%;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
@@ -94,7 +94,7 @@
     text-overflow: ellipsis;
 }
 
-.column_header_button {   
+.column_header_button {
     background-color: #008CBA;
     color: white;
     border: none;
@@ -178,7 +178,7 @@
     flex: 1;
     background-color: var(--primary-button);
     color: white;
-    border: none; 
+    border: none;
     cursor: pointer;
     border-radius: 5px;
     margin: 0 10px;
