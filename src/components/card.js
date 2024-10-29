@@ -36,8 +36,7 @@ const Card = ({ card, columnId, delCard, onCardClick }) => {
 
                 {/* Make the drag icon the draggable element */}
                 <span
-                    ref={setNodeRef} // Attach the draggable ref to the hamburger icon
-                    className="icon drag-icon"
+                    
                     onClick={(e) => e.stopPropagation()} // Prevent card click event when dragging
                     {...listeners} // Add drag listeners here
                     {...attributes} // Add drag attributes here

@@ -14,6 +14,15 @@
     /* Hide overflow if necessary */
 }
 
+.card.dragging {
+    opacity: 0.5;
+    transform: scale(1.05);
+    transition: transform 0.2s ease;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    /* Ensure it's above other cards */
+}
+
 .card h3 {
     font: inherit;
     margin: 0 0 5px 5px;
