@@ -20,13 +20,16 @@ const Board = ({
     const [activeCard, setActiveCard] = useState(null);
 
     // Propagate changes made within a column to the board for rendering with DnD
-    const updateBoard = ({ columnId, updatedCards, newTitle }) => {
+    const propagateBoard = ({ columnId, updatedCards, newTitle }) => {
         const updatedColumns = columns.map(col => {
             if (col._id === columnId) {
                 return { ...col, cards: updatedCards, title: newTitle }; // Update title and cards
             }
             return col;
         });
+
+        console.log("propagate board with ", updatedColumns);
+
         setBoard(prevBoard => ({
             ...prevBoard,
             columns: updatedColumns,
@@ -41,10 +44,12 @@ const Board = ({
         if (column) {
             setActiveColumn(column);
         } else if (card) {
+            // Add columnId to activeCard state for removal, Card model does not include col id
             const cardColumn = columns.find((col) => col.cards.some((c) => c._id === card._id));
             setActiveCard({ ...card, columnId: cardColumn?._id });
         }
     };
+
 
     const handleDragEnd = (event) => {
         const { active, over } = event;
@@ -64,36 +69,48 @@ const Board = ({
 
                 editBoard({ columns: newColumns });  // Update columns
             } else if (isCard) {
+                // Handle card moving logic
                 const newColumnId = over.id;
-                const oldColumnId = activeCard.columnId;
+                const oldColumnId = activeCard.columnId; // NULL CARD dOESNT HOLD COLUMN ID
+                console.log("Active card", activeCard);
+                console.log("old id", oldColumnId);
 
                 if (oldColumnId !== newColumnId) {
+                    // Create a new copy of the columns array
                     const updatedColumns = columns.map(column => {
+
                         if (column._id === oldColumnId) {
+                            // Remove the card from the old column
+                            console.log("removing ");
                             return {
                                 ...column,
                                 cards: column.cards.filter(card => card._id !== activeCard._id)
                             };
                         }
                         else if (column._id === newColumnId) {
+                            // Add the card to the new column
+                            console.log("Adding ");
+
                             return {
                                 ...column,
                                 cards: [...column.cards, { ...activeCard, columnId: newColumnId }]
                             };
                         }
                         return column;
-                    });
 
+                    });
+                    console.log(updatedColumns);
+
+                    // Update the board with the modified columns array
                     editBoard({ columns: updatedColumns });
                 }
             }
         }
-        setActiveCard(null);
-        setActiveColumn(null);
     };
 
+
     const DraggableColumn = ({ column }) => {
-        const { setNodeRef } = useDroppable({ id: column._id });
+        const { setNodeRef } = useDroppable({ id: column._id }); // Make the column a droppable area
 
         return (
             <div className="dcolumn" ref={setNodeRef}>
@@ -107,26 +124,7 @@ const Board = ({
                         delCard={delCard}
                         editCard={editCard}
                         moveCard={moveCard}
-                        updateBoard={updateBoard}
-                    />
-                </div>
-            </div>
-        );
-    };
-
-    const DraggableCard = ({ card, column }) => {
-        const { setNodeRef } = useDroppable({ id: card._id });
-
-        return (
-            <div className="dcard" ref={setNodeRef}>
-                <DragHandle id={card._id} />
-                <div className="card">
-                    <Card
-                        key={card._id}
-                        card={card}
-                        columnId={column._id}
-                        delCard={delCard}
-                        onCardClick={() => { }}
+                        propagateBoard={propagateBoard}
                     />
                 </div>
             </div>
@@ -157,8 +155,12 @@ const Board = ({
                 <h2>{column.title}</h2>
                 <div className="cards">
                     {cards.map(card => (
-                        <DraggableCard
-                            key={card._id} card={card} column={column}
+                        <Card
+                            key={card._id}
+                            card={card}
+                            columnId={column._id}
+                            delCard={delCard}
+                            onCardClick={() => { }}
                         />
                     ))}
                 </div>
@@ -168,9 +170,6 @@ const Board = ({
     };
 
     const Card = ({ card, columnId, delCard, onCardClick }) => {
-        const { attributes, listeners, setNodeRef, isDragging } = useDraggable({
-            id: card._id, // Use card ID for the draggable element
-        });
         const handleDelete = (e) => {
             e.stopPropagation(); // Prevent triggering card click event
             delCard({ columnId, cardId: card._id });
@@ -184,6 +183,10 @@ const Board = ({
             console.log("Edit clicked");
             // Add your edit logic here
         };
+
+        const { attributes, listeners, setNodeRef, isDragging } = useDraggable({
+            id: card._id, // Use card ID for the draggable element
+        });
 
         return (
             <div
@@ -200,10 +203,11 @@ const Board = ({
                         &#128465;
                     </span>
 
+                    {/* Make the drag icon the draggable element */}
                     <span
-                        onClick={(e) => e.stopPropagation()}
-                        {...listeners}
-                        {...attributes}
+                        onClick={(e) => e.stopPropagation()} // Prevent card click event when dragging
+                        {...listeners} // Add drag listeners here
+                        {...attributes} // Add drag attributes here
                     >
                         &#x2630;
                     </span>
@@ -215,17 +219,21 @@ const Board = ({
     return (
         <DndContext onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
             <main className="board">
-                <div className="scroll-table">
-                    {columns.length > 0 ? (
-                        columns.map((column) => (
-                            <DraggableColumn key={column._id} column={column} />
-                        ))
-                    ) : (
-                        <div>No columns</div>
-                    )}
+                <div className="columns_container">
+                    <div className="columns_table">
+                        {columns.length > 0 ? (
+                            columns.map((column) => (
+                                <DraggableColumn key={column._id} column={column} />
+                            ))
+                        ) : (
+                            <div>No columns</div>
+                        )}
+                    </div>
                 </div>
+
+                {/* Drag Overlay to show a transparent copy of the dragged column or card */}
                 <DragOverlay>
-                    <div>
+                    <div className="drag-overlay">
                         {activeColumn ? (
                             <div className='column'>
                                 <Column

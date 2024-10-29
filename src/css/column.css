@@ -12,11 +12,11 @@
 }
 
 .columns_table {
+    flex-wrap: wrap;
+
     display: flex;
     flex-direction: row;
     transform: rotateX(180deg);
-    flex-wrap: wrap;
-
     scrollbar-color: var(--scrollbar-color);
 }
 
@@ -49,6 +49,8 @@
     /* Ensure it's above other columns */
 }
 
+
+
 .drag-handle:active {
     cursor: grabbing;
 }
@@ -57,7 +59,7 @@
     flex: 1;
     position: relative;
     pointer-events: auto;
-    z-index: var(--z-modal);
+    z-index: var(--z-form);
     width: 300px;
     background-color: #f4f4f4;
     box-sizing: border-box;
