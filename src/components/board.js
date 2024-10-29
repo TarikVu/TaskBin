@@ -88,6 +88,8 @@ const Board = ({
                 }
             }
         }
+        setActiveCard(null);
+        setActiveColumn(null);
     };
 
     const DraggableColumn = ({ column }) => {
