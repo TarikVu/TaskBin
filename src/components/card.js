@@ -22,6 +22,7 @@ const Card = ({ card, columnId, delCard, onCardClick }) => {
 
     return (
         <div
+            ref={setNodeRef}
             className={`card ${isDragging ? 'dragging' : ''}`}
             onClick={handleClick}>
             <h3>{card.title}</h3>
@@ -36,7 +37,6 @@ const Card = ({ card, columnId, delCard, onCardClick }) => {
 
                 {/* Make the drag icon the draggable element */}
                 <span
-                    
                     onClick={(e) => e.stopPropagation()} // Prevent card click event when dragging
                     {...listeners} // Add drag listeners here
                     {...attributes} // Add drag attributes here

@@ -1,22 +1,41 @@
 .columns_container {
     display: flex;
-    flex-direction: row;
-    overflow-x: scroll;
-    overflow-y: auto;
+    flex-direction: column;
+    flex-wrap: wrap;
+    gap: 20px; 
+    justify-content: center;
     padding: 10px;
     width: 100%;
     height: calc(100% - 40px);
+    overflow-y: auto;
     box-sizing: border-box;
-    transform: rotateX(180deg);
-    scrollbar-color: var(--scrollbar-color);
 }
+
+.column {
+    flex: 0 0 200px;  /* Fixed width for the column */
+    height: 400px;    /* Fixed height for the column */
+    background-color: #f4f4f4;
+    box-sizing: border-box;
+    color: black;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;  /* Stack children vertically */
+    margin: 10px;
+    overflow: hidden; /* Prevent children from affecting the column size */
+}
+
+.column_content {
+    flex-grow: 1; /* Allow this area to grow and take up available space */
+    overflow-y: auto; /* Enable vertical scrolling */
+    padding: 10px; 
+    box-sizing: border-box; 
+}
+
 
 .columns_table {
     flex-wrap: wrap;
-
     display: flex;
-    flex-direction: row;
-    transform: rotateX(180deg);
+    flex-direction: row; 
     scrollbar-color: var(--scrollbar-color);
 }
 
@@ -36,7 +55,6 @@
     cursor: grab;
     background-color: var(--background-1);
     padding: 5px;
-
 }
 
 /* Highlight dragging column */
@@ -46,73 +64,101 @@
     transition: transform 0.2s ease;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
     z-index: 1000;
-    /* Ensure it's above other columns */
 }
 
-
-
+/* Ensure dragging effect */
 .drag-handle:active {
     cursor: grabbing;
-}
-
-.column {
-    flex: 1;
-    position: relative;
-    pointer-events: auto;
-    z-index: var(--z-form);
-    width: 300px;
-    background-color: #f4f4f4;
-    box-sizing: border-box;
-    overflow-y: auto;
-    margin: 0 10px;
-    color: black;
-    height: 100%;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 .column_header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    top: 0;
-    left: 0;
-    right: 0;
     padding: 10px;
     background-color: var(--background-1);
     height: 40px;
     position: sticky;
+    top: 0;
     z-index: var(--z-form);
+    overflow: hidden; /* Prevent text overflow from affecting column size */
 }
 
 .column_header h1 {
     flex: 1;
-    margin: 0 10px;
+    margin: 0;
     font-size: 20px;
     font-weight: 400;
     color: white;
-    text-align: center;
+    text-align: left;
     font-family: inherit;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
 }
 
+.column_header input {
+    background-color: var(--background-1);
+    color: white;
+    font-size: 20px;
+    font-family: inherit;
+    border: none;
+    border-bottom: 2px solid transparent;
+    outline: none;
+    transition: border-bottom-color 0.3s ease;
+    width: 60%; 
+    max-width: 500px; 
+    overflow: hidden; /* Prevent input overflow from affecting column size */
+    white-space: nowrap; 
+    text-overflow: ellipsis; 
+}
+
+ 
+.column_header .header-buttons {
+    display: flex;
+    gap: 8px;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.column_header:hover .header-buttons {
+    opacity: 1;
+}
 .column_header_button {
-    background-color: #008CBA;
+    background-color: var(--background-1);
     color: white;
     border: none;
-    padding: 6px 12px;
+    padding: 6px;
     cursor: pointer;
-    border-radius: 5px;
+    border-radius: 3px;
+    font-size: 14px;
 }
 
-.column button:hover {
-    background-color: var(--primary-button-hover);
+.column_header_button_drag {
+    background-color: var(--background-1);
+    color: white;
+    border: none;
+    padding: 6px;
+    cursor: grab;
+    border-radius: 3px;
+    font-size: 14px;
 }
 
-.column button:active {
-    background-color: var(--primary-button-click);
+.column_header_button:hover {
+    background-color: var(--background-1-hover);
+} 
+
+.drag-handle:hover {
+    cursor: grab;
+    background-color: var(--background-1);
+    padding: 6px;
+    font-size: 14px;
 }
+
+.drag_handle:active {
+    cursor: grabbing;
+}
+ 
 
 
 .column_title_form_input {

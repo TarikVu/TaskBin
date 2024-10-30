@@ -240,16 +240,18 @@ const Home = () => {
     const editBoard = async ({ title, description, columns }) => {
         try {
 
+            console.log('edit board');
             // Create a payload with only the fields that are defined (not undefined or null)
             const payload = {
-                ...(title && { title }),         // Include 'title' if it's defined
-                ...(description && { description }), // Include 'description' if it's defined
-                ...(columns && { columns })      // Include 'columns' if it's defined
+                ...(title && { title }),         
+                ...(description && { description }), 
+                ...(columns && { columns })      
             };
 
             const result = await reqEditBoard({ boardId: board._id, ...payload });
 
             if (result.ok) {
+                console.log('result ok');
                 setBoard(prevBoard => ({
                     ...prevBoard,
                     ...(title && { title }),
@@ -325,8 +327,9 @@ const Home = () => {
                 addColumn={addColumn}
                 delBoard={delBoard}
                 editBoard={editBoard}
-            />
-            <DndContext> {/* Just wrap the Board component */}
+            /> 
+
+            <DndContext>  
                 <Board
                     board={board}
                     delColumn={delColumn}

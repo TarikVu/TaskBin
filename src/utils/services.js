@@ -151,7 +151,6 @@ const reqEditColumn = async ({ columnId, title }) => {
 };
 
 const reqEditBoard = async ({ boardId, title, description, columns }) => {
-
     const response = await fetch(`http://localhost:5000/boards/${boardId}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
@@ -161,7 +160,11 @@ const reqEditBoard = async ({ boardId, title, description, columns }) => {
 };
 
 const reqMoveCard = async ({ cardId, columnId, targetColumnId }) => {
-    const response = await fetch(`http://localhost:5000/columns/move`, {
+     
+    console.log(cardId);
+    console.log(columnId);
+    console.log(targetColumnId);
+    const response = await fetch(`http://localhost:5000/move `, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ cardId, columnId, targetColumnId })

@@ -1,6 +1,6 @@
 import '../css/column.css';
 import React, { useState } from 'react';
-import { useDraggable, useDroppable } from '@dnd-kit/core';
+import { useDraggable} from '@dnd-kit/core';
 import CardForm from '../forms/card-form';
 import Card from './card';
 
@@ -73,70 +73,14 @@ const Column = ({
         setIsEditing(false);
     };
 
-    const { setNodeRef } = useDroppable({ id: column._id });
+    const { attributes, listeners, setNodeRef } = useDraggable({
+        id: column._id,
+    });
 
-    const handleDragEnd = async (event) => {
-        const { active, over } = event;
 
-        if (over && active.id !== over.id) {
-            const targetColumnId = over.id;
-            if (targetColumnId !== column._id) {
-
-                const response = await moveCard({ cardId: active.id, columnId: column._id, targetColumnId });
-                console.log(response);
-                if (response) {
-                    // Handle successful move (e.g., update state)
-                    propagateBoard({ columnId: targetColumnId, updatedCards: response.updatedCards, newTitle });
-                }
-            } else {
-                // Move within the same column
-                const oldIndex = cards.findIndex(card => card._id === active.id);
-                const newIndex = cards.findIndex(card => card._id === over.id);
-
-                const reorderedCards = Array.from(cards);
-                const [movedCard] = reorderedCards.splice(oldIndex, 1);
-                reorderedCards.splice(newIndex, 0, movedCard);
-
-                setCards(reorderedCards);
-                propagateBoard({ columnId: column._id, updatedCards: reorderedCards, newTitle });
-            }
-        }
-    };
-    const DraggableCard = ({ card }) => (
-        <div className="dcolumn">
-            <DragHandle id={card._id} />
-            <div className="column">
-                <Card
-                    key={card._id}
-                    card={card}
-                    columnId={column._id}
-                    delCard={handleDelCard}
-                    onCardClick={handleCardSelect}
-                    onDragEnd={handleDragEnd} // Pass the drag end handler
-                />
-            </div>
-        </div>
-    );
-
-    const DragHandle = ({ id }) => {
-        const { attributes, listeners, setNodeRef, isDragging } = useDraggable({
-            id: id,
-        });
-
-        return (
-            <div
-                ref={setNodeRef}
-                className={`drag-handle ${isDragging ? 'dragging' : ''}`}
-                {...listeners}
-                {...attributes}
-            >
-                &#x2630;
-            </div>
-        );
-    };
 
     return (
-        <div ref={setNodeRef} >
+        <div ref={setNodeRef}>
             {!column ? (<div>Loading...</div>) : (
                 <div>
                     <CardForm
@@ -151,51 +95,55 @@ const Column = ({
                         columnId={column._id}
                     />
                     <div className="column_header">
-                        {/* Delete Column Button */}
-                        {!isEditing && (
-                            <button
-                                className='column_header_button'
-                                onClick={() => delColumn({ columnId: column._id })}>
-                                &#x1F5D9;
-                            </button>
-                        )}
-
-                        {/* Title Box */}
                         {isEditing ? (
-                            <form
-                                className="column_title_form"
-                                onSubmit={handleSetTitle}>
-                                <input
-                                    className='column_title_form_input'
-                                    type="text"
-                                    maxLength={20}
-                                    value={newTitle}
-                                    onChange={(e) => setNewTitle(e.target.value)}
-                                    onBlur={handleSetTitle}  // Save on blur
-                                    autoFocus
-                                    required
-                                />
-                            </form>
+                            <input
+                                type="text"
+                                value={newTitle}
+                                onChange={(e) => setNewTitle(e.target.value)}
+                                onBlur={handleSetTitle}
+                                onKeyDown={(e) => {
+                                    if (e.key === 'Enter') handleSetTitle();
+                                }}
+                                autoFocus
+                                className="column_title_input" // Add CSS as needed for styling
+                            />
                         ) : (
                             <h1 onClick={() => setIsEditing(true)}>{newTitle}</h1>
                         )}
-
-                        {/* Add card Button */}
-                        {!isEditing && (
+ 
+                        <div className="header-buttons">
                             <button
-                                className='column_header_button'
+                                className="column_header_button"
                                 onClick={() => setIsCardFormVisible(true)}>
-                                add card
+                                +
                             </button>
-                        )}
+                            
+                            <button
+                                className="column_header_button"
+                                onClick={() => delColumn({ columnId: column._id })}>
+                                &#x1F5D9;
+                            </button>
+                            <div
+                                className="column_header_button_drag"
+                                onClick={(e) => e.stopPropagation()}
+                                {...listeners}
+                                {...attributes}>
+                                &#x2630;
+                            </div>
+                            
+                        </div>
                     </div>
 
-                    {/* New content container */}
                     <div className="column_content">
-                        {/* Mapping the cards for the column */}
                         {cards.length > 0 ? (
                             cards.map(card => (
-                                <DraggableCard key={card._id} card={card} />
+                                <Card
+                                    key={card._id}
+                                    card={card}
+                                    columnId={column._id}
+                                    delCard={handleDelCard}
+                                    onCardClick={() => {}}
+                                />
                             ))
                         ) : (
                             <div>No cards available</div>

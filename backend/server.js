@@ -219,6 +219,7 @@ app.post('/cards', async (req, res) => {
 
 // Delete a Board
 app.delete('/boards/:boardId', async (req, res) => {
+    console.log('deleting board');
     const { boardId } = req.params;
     try {
         const board = await Board.findById(boardId).populate('columns');
@@ -348,13 +349,14 @@ app.patch('/boards/:boardId', async (req, res) => {
         ...(description && { description }),
         ...(columns && { columns })
     };
-
     try {
         const updatedBoard = await Board.findByIdAndUpdate(
             boardId,
             updateFields,  // Update with only defined fields
             { new: true, runValidators: true }
         );
+        console.log(updatedBoard);
+
 
         if (!updatedBoard) {
             return res.status(404).json({ message: 'Board not found' });
@@ -368,28 +370,21 @@ app.patch('/boards/:boardId', async (req, res) => {
 });
 
 // Move a card to a new column
-app.patch('/columns/move', async (req, res) => {
+app.patch('/move', async (req, res) => {
     const { cardId, columnId, targetColumnId } = req.body;
 
-    console.log("Card", cardId);
-    console.log("column", columnId);
-    console.log("target", targetColumnId);
-    try {
-        // Find the card to move
+     try {
         const card = await Card.findById(cardId);
         if (!card) {
             return res.status(404).json({ message: 'Card not found' });
         }
-
-        // Remove and add from old and new cols
         await Column.findByIdAndUpdate(columnId, { $pull: { cards: cardId } });
         await Column.findByIdAndUpdate(targetColumnId, { $addToSet: { cards: cardId } });
-
         res.status(200).json({ message: 'Card moved successfully' });
     } catch (error) {
         console.error('Error moving card', error);
         res.status(500).json({ message: 'Internal server error' });
-    }
+    } 
 });
 
 
