@@ -31,24 +31,23 @@ const ControlBar = ({
     onBoardSelect({ boardId: selectedBoardId });
   };
 
-  // Send the request to update the board only on blur
   const handleBlur = () => {
     editBoard({ title, description });
   };
-
 
   return (
     <div className="control-bar">
       <div className='title-description'>
         {selectedBoard._id ? (
-          <>
+          <> 
             <input
-              value={title}
+              value={ title}
               type="text"
               onChange={(e) => setTitle(e.target.value)}
               onBlur={handleBlur}
               maxLength={50}
             />
+
             <textarea
               value={description}
               onChange={(e) => setDescription(e.target.value)}
@@ -106,7 +105,6 @@ const ControlBar = ({
             
           )}
         </div>
-
       </div>
     </div >
   );

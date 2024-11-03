@@ -239,9 +239,7 @@ const Home = () => {
 
     const editBoard = async ({ title, description, columns }) => {
         try {
-
-            console.log('edit board');
-            // Create a payload with only the fields that are defined (not undefined or null)
+ 
             const payload = {
                 ...(title && { title }),         
                 ...(description && { description }), 
@@ -250,8 +248,7 @@ const Home = () => {
 
             const result = await reqEditBoard({ boardId: board._id, ...payload });
 
-            if (result.ok) {
-                console.log('result ok');
+            if (result.ok) { 
                 setBoard(prevBoard => ({
                     ...prevBoard,
                     ...(title && { title }),

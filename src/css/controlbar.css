@@ -7,9 +7,10 @@
     position: relative;
 }
 
-.control-bar .title-description p{
-    color:white;
+.control-bar .title-description p {
+    color: white;
 }
+
 .control-bar::after {
     content: '';
     position: absolute;
@@ -42,28 +43,25 @@
     border: none;
     font-size: 20px;
     background-color: var(--background);
-    color:white;
+    color: white;
     margin-bottom: 10px;
 }
 
 .control-bar input:focus {
     border: 1px solid var(--border);
     background-color: var(--background);
-
 }
 
 .control-bar textarea {
     padding: 5px;
-    height: 100%; 
-    outline: none; 
-    resize: none;  
+    height: 100%;
+    outline: none;
+    resize: none;
     font: inherit;
     font-size: medium;
     color: white;
     background-color: var(--background-accent);
 }
-
-
 
 .control-bar h1 {
     color: black;
@@ -73,7 +71,6 @@
 .control-bar p {
     color: black
 }
-
 
 .control-bar .controls {
     flex: 1;
@@ -91,8 +88,9 @@
     gap: 5px;
     align-items: stretch;
 }
-.controls p{
-    color:white;
+
+.controls p {
+    color: white;
 }
 
 .controls-select {
@@ -104,7 +102,6 @@
     align-items: center;
     text-align: center;
     margin-bottom: 10px;
-
 }
 
 .control-bar select {
@@ -131,10 +128,11 @@
     border-radius: 4px;
 
 }
+
 .control-bar .delButton {
     padding: 8px 8px;
     border: none;
-    background-color:  var(--del-button);
+    background-color: var(--del-button);
     color: white;
     font-size: 14px;
     cursor: pointer;
@@ -150,6 +148,7 @@
 .control-bar button:active {
     background-color: var(--button-hover);
 }
+
 .control-bar .delButton:hover {
-    background-color:  var(--del-button-hover);
+    background-color: var(--del-button-hover);
 }

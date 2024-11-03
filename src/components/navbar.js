@@ -10,5 +10,4 @@ function NavBar({ onButtonClick }) {
         </nav>
     );
 }
-
 export default NavBar;

@@ -25,7 +25,7 @@
 }
 
 .column:hover {
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Box shadow on hover */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     border: 3px solid rgba(255, 255, 255, 0.3);
 }
 
@@ -114,8 +114,6 @@
     font-size: medium;
 
 } 
- 
-
 
 .column_header .header-buttons {
     display: flex;

@@ -78,7 +78,6 @@ const reqFetchBoard = async ({ boardId, userId }) => {
 // Return the new board data from the server if 
 // POST was successful, otherwise throw an error.
 const reqAddBoard = async ({ title, userId }) => {
-    console.log("Attempting to add Board...");
     const response = await fetch('http://localhost:5000/boards', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -88,7 +87,6 @@ const reqAddBoard = async ({ title, userId }) => {
 };
 
 const reqAddColumn = async ({ boardId, title }) => {
-    console.log("Attempting to add Column...");
     const response = await fetch('http://localhost:5000/columns', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -98,7 +96,6 @@ const reqAddColumn = async ({ boardId, title }) => {
 };
 
 const reqAddCard = async ({ title, text, priority, columnId }) => {
-    console.log("Attempting to add Card...");
     const response = await fetch('http://localhost:5000/cards', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -116,7 +113,6 @@ const reqDeleteBoard = async ({ boardId }) => {
 };
 
 const reqDeleteColumn = async ({ columnId, selectedBoardId: boardId }) => {
-    console.log("delete from: ", boardId);
     const response = await fetch(`http://localhost:5000/boards/${boardId}/columns/${columnId}`, {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' }
@@ -160,10 +156,6 @@ const reqEditBoard = async ({ boardId, title, description, columns }) => {
 };
 
 const reqMoveCard = async ({ cardId, columnId, targetColumnId }) => {
-     
-    console.log(cardId);
-    console.log(columnId);
-    console.log(targetColumnId);
     const response = await fetch(`http://localhost:5000/move `, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },

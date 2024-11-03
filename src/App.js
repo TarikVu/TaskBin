@@ -13,7 +13,7 @@ const App = () => {
           <Route path="/signup" element={<Signup />} />
           <Route path="/home/:userId" element={<Home />} />
           <Route path="/forbidden" element={<Forbidden />} />
-          <Route path="/" element={<Login />} /> {/* Redirect to signup if no specific route */}
+          <Route path="/" element={<Login />} /> 
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Router>

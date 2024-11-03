@@ -20,8 +20,7 @@ const CardForm = ({
     const [title, setTitle] = useState('');
     const [text, setText] = useState('');
     const [priority, setPriority] = useState('normal');
-
-    // Initialize form fields if card is provided
+ 
     useEffect(() => {
         if (card) {
             setTitle(card.title);
@@ -35,12 +34,10 @@ const CardForm = ({
     }, [card]);
 
     const handleSubmit = (event) => {
-        event.preventDefault(); // Prevent default form submission
-        if (card) {
-            // Handled in Column.js for card re-rendering
+        event.preventDefault(); 
+        if (card) { 
             editCard({ title, text, priority, cardId: card._id, columnId });
-        } else {
-            // Goes straight to App.js to be handled
+        } else { 
             addCard({ title, text, priority });
             setTitle('');
             setText('');
@@ -56,11 +53,8 @@ const CardForm = ({
         onClose();
     }
 
-    // Early return if not visible
     if (!isVisible) { return null; }
 
-    // The Card form will be rendered w/ react portal to bypass
-    // it's parent container's constraints.
     return ReactDOM.createPortal(
         <div className="overlay">
             <div className="card-form">
