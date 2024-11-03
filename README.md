@@ -1,6 +1,7 @@
 # TaskBin Kanbanboard (Pre-alpha)
 Preview:
-![prealpha](https://github.com/TarikVu/imgs/blob/main/TaskBin/taskbin_pre-alpha.png?raw=true)
+![prealpha](https://raw.githubusercontent.com/TarikVu/imgs/refs/heads/main/TaskBin/taskbin_pre-alpha.png)
+
 ## Table of Contents:
 1. [Database Schema](#dbs)
 1. [Design choices](#design)
