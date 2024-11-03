@@ -1,17 +1,13 @@
 .card {
     position: relative;
-    background-color: darkslategrey;
-    margin: 5px 10px;
+    background-color: var(--card);
+    margin: 5px;
     color: white;
     border-radius: 5px;
     white-space: normal;
     padding: 8px;
-    /* Adjust as needed */
-    cursor: pointer;
     max-height: 150px;
-    /* Adjust as needed */
     overflow: hidden;
-    /* Hide overflow if necessary */
 }
 
 .card.dragging {
@@ -44,16 +40,88 @@
     bottom: 10px;
 }
 
+.icon::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    right: 0;
+    height: .5px;
+    background-color: lightgrey;
+}
+
 .card:hover .icon-container {
     display: flex;
     gap: 5px;
 }
 
 .icon {
+    background: none;
+    border: none;
     cursor: pointer;
     color: white;
     font-size: 1.2em;
+    /* Adjust as needed */
+    border-radius: 4px;
+    /* Optional: Add rounded corners */
+    transition: background-color 0.2s ease;
+    /* Smooth background color transition */
 }
+
+.icon:focus {
+    outline: none;
+}
+
+.icon-del {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: white;
+    font-size: 1.2em;
+    /* Adjust as needed */
+    border-radius: 4px;
+    /* Optional: Add rounded corners */
+    transition: background-color 0.2s ease;
+    /* Smooth background color transition */
+}
+
+.icon-del:focus {
+    outline: none;
+}
+.icon:hover {
+    background-color: var(--primary-button-hover);
+    color: white;
+}
+
+.icon-del:hover {
+    background-color: #E03C31;;
+    color: white;
+}
+
+
+.drag-icon {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: white;
+    font-size: 1.2em;
+    /* Adjust as needed */
+    border-radius: 4px;
+    /* Optional: Add rounded corners */
+    transition: background-color 0.2s ease;
+    /* Smooth background color transition */
+}
+
+
+
+.drag-icon:hover {
+    color: white;
+    /* Keep icon color white */
+    cursor: grab;
+
+}
+
+
 
 .delete-button {
     position: absolute;
@@ -122,18 +190,24 @@
     width: calc(100% - 16px);
     height: fit-content;
     padding: 8px;
-    margin-top: 4px;
-    box-sizing: border-box;
+    margin-top: 4px; 
     font-family: inherit;
+    color:white;
+    background-color: var(--background-body);
+    border: none;
 }
 
 .card-form-textarea {
+    border: none;
+
+    background-color: var(--background-body);
+    color: white;
     width: calc(100% - 16px);
     height: 200px;
     padding: 8px;
-    margin-top: 4px;
-    box-sizing: border-box;
+    margin-top: 4px; 
     font-family: inherit;
+    resize: none;
 }
 
 

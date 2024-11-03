@@ -133,22 +133,20 @@ const Board = ({
     return (
         <DndContext onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
             <main className="board">
-                <div className="columns_container">
-                    <div className="columns_table">
+                <div className="columns_container"> 
                         {columns.length > 0 ? (
                             columns.map((column) => (
                                 <ColumnDropArea key={column._id} column={column} />
                             ))
                         ) : (
                             <div>No columns</div>
-                        )}
-                    </div>
+                        )} 
                 </div>
 
                 <DragOverlay>
                     <div className="drag-overlay">
                         {activeColumn ? (
-                            <div className='column'>
+                            <div className='column-overlay'>
                                 <Column
                                     column={activeColumn}
                                     delColumn={delColumn}
@@ -159,7 +157,7 @@ const Board = ({
                                 />
                             </div>
                         ) : activeCard ? (
-                            <div className='card'>
+                            <div className='card-overlay'>
                                 <Card
                                     card={activeCard}
                                     columnId={activeCard.columnId}

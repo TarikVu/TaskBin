@@ -1,52 +1,54 @@
 .columns_container {
+    margin-top: 10px;
     display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    gap: 20px; 
-    justify-content: center;
-    padding: 10px;
+    flex-direction: row;
+    flex-wrap: wrap; 
+    justify-content: center; 
     width: 100%;
     height: calc(100% - 40px);
     overflow-y: auto;
     box-sizing: border-box;
+    background-color: var(--background-body);
 }
 
 .column {
-    flex: 0 0 200px;  /* Fixed width for the column */
-    height: 400px;    /* Fixed height for the column */
-    background-color: #f4f4f4;
+    flex: 0 0 200px; 
+    height: 400px; 
+    background-color: var(--column-body);
     box-sizing: border-box;
+    color: black; 
+    display: flex;
+    flex-direction: column; 
+    margin: 10px;
+    overflow: hidden; 
+    border-radius:6px;
+    border: 2px solid rgba(3, 3, 3, 0.3);
+
+}
+.column:hover {
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Box shadow on hover */
+    border: 3px solid rgba(255, 255, 255, 0.3);
+}
+
+.column-overlay {
+    flex: 0 0 200px; 
+    height: 400px; 
+    background-color: var(--column-body); 
     color: black;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     display: flex;
-    flex-direction: column;  /* Stack children vertically */
+    flex-direction: column; 
     margin: 10px;
-    overflow: hidden; /* Prevent children from affecting the column size */
+    overflow: hidden; 
+    border-radius:6px; 
 }
 
 .column_content {
-    flex-grow: 1; /* Allow this area to grow and take up available space */
-    overflow-y: auto; /* Enable vertical scrolling */
-    padding: 10px; 
-    box-sizing: border-box; 
+    flex-grow: 1; 
+    overflow-y: auto; 
 }
 
-
-.columns_table {
-    flex-wrap: wrap;
-    display: flex;
-    flex-direction: row; 
-    scrollbar-color: var(--scrollbar-color);
-}
-
-.dcolumn {
-    position: relative;
-    display: flex;
-    align-items: center;
-    padding-top: 40px;
-    flex-direction: row;
-}
-
+ 
 .drag-handle {
     position: absolute;
     top: 10px;
@@ -57,16 +59,14 @@
     padding: 5px;
 }
 
-/* Highlight dragging column */
 .dcolumn.dragging {
     opacity: 0.5;
     transform: scale(1.05);
     transition: transform 0.2s ease;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-    z-index: 1000;
+    z-index: var(--z-overlay);
 }
 
-/* Ensure dragging effect */
 .drag-handle:active {
     cursor: grabbing;
 }
@@ -76,13 +76,14 @@
     align-items: center;
     justify-content: space-between;
     padding: 10px;
-    background-color: var(--background-1);
-    height: 40px;
-    position: sticky;
+    background-color: var(--background-header);
+    height: 40px; 
     top: 0;
-    z-index: var(--z-form);
-    overflow: hidden; /* Prevent text overflow from affecting column size */
+    z-index: var(--z-modal);
+    overflow: hidden;  
+
 }
+
 
 .column_header h1 {
     flex: 1;
@@ -103,17 +104,19 @@
     font-size: 20px;
     font-family: inherit;
     border: none;
-    border-bottom: 2px solid transparent;
+    border-bottom: 1.5px solid lightgrey; 
     outline: none;
-    transition: border-bottom-color 0.3s ease;
-    width: 60%; 
-    max-width: 500px; 
-    overflow: hidden; /* Prevent input overflow from affecting column size */
-    white-space: nowrap; 
-    text-overflow: ellipsis; 
-}
-
+    transition: border-bottom-color 0.3s ease; 
+    width: 60%;
+    max-width: 500px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    cursor: text;
+} 
  
+
+
 .column_header .header-buttons {
     display: flex;
     gap: 8px;
@@ -124,7 +127,17 @@
 .column_header:hover .header-buttons {
     opacity: 1;
 }
+
 .column_header_button {
+    background-color: var(--background-1);
+    color: white;
+    border: none;
+    padding: 6px;
+    cursor: pointer;
+    border-radius: 3px;
+    font-size: 14px;
+}
+.column_header_delbutton {
     background-color: var(--background-1);
     color: white;
     border: none;
@@ -145,8 +158,11 @@
 }
 
 .column_header_button:hover {
-    background-color: var(--background-1-hover);
-} 
+    background-color: var(--primary-button-hover);
+}
+.column_header_delbutton:hover {
+    background-color:#E03C31;
+}
 
 .drag-handle:hover {
     cursor: grab;
@@ -158,7 +174,7 @@
 .drag_handle:active {
     cursor: grabbing;
 }
- 
+
 
 
 .column_title_form_input {

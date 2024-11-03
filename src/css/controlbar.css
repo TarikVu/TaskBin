@@ -1,10 +1,24 @@
 .control-bar {
     display: flex;
     padding-top: 20px;
-    background-color: var(--background-2);
+    background-color: var(--background-1);
     width: 100%;
     max-height: 150px;
     position: relative;
+}
+
+
+.control-bar::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    margin-left: 30px;
+    margin-right: 30px;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background-color: gray;
+    color: black;
 }
 
 .control-bar .title-description {
@@ -22,31 +36,31 @@
 
 .control-bar input {
     text-align: center;
+    outline: none;
     border: none;
     font-size: 20px;
-    background-color: transparent;
+    background-color: var(--background-1);
+    color:white;
     margin-bottom: 10px;
 }
 
 .control-bar input:focus {
     border: 1px solid var(--border);
-    background-color: white;
+    background-color: var(--background-1);
+
 }
 
 .control-bar textarea {
     padding: 5px;
-    overflow-y: scroll;
-    height: 1000%;
-    border: var(--border);
-    scrollbar-color: var(--scrollbar-color);
-    resize: none;
+    height: 100%; 
+    outline: none; 
+    resize: none;  
     font: inherit;
-    font-size: small;
+    font-size: medium;
+    color: white;
+    background-color: var(--background-body);
 }
 
-.control-bar textarea:focus {
-    border: 1px solid var(--border);
-}
 
 
 .control-bar h1 {
@@ -73,6 +87,9 @@
     flex-direction: row;
     gap: 5px;
     align-items: stretch;
+}
+.controls p{
+    color:white;
 }
 
 .controls-select {

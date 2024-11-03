@@ -12,12 +12,17 @@
 
   /* Reused colors for consistent theming */
   --border: 1px solid #ddd;
-  --background-1: #333;
+  --background-1: #222831;
+  --background-body: #31363F;
+  --background-header:#222831;
+  --background-body-2:#EEEEEE;
   --background-2: #f4f4f4;
   --background-1-hover: #666;
 
+  --column-body:#454A52;
   --scrollbar-color: #333 #ddd;
-  --primary-button: #008CBA;
+  --primary-button: #76ABAE;
+  --card:#76ABAE;
   --primary-button-hover: #00aaff;
   --primary-button-click: #006f8c;
 
@@ -26,7 +31,7 @@
   --z-form: 2000;
   --z-overlay: 3000;
 }
- 
+
 
 * {
   margin: 0;

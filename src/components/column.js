@@ -1,6 +1,6 @@
 import '../css/column.css';
 import React, { useState } from 'react';
-import { useDraggable} from '@dnd-kit/core';
+import { useDraggable } from '@dnd-kit/core';
 import CardForm from '../forms/card-form';
 import Card from './card';
 
@@ -95,7 +95,9 @@ const Column = ({
                         columnId={column._id}
                     />
                     <div className="column_header">
+                        
                         {isEditing ? (
+                            
                             <input
                                 type="text"
                                 value={newTitle}
@@ -107,30 +109,34 @@ const Column = ({
                                 autoFocus
                                 className="column_title_input" // Add CSS as needed for styling
                             />
-                        ) : (
+                        ) : 
+                        (
                             <h1 onClick={() => setIsEditing(true)}>{newTitle}</h1>
                         )}
- 
+
                         <div className="header-buttons">
-                            <button
-                                className="column_header_button"
-                                onClick={() => setIsCardFormVisible(true)}>
-                                +
-                            </button>
-                            
-                            <button
-                                className="column_header_button"
-                                onClick={() => delColumn({ columnId: column._id })}>
-                                &#x1F5D9;
-                            </button>
-                            <div
+                        <div
                                 className="column_header_button_drag"
                                 onClick={(e) => e.stopPropagation()}
                                 {...listeners}
                                 {...attributes}>
                                 &#x2630;
                             </div>
+                            <button
+                                className="column_header_button"
+                                onClick={() => setIsCardFormVisible(true)}>
+                                +
+                            </button>
+
                             
+                           
+
+                            <button
+                                className="column_header_delbutton"
+                                onClick={() => delColumn({ columnId: column._id })}>
+                                &#x1F5D9;
+                            </button>
+
                         </div>
                     </div>
 
@@ -142,11 +148,14 @@ const Column = ({
                                     card={card}
                                     columnId={column._id}
                                     delCard={handleDelCard}
-                                    onCardClick={() => {}}
+                                    editCard={() => {
+                                        setSelectedCard(card);
+                                        setIsCardFormVisible(true);
+                                    }}
                                 />
                             ))
                         ) : (
-                            <div>No cards available</div>
+                            <div></div>
                         )}
                     </div>
                 </div>
