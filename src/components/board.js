@@ -113,9 +113,7 @@ const Board = ({
 
     const ColumnDropArea = ({ column }) => {
         const { setNodeRef } = useDroppable({ id: column._id }); // Make the column a droppable area
-
         return (
-
             <div className="column" ref={setNodeRef}>
                 <Column
                     column={column}

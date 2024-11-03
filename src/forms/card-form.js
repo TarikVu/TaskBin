@@ -20,7 +20,7 @@ const CardForm = ({
     const [title, setTitle] = useState('');
     const [text, setText] = useState('');
     const [priority, setPriority] = useState('normal');
- 
+
     useEffect(() => {
         if (card) {
             setTitle(card.title);
@@ -34,10 +34,10 @@ const CardForm = ({
     }, [card]);
 
     const handleSubmit = (event) => {
-        event.preventDefault(); 
-        if (card) { 
+        event.preventDefault();
+        if (card) {
             editCard({ title, text, priority, cardId: card._id, columnId });
-        } else { 
+        } else {
             addCard({ title, text, priority });
             setTitle('');
             setText('');
@@ -92,8 +92,8 @@ const CardForm = ({
                         </select>
                     </label>
                     <div className="button-group">
-                        <button type="submit">{card ? 'Save Changes' : 'Add Card'}</button>
                         <button type="button" onClick={handleOnClose}>Cancel</button>
+                        <button type="submit">{card ? 'Save Changes' : 'Add Card'}</button>
                     </div>
                 </form>
             </div>

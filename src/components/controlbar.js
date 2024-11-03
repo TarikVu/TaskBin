@@ -19,7 +19,7 @@ const ControlBar = ({
   const [isColumnFormVisible, setIsColumnFormVisible] = useState(false);
   const [title, setTitle] = useState(boardTitle);
   const [description, setDescription] = useState(boardDesc);
-
+  const [showConfirmDelete, setShowConfirmDelete] = useState(false); // Confirmation popup state
   // Sync title and description with props when the board changes
   useEffect(() => {
     setTitle(boardTitle);
@@ -34,14 +34,18 @@ const ControlBar = ({
   const handleBlur = () => {
     editBoard({ title, description });
   };
-
+  const confirmDeleteBoard = () => {
+    // If confirmed, delete the board
+    delBoard({ boardId: selectedBoard._id });
+    setShowConfirmDelete(false); // Hide the confirmation popup
+  };
   return (
     <div className="control-bar">
       <div className='title-description'>
         {selectedBoard._id ? (
-          <> 
+          <>
             <input
-              value={ title}
+              value={title}
               type="text"
               onChange={(e) => setTitle(e.target.value)}
               onBlur={handleBlur}
@@ -63,7 +67,7 @@ const ControlBar = ({
 
       <div className='controls'>
         <div className='controls-select'>
-          <p>Select a board</p>
+          <p>Select a Board</p>
           <select onChange={handleBoardChange} value={selectedBoard?._id || ''}>
             {allBoards.length > 0 ? (
               allBoards.map(board => (
@@ -99,13 +103,24 @@ const ControlBar = ({
             </button>
           )}
           {allBoards.length > 0 && (
-            <button className='delButton' onClick={() => delBoard({ boardId: selectedBoard._id })}>
+            <button className='delButton' onClick={() => setShowConfirmDelete(true)}>
               Delete Board
             </button>
-            
+
           )}
         </div>
       </div>
+      {showConfirmDelete && (
+        <div className='overlay'>
+          <div className="confirm-popup">
+            <h>Delete this Board?</h>
+            <div className="confirm-popup-buttons">
+              <button onClick={() => setShowConfirmDelete(false)}>Cancel</button>
+              <button className='confirm-yes' onClick={confirmDeleteBoard}>Confirm</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div >
   );
 };

@@ -12,13 +12,14 @@ const Column = ({
     delCard,
     editCard,
     propagateBoard,
-    
+
 }) => {
     const [isCardFormVisible, setIsCardFormVisible] = useState(false);
     const [cards, setCards] = useState(column.cards);
     const [selectedCard, setSelectedCard] = useState(null);
     const [isEditing, setIsEditing] = useState(false);
     const [newTitle, setNewTitle] = useState(column.title);
+    const [showConfirmDelete, setShowConfirmDelete] = useState(false); // Confirmation popup state
 
     const handleAddCard = async ({ title, text, priority }) => {
         const newCard = await addCard({ title, text, priority, columnId: column._id });
@@ -71,7 +72,11 @@ const Column = ({
     });
 
 
-
+    const confirmDeleteColumn = () => {
+        // If confirmed, delete the board
+        delColumn({ columnId: column._id });
+        setShowConfirmDelete(false); // Hide the confirmation popup
+    };
     return (
         <div ref={setNodeRef}>
             {!column ? (<div>Loading...</div>) : (
@@ -121,7 +126,7 @@ const Column = ({
                             </button>
                             <button
                                 className="column_header_delbutton"
-                                onClick={() => delColumn({ columnId: column._id })}>
+                                onClick={() => setShowConfirmDelete(true)}>
                                 &#x1F5D9;
                             </button>
 
@@ -148,7 +153,22 @@ const Column = ({
                     </div>
                 </div>
             )}
+
+            {showConfirmDelete && (
+                <div className='column'>
+                    <div className='overlay'>
+                        <div className="confirm-popup">
+                            <h>Delete this Column?</h>
+                            <div className="confirm-popup-buttons">
+                                <button onClick={() => setShowConfirmDelete(false)}>Cancel</button>
+                                <button className='confirm-yes' onClick={confirmDeleteColumn}>Confirm</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
+
     );
 };
 
