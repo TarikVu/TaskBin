@@ -12,20 +12,13 @@ const Column = ({
     delCard,
     editCard,
     propagateBoard,
-    moveCard
+    
 }) => {
     const [isCardFormVisible, setIsCardFormVisible] = useState(false);
     const [cards, setCards] = useState(column.cards);
     const [selectedCard, setSelectedCard] = useState(null);
     const [isEditing, setIsEditing] = useState(false);
     const [newTitle, setNewTitle] = useState(column.title);
-
-
-
-    const handleCardSelect = (card) => {
-        setSelectedCard(card);
-        setIsCardFormVisible(true);
-    };
 
     const handleAddCard = async ({ title, text, priority }) => {
         const newCard = await addCard({ title, text, priority, columnId: column._id });
@@ -95,9 +88,8 @@ const Column = ({
                         columnId={column._id}
                     />
                     <div className="column_header">
-                        
+
                         {isEditing ? (
-                            
                             <input
                                 type="text"
                                 value={newTitle}
@@ -107,15 +99,15 @@ const Column = ({
                                     if (e.key === 'Enter') handleSetTitle();
                                 }}
                                 autoFocus
-                                className="column_title_input" // Add CSS as needed for styling
+                                className="column_title_input"
                             />
-                        ) : 
-                        (
-                            <h1 onClick={() => setIsEditing(true)}>{newTitle}</h1>
-                        )}
+                        ) :
+                            (
+                                <h1 onClick={() => setIsEditing(true)}>{newTitle}</h1>
+                            )}
 
                         <div className="header-buttons">
-                        <div
+                            <div
                                 className="column_header_button_drag"
                                 onClick={(e) => e.stopPropagation()}
                                 {...listeners}
@@ -127,10 +119,6 @@ const Column = ({
                                 onClick={() => setIsCardFormVisible(true)}>
                                 +
                             </button>
-
-                            
-                           
-
                             <button
                                 className="column_header_delbutton"
                                 onClick={() => delColumn({ columnId: column._id })}>

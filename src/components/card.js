@@ -8,33 +8,24 @@ const Card = ({ card, columnId, delCard, editCard }) => {
         delCard({ columnId, cardId: card._id });
     };
 
-    const handleEdit = () => {
-        console.log("Edit clicked");
-        editCard();
-    };
-
     const { attributes, listeners, setNodeRef, isDragging } = useDraggable({
-        id: card._id, // Use card ID for the draggable element
+        id: card._id,  
     });
 
     return (
         <div
             ref={setNodeRef}
             className={`card ${isDragging ? 'dragging' : ''}`}
-        /* onClick={handleClick} */
         >
             <h3>{card.title}</h3>
             <div className="icon-container">
 
 
-
-
-                {/* Make the drag icon the draggable element */}
                 <button
                     className="drag-icon"
-                    onClick={(e) => e.stopPropagation()} // Prevent card click event when dragging
-                    {...listeners} // Add drag listeners here
-                    {...attributes} // Add drag attributes here
+                    onClick={(e) => e.stopPropagation()}
+                    {...listeners}
+                    {...attributes}
                     aria-label="Drag Card"
                 >
                     &#x2630;

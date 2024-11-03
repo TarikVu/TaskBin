@@ -139,7 +139,7 @@ const Board = ({
                                 <ColumnDropArea key={column._id} column={column} />
                             ))
                         ) : (
-                            <div>No columns</div>
+                            <div></div>
                         )} 
                 </div>
 
@@ -149,19 +149,19 @@ const Board = ({
                             <div className='column-overlay'>
                                 <Column
                                     column={activeColumn}
-                                    delColumn={delColumn}
-                                    editColumn={editColumn}
-                                    addCard={addCard}
-                                    delCard={delCard}
-                                    editCard={editCard}
+                                    delColumn={() => { }}
+                                    editColumn={() => { }}
+                                    addCard={() => { }}
+                                    delCard={() => { }}
+                                    editCard={() => { }}
                                 />
                             </div>
                         ) : activeCard ? (
                             <div className='card-overlay'>
                                 <Card
                                     card={activeCard}
-                                    columnId={activeCard.columnId}
-                                    delCard={delCard}
+                                    columnId={() => { }}
+                                    delCard={() => { }}
                                     onCardClick={() => { }}
                                 />
                             </div>

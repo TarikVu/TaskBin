@@ -57,7 +57,7 @@ const ControlBar = ({
             />
           </>
         ) : (
-          <p>You have no Task Boards!</p>
+          <p> Welcome to TaskBin!<br /> Please begin by creating your first Board! </p>
         )}
       </div>
 
@@ -90,16 +90,21 @@ const ControlBar = ({
             onClose={() => setIsColumnFormVisible(false)}
             addColumn={addColumn}
           />
-          <button onClick={() => delBoard({ boardId: selectedBoard._id })}>
-            Delete Board
-          </button>
+
           <button onClick={() => setIsBoardFormVisible(true)}>
             New Board
           </button>
-
-          <button onClick={() => setIsColumnFormVisible(true)}>
-            New Column
-          </button>
+          {allBoards.length > 0 && (
+            <button onClick={() => setIsColumnFormVisible(true)}>
+              New Column
+            </button>
+          )}
+          {allBoards.length > 0 && (
+            <button className='delButton' onClick={() => delBoard({ boardId: selectedBoard._id })}>
+              Delete Board
+            </button>
+            
+          )}
         </div>
 
       </div>

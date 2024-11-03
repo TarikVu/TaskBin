@@ -1,6 +1,6 @@
 .card {
     position: relative;
-    background-color: var(--card);
+    background-color: var(--button);
     margin: 5px;
     color: white;
     border-radius: 5px;
@@ -15,14 +15,16 @@
     transform: scale(1.05);
     transition: transform 0.2s ease;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-    z-index: 1000;
-    /* Ensure it's above other cards */
+    z-index: 1000; 
 }
 
 .card h3 {
     font: inherit;
     margin: 0 0 5px 5px;
     color: white;
+    overflow-wrap: break-word;  
+    white-space: normal;  
+    width: 60%;  
 }
 
 .card p {
@@ -36,19 +38,10 @@
 .icon-container {
     display: none;
     position: absolute;
-    right: 10px;
-    bottom: 10px;
+    top: 5px;
+    right: 10px; 
 }
-
-.icon::after {
-    content: '';
-    position: absolute;
-    bottom: -2px;
-    left: 0;
-    right: 0;
-    height: .5px;
-    background-color: lightgrey;
-}
+ 
 
 .card:hover .icon-container {
     display: flex;
@@ -56,45 +49,42 @@
 }
 
 .icon {
+
     background: none;
     border: none;
     cursor: pointer;
-    color: white;
-    font-size: 1.2em;
-    /* Adjust as needed */
-    border-radius: 4px;
-    /* Optional: Add rounded corners */
-    transition: background-color 0.2s ease;
-    /* Smooth background color transition */
+    color:var(--background-body);
+    font-size: 1.2em; 
+    border-radius: 4px; 
+    transition: background-color 0.2s ease; 
 }
 
 .icon:focus {
     outline: none;
+    
 }
 
 .icon-del {
     background: none;
     border: none;
     cursor: pointer;
-    color: white;
-    font-size: 1.2em;
-    /* Adjust as needed */
-    border-radius: 4px;
-    /* Optional: Add rounded corners */
-    transition: background-color 0.2s ease;
-    /* Smooth background color transition */
+    color:var(--background-1);
+
+    font-size: 1.2em; 
+    border-radius: 4px; 
+    transition: background-color 0.2s ease; 
 }
 
 .icon-del:focus {
     outline: none;
 }
 .icon:hover {
-    background-color: var(--primary-button-hover);
+    background-color: var(--button-hover);
     color: white;
 }
 
 .icon-del:hover {
-    background-color: #E03C31;;
+    background-color: #E03C31;
     color: white;
 }
 
@@ -103,25 +93,17 @@
     background: none;
     border: none;
     cursor: pointer;
-    color: white;
-    font-size: 1.2em;
-    /* Adjust as needed */
-    border-radius: 4px;
-    /* Optional: Add rounded corners */
-    transition: background-color 0.2s ease;
-    /* Smooth background color transition */
+    color:white;
+    font-size: 1.2em; 
+    border-radius: 4px; 
+    transition: background-color 0.2s ease; 
 }
 
-
-
 .drag-icon:hover {
-    color: white;
-    /* Keep icon color white */
+    color: white;  
     cursor: grab;
 
 }
-
-
 
 .delete-button {
     position: absolute;
@@ -131,8 +113,7 @@
     border: none;
     color: white;
     font-size: 16px;
-    cursor: pointer;
-    background-color: var(--background-1);
+    cursor: pointer; 
     border-radius: 20px;
 }
 
@@ -147,7 +128,7 @@
     font-size: 12px;
 }
 
-.urgent-priority {
+/* .urgent-priority {
     color: red;
 }
 
@@ -157,14 +138,12 @@
 
 .normal-priority {
     color: lightgreen;
-}
-
-
+} */
 
 
 /* CARD-FORM */
 .card-form {
-    background: var(--background-1);
+    background: var(--background);
     padding: 20px;
     width: 400px;
     max-width: 100%;
@@ -193,14 +172,13 @@
     margin-top: 4px; 
     font-family: inherit;
     color:white;
-    background-color: var(--background-body);
+    background-color: var(--background-accent);
     border: none;
 }
 
 .card-form-textarea {
     border: none;
-
-    background-color: var(--background-body);
+    background-color: var(--background-accent);
     color: white;
     width: calc(100% - 16px);
     height: 200px;
@@ -219,7 +197,7 @@
 
 .card-form button {
     flex: 1;
-    background-color: var(--primary-button);
+    background-color: var(--button);
     color: white;
     border: none;
     padding: 10px 20px;
@@ -229,11 +207,11 @@
 }
 
 .card-form button:hover {
-    background-color: var(--primary-button-hover);
+    background-color: var(--button-hover);
 }
 
 .card-form button:active {
-    background-color: var(--primary-button-click);
+    background-color: var(--button-click);
 }
 
 .card-form select {

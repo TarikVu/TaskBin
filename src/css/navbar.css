@@ -3,7 +3,7 @@
     display: flex;
     position: fixed;
     width: 100%;
-    background-color: #181C14;
+    background-color: var(--navbar-background);
     color: white;
     height: 30px;
     top:0;
@@ -16,18 +16,18 @@
 }
 
 .navbar-button { 
-    background-color: var(--primary-button);
+    background-color: var(--button);
     color: white;
     border: none;
-    padding: 10px 20px;
+    padding: 6px 10px;
     cursor: pointer;
     border-radius: 5px;
 }
 
 .navbar-button:hover {
-    background-color: var(--primary-button-hover);
+    background-color: var(--button-hover);
 }
 
 .navbar-button:active {
-    background-color: var(--primary-button-click);
+    background-color: var(--button-click);
 }

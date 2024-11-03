@@ -9,24 +9,24 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-
-  /* Reused colors for consistent theming */
   --border: 1px solid #ddd;
-  --background-1: #222831;
-  --background-body: #31363F;
-  --background-header:#222831;
-  --background-body-2:#EEEEEE;
-  --background-2: #f4f4f4;
-  --background-1-hover: #666;
 
-  --column-body:#454A52;
-  --scrollbar-color: #333 #ddd;
-  --primary-button: #76ABAE;
-  --card:#76ABAE;
-  --primary-button-hover: #00aaff;
-  --primary-button-click: #006f8c;
+  /* Colors for consistent theming */
+  --navbar-background: #181C14;
 
-  /* Used for consistent layering */
+  --button: #76ABAE;
+  --button-hover: #4D7B7A;
+  --button-click: #006f8c;
+  
+  --del-button:  #E03C31;
+  --del-button-hover: #B02E27;
+
+  --background: #222831;
+  --background-accent: #31363F;
+      
+  --column-body:#454A52;  
+
+  /* Used for Z-Index layering */
   --z-modal: 1000;
   --z-form: 2000;
   --z-overlay: 3000;
@@ -62,9 +62,6 @@ body {
 }
 
 
-
-/* Used to blur background and focus a component */
-/* Overlay Styles */
 .overlay {
   position: fixed;
   top: 0;
@@ -78,8 +75,6 @@ body {
   background: rgba(0, 0, 0, 0.5);
 }
 
-
-/* Leading UI */
 .spinner {
   border: 8px solid rgba(0, 0, 0, 0.1);
   border-left: 8px solid #ffffff;
@@ -101,7 +96,7 @@ body {
 
 /* Popup Styles */
 .popup {
-  background: var(--background-1);
+  background: var(--background);
   width: 50px;
   padding: 20px;
   border-radius: 5px;
@@ -127,8 +122,7 @@ body {
   font-size: 18px;
   color: white;
 }
-
-/* Popup message container */
+ 
 .popup .message-container {
   flex-grow: 1;
   overflow-y: auto;
@@ -142,18 +136,16 @@ body {
   min-height: 50px;
   max-height: calc(100% - 60px);
 }
-
-/* Popup button */
+ 
 .popup button {
   color: white;
-  background-color: var(--primary-button);
+  background-color: var(--button);
   padding: 10px 20px;
   border: none;
   cursor: pointer;
   align-self: center;
 }
-
-/* Forbidden.css */
+ 
 .forbidden {
   display: flex;
   flex-direction: column;
@@ -188,8 +180,7 @@ body {
 .forbidden button:hover {
   background-color: #a71c24;
 }
-
-/* NotFound.css */
+ 
 .not-found {
   display: flex;
   flex-direction: column;

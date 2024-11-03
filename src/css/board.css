@@ -5,11 +5,11 @@
     overflow-x: auto;
     overflow-y: hidden;
     box-sizing: border-box;
-    background-color: var(--background-1);
+    background-color: var(--background); 
 }
 
 .board-form {
-    background: var(--background-1);
+    background: var(--background);
     padding: 20px;
     width: 400px;
     max-width: 100%;
@@ -23,15 +23,13 @@
 
 .board-form h2 {
     margin-top: 0;
-    text-align: center;
-    /* Centered heading */
+    text-align: center; 
 }
 
 .board-form label {
     display: block;
     margin-bottom: 10px;
-    text-align: center;
-    /* Center align the label text */
+    text-align: center; 
 }
 
 .board-form input {
@@ -43,43 +41,35 @@
     background-color: transparent;
     color: white;
     outline: none;
-    border: none;
-    /* No border */
+    border: none; 
 }
 
 .board-form input:focus {
-    background-color: transparent;
-    /* Keep background transparent on focus */
+    background-color: transparent; 
 }
 
 .board-form .button-group {
     display: flex;
-    justify-content: space-between;
-    /* Space buttons evenly */
+    justify-content: space-between; 
     width: 100%;
-    margin-top: 20px;
-    /* Add space above button group */
+    margin-top: 20px; 
 }
 
 .board-form button {
-    flex: 1;
-    /* Allow buttons to grow equally */
-    background-color: var(--primary-button);
+    flex: 1; 
+    background-color: var(--button);
     color: white;
     border: none;
     padding: 10px 20px;
     cursor: pointer;
     border-radius: 5px;
-    margin: 0 5px;
-    /* Adjust margin for even spacing between buttons */
+    margin: 0 5px; 
 }
 
 .board-form button:hover {
-    background-color: var(--primary-button-hover);
-    /* Change color on hover */
+    background-color: var(--button-hover); 
 }
 
 .board-form button:active {
-    background-color: var(--primary-button-click);
-    /* Change color on active */
+    background-color: var(--button-click); 
 }
