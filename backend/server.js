@@ -219,7 +219,6 @@ app.post('/cards', async (req, res) => {
 
 // Delete a Board
 app.delete('/boards/:boardId', async (req, res) => {
-    console.log('deleting board');
     const { boardId } = req.params;
     try {
         const board = await Board.findById(boardId).populate('columns');
@@ -355,8 +354,6 @@ app.patch('/boards/:boardId', async (req, res) => {
             updateFields,  // Update with only defined fields
             { new: true, runValidators: true }
         );
-        console.log(updatedBoard);
-
 
         if (!updatedBoard) {
             return res.status(404).json({ message: 'Board not found' });
