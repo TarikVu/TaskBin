@@ -38,15 +38,19 @@
   padding: 0;
   box-sizing: border-box;
   scrollbar-width: thin;
+
 }
+ 
 
 html,
-body {
+body { 
+  background-color: var(--background);
   width: 100%;
   height: 100%;
 }
 
 .app {
+
   display: flex;
   flex-direction: column;
   width: 100%;

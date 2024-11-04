@@ -4,6 +4,7 @@ import Login from './routes/login';
 import Signup from './routes/signup';
 import Forbidden from './routes/forbidden';
 import NotFound from './routes/notFound';
+ 
 const App = () => {
   return (
     <div className="app">
@@ -18,7 +19,6 @@ const App = () => {
         </Routes>
       </Router>
     </div>
-
   );
 };
 

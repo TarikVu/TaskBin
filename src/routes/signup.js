@@ -3,6 +3,9 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import { reqSignUpUser } from '../utils/services';
 
+ 
+import Footer from '../components/footer';
+
 const Signup = () => {
     const [popup, setPopup] = useState({ visible: false, message: '' });
     const [username, setUsername] = useState('');
@@ -53,32 +56,42 @@ const Signup = () => {
     };
 
     return (
-        <div className="signup">
-            <h2>Signup</h2>
-            {popup.visible && (
-                <Popup
-                    message={popup.message}
-                    onClose={() => setPopup({ visible: false, message: '' })}
-                />
-            )}
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label>Username:</label>
-                    <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} required />
-                </div>
-                <div>
-                    <label>Email:</label>
-                    <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-                </div>
-                <div>
-                    <label>Password:</label>
-                    <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
-                </div>
-                <button type="submit">Sign Up</button>
-                <button type="button" onClick={navLogin}> Back to Login</button>
+        <div className='login-signup-container'>
 
-            </form>
+            <div className="signup">
+                <h2>Signup</h2>
+                {popup.visible && (
+                    <Popup
+                        message={popup.message}
+                        onClose={() => setPopup({ visible: false, message: '' })}
+                    />
+                )}
+                <form onSubmit={handleSubmit}>
+                    <div>
+                        <label>Username:</label>
+                        <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} required />
+                    </div>
+                    <div>
+                        <label>Email:</label>
+                        <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+                    </div>
+                    <div>
+                        <label>Password:</label>
+                        <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+                    </div>
+                    <div className="button-container">
+
+                        <button type="button" onClick={navLogin}> Back </button>
+                        <button type="submit">Sign Up</button>
+
+                    </div>
+
+                </form>
+
+            </div>
+            <Footer></Footer>
         </div>
+
     );
 };
 
