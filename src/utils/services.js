@@ -150,7 +150,7 @@ const reqEditBoard = async ({ boardId, title, description, columns }) => {
     const response = await fetch(`http://localhost:5000/boards/${boardId}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ title, description, columns })  // All props passed as-is
+        body: JSON.stringify({ title, description, columns })  
     });
     return response;
 };
