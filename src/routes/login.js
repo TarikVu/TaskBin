@@ -1,8 +1,10 @@
 import '../css/loginSignup.css';
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
-import { reqLoginUser } from '../utils/services'; // You would define this API call in your services file
+import { useNavigate } from 'react-router-dom';  
+import { reqLoginUser } from '../utils/services';  
 import Footer from '../components/footer';
+import Logo from '../images/taskbin-logo.png';
+
 const Login = () => {
     const [popup, setPopup] = useState({ visible: false, message: '' });
     const [email, setEmail] = useState('');
@@ -49,9 +51,10 @@ const Login = () => {
     return (
         <div className='login-signup-container'>
             <div className="login">
-                <h1>Welcome to Taskbin!</h1>
+                <h1>Welcome to TaskBin!</h1>
 
-                <h2>Login</h2>
+                <img src={Logo} alt="taskbin" className="taskbin-logo" />
+                <h3>Login</h3>
                 {popup.visible && (
                     <Popup
                         message={popup.message}
@@ -72,13 +75,9 @@ const Login = () => {
                         <button type="submit">Login</button>
                         <button type="button" onClick={navSignup}> Sign Up</button>
                     </div>
-
-
                 </form>
-
             </div>
-            <Footer/>
-
+            <Footer />
         </div>
     );
 };

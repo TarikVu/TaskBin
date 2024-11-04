@@ -4,6 +4,7 @@ import ControlBar from '../components/controlbar';
 import Board from '../components/board';
 import { useParams, useNavigate } from 'react-router-dom';
 import { DndContext } from '@dnd-kit/core';
+import Footer from '../components/footer';
 
 // API Calling
 import {
@@ -346,6 +347,7 @@ const Home = () => {
                     onClose={() => setPopup({ visible: false, message: '' })}
                 />
             )}
+            <Footer/>
         </div>
     );
 };

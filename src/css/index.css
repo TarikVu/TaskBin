@@ -97,8 +97,7 @@ body {
     transform: rotate(360deg);
   }
 }
-
-/* Popup Styles */
+ 
 .popup {
   background: var(--background);
   width: 50px;
@@ -273,4 +272,67 @@ body {
 
 .not-found button:hover {
   background-color: #5a6268;
+}
+
+.footer {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+  background-color: #17191a;
+  height: 100px;
+  width: 100%;
+  position:relative;
+}
+
+.footer p {
+  margin: 10px;
+  padding-top: 25px;
+}
+
+.logo-container {
+  justify-content: center;
+}
+
+.logo {
+  margin: 20px;
+  width: 15%;
+  height: 50%;
+  object-fit: contain;
+}
+
+
+.taskbin-logo {
+  margin: 10px;
+  width: 40%;
+  height: auto; 
+  object-fit: contain; 
+  border-radius: 50px;  
+  display: block;  
+}
+
+
+.divider {
+  width: 1px;
+  height: 80%;
+  background-color: #ccc; 
+  margin-top: 10px;
+
+}
+
+.links-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.links-container a {
+  color: white;
+  text-decoration: none;
+}
+
+.links-container a:hover {
+  text-decoration: underline;
 }
