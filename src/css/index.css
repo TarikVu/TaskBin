@@ -284,7 +284,7 @@ body {
   height: 100px;
   width: 100%;
   position: relative;
-  bottom: 0;
+  bottom: 0px;
 }
 
 .footer p {
