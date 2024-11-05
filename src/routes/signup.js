@@ -1,10 +1,7 @@
 // Signup.js
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { useNavigate } from 'react-router-dom';
 import { reqSignUpUser } from '../utils/services';
-import Footer from '../components/footer';
-
-
 
 const Signup = () => {
     const [popup, setPopup] = useState({ visible: false, message: '' });
@@ -21,8 +18,8 @@ const Signup = () => {
 
             if (response.status === 201) {
                 const data = await response.json();
-                const token = data.token;  
-                const userId = data.userId;  
+                const token = data.token;
+                const userId = data.userId;
                 localStorage.setItem('jwt', token); // Store the JWT
                 navigate(`/home/${userId}`); // Navigate to the board with user ID
             } else if (response.status === 400) {
@@ -40,7 +37,7 @@ const Signup = () => {
     const navLogin = () => {
         navigate('/login');
     }
- 
+
     const Popup = ({ message, onClose }) => {
         return (
             <div className='overlay'>
@@ -87,7 +84,6 @@ const Signup = () => {
                 </form>
 
             </div>
-            <Footer/>
         </div>
 
     );
