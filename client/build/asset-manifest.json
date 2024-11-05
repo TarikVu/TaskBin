@@ -1,11 +1,16 @@
 {
   "files": {
-    "main.css": "/static/css/main.f06abb60.css",
-    "main.js": "/static/js/main.bfdfb21a.js",
+    "main.css": "/static/css/main.66d27e77.css",
+    "main.js": "/static/js/main.5aba3864.js",
+    "static/media/taskbin-logo.png": "/static/media/taskbin-logo.de667255854eb82752be.png",
+    "static/media/express-logo.png": "/static/media/express-logo.17cb91aae7b07957e424.png",
+    "static/media/mongo-logo.png": "/static/media/mongo-logo.472658ce16ebbc51f2f4.png",
+    "static/media/react-logo.png": "/static/media/react-logo.215e08407f15ffa8d57d.png",
+    "static/media/node-logo.png": "/static/media/node-logo.f878b931c10a1212f260.png",
     "index.html": "/index.html"
   },
   "entrypoints": [
-    "static/css/main.f06abb60.css",
-    "static/js/main.bfdfb21a.js"
+    "static/css/main.66d27e77.css",
+    "static/js/main.5aba3864.js"
   ]
 }
