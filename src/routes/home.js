@@ -4,7 +4,6 @@ import ControlBar from '../components/controlbar';
 import Board from '../components/board';
 import { useParams, useNavigate } from 'react-router-dom';
 import { DndContext } from '@dnd-kit/core';
-import Footer from '../components/footer';
 
 // API Calling
 import {
@@ -240,16 +239,16 @@ const Home = () => {
 
     const editBoard = async ({ title, description, columns }) => {
         try {
- 
+
             const payload = {
-                ...(title && { title }),         
-                ...(description && { description }), 
-                ...(columns && { columns })      
+                ...(title && { title }),
+                ...(description && { description }),
+                ...(columns && { columns })
             };
 
             const result = await reqEditBoard({ boardId: board._id, ...payload });
 
-            if (result.ok) { 
+            if (result.ok) {
                 setBoard(prevBoard => ({
                     ...prevBoard,
                     ...(title && { title }),
@@ -325,9 +324,9 @@ const Home = () => {
                 addColumn={addColumn}
                 delBoard={delBoard}
                 editBoard={editBoard}
-            /> 
+            />
 
-            <DndContext>  
+            <DndContext>
                 <Board
                     board={board}
                     delColumn={delColumn}
@@ -347,7 +346,7 @@ const Home = () => {
                     onClose={() => setPopup({ visible: false, message: '' })}
                 />
             )}
-            <Footer/>
+
         </div>
     );
 };

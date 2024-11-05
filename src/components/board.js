@@ -5,7 +5,6 @@ import Column from './column';
 import Card from './card';
 import React, { useState } from 'react';
 import { DndContext, DragOverlay, useDroppable } from '@dnd-kit/core';
-
 const Board = ({
     board,
     delColumn,
@@ -25,7 +24,7 @@ const Board = ({
     const propagateBoard = ({ columnId, updatedCards, newTitle }) => {
         const updatedColumns = columns.map(col => {
             if (col._id === columnId) {
-                return { ...col, cards: updatedCards, title: newTitle }; 
+                return { ...col, cards: updatedCards, title: newTitle };
             }
             return col;
         });
@@ -58,7 +57,7 @@ const Board = ({
             const isColumn = columns.find((column) => column._id === over.id);
             const isCard = columns.flatMap(col => col.cards).find((card) => card._id === active.id);
 
-            if (isColumn && !isCard) { 
+            if (isColumn && !isCard) {
                 const oldIndex = columns.findIndex((column) => column._id === active.id);
                 const newIndex = columns.findIndex((column) => column._id === over.id);
                 const newColumns = columns.slice();
@@ -66,7 +65,7 @@ const Board = ({
                 newColumns.splice(newIndex, 0, movedColumn);
                 editBoard({ columns: newColumns });
 
-            } else if (isCard) { 
+            } else if (isCard) {
                 const newColumnId = over.id;
                 const oldColumnId = activeCard.columnId;
                 if (oldColumnId !== newColumnId) {
@@ -131,14 +130,14 @@ const Board = ({
     return (
         <DndContext onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
             <main className="board">
-                <div className="columns_container"> 
-                        {columns.length > 0 ? (
-                            columns.map((column) => (
-                                <ColumnDropArea key={column._id} column={column} />
-                            ))
-                        ) : (
-                            <div></div>
-                        )} 
+                <div className="columns_container">
+                    {columns.length > 0 ? (
+                        columns.map((column) => (
+                            <ColumnDropArea key={column._id} column={column} />
+                        ))
+                    ) : (
+                        <div></div>
+                    )}
                 </div>
 
                 <DragOverlay>
@@ -167,7 +166,9 @@ const Board = ({
                     </div>
                 </DragOverlay>
             </main>
+
         </DndContext>
+
     );
 };
 

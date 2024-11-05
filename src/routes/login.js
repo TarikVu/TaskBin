@@ -1,8 +1,7 @@
 import '../css/loginSignup.css';
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';  
-import { reqLoginUser } from '../utils/services';  
-import Footer from '../components/footer';
+import { useNavigate } from 'react-router-dom';
+import { reqLoginUser } from '../utils/services';
 import Logo from '../images/taskbin-logo.png';
 
 const Login = () => {
@@ -77,7 +76,6 @@ const Login = () => {
                     </div>
                 </form>
             </div>
-            <Footer />
         </div>
     );
 };
