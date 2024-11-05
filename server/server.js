@@ -17,22 +17,19 @@ app.use(cors());
 // Connect to MongoDB
 mongoose.connect(process.env.MONGO_URI);
 
-/* const uri = 'mongodb+srv://taskBin:oDN1d6gcSCNyIpfE@taskbinfree.p0skw.mongodb.net/TaskBin?retryWrites=true&w=majority';
-mongoose.connect(uri); */
-
 const authenticateToken = (req, res, next) => {
-    const token = req.headers['authorization']?.split(' ')[1]; // Get token from Authorization header
+    const token = req.headers['authorization']?.split(' ')[1]; // Get token
 
     if (!token) {
-        return res.sendStatus(401); // Unauthorized
+        return res.sendStatus(401);
     }
 
     jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
         if (err) {
-            return res.sendStatus(403); // Forbidden
+            return res.sendStatus(403);
         }
-        req.user = user; // Attach user info to request
-        next(); // Proceed to the next middleware
+        req.user = user;
+        next();
     });
 };
 
@@ -74,27 +71,21 @@ app.post('/signup', async (req, res) => {
     const { username, email, password } = req.body;
 
     try {
-        // Check if the user already exists
         const existingUser = await User.findOne({ email });
         if (existingUser) {
             return res.status(400).json({ message: 'User already exists' });
         }
 
-        // Create a new user
-        // user schema hashes pass for us.
         const newUser = new User({
             username,
             email,
-            password
+            password// user schema hashes pass 
         });
 
-        // Save the user to the database
         await newUser.save();
 
-        // Create a JWT
         const token = jwt.sign({ userId: newUser._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
-        // Send a success response with the token
         res.status(201).json({ token, userId: newUser._id });
     } catch (error) {
         console.error('Error during signup:', error);
@@ -248,7 +239,6 @@ app.delete('/boards/:boardId/columns/:columnId', async (req, res) => {
             return res.status(404).json({ message: 'Column not found' });
         }
 
-        // Delete all cards, the Column
         await Card.deleteMany({ _id: { $in: column.cards.map(card => card._id) } });
         await Column.findByIdAndDelete(columnId);
 
@@ -342,7 +332,6 @@ app.patch('/boards/:boardId', async (req, res) => {
     const { boardId } = req.params;
     const { title, description, columns } = req.body;
 
-    // Create an update object only with the fields that are defined
     const updateFields = {
         ...(title && { title }),
         ...(description && { description }),
@@ -351,7 +340,7 @@ app.patch('/boards/:boardId', async (req, res) => {
     try {
         const updatedBoard = await Board.findByIdAndUpdate(
             boardId,
-            updateFields,  // Update with only defined fields
+            updateFields,
             { new: true, runValidators: true }
         );
 
@@ -370,7 +359,7 @@ app.patch('/boards/:boardId', async (req, res) => {
 app.patch('/move', async (req, res) => {
     const { cardId, columnId, targetColumnId } = req.body;
 
-     try {
+    try {
         const card = await Card.findById(cardId);
         if (!card) {
             return res.status(404).json({ message: 'Card not found' });
@@ -381,11 +370,16 @@ app.patch('/move', async (req, res) => {
     } catch (error) {
         console.error('Error moving card', error);
         res.status(500).json({ message: 'Internal server error' });
-    } 
+    }
 });
 
 
+const path = require('path');
+app.use(express.static(path.join(__dirname, 'client/build'))); // Adjust the path accordingly
 
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
+});
 
 // Start the server
 const PORT = process.env.PORT || 5000;
