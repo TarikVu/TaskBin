@@ -1,5 +1,6 @@
 .control-bar {
     display: flex;
+    color: white;
     padding-top: 20px;
     background-color: var(--background);
     width: 100%;

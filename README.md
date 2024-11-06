@@ -67,3 +67,7 @@ Record all changes on a backend data structure and update the Database with the 
 
 
  
+// Some notes on testing
+Columns and cards are not called directly, but when fetch board is called upon first load.
+
+this is to follow the send and forget philospophy so that we arent pulling a new card / column everytime one is created. the server just responds with an ok and the ui updates.

@@ -113,7 +113,7 @@ const ControlBar = ({
       {showConfirmDelete && (
         <div className='overlay'>
           <div className="confirm-popup">
-            <h>Delete this Board?</h>
+            Delete this Board?
             <div className="confirm-popup-buttons">
               <button onClick={() => setShowConfirmDelete(false)}>Cancel</button>
               <button className='confirm-yes' onClick={confirmDeleteBoard}>Confirm</button>

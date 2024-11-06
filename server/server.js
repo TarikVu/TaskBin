@@ -164,6 +164,13 @@ app.post('/boards', async (req, res) => {
 // Upload a Column and add a reference to the board 
 app.post('/columns', async (req, res) => {
     const { title, boardId } = req.body;
+
+    // Check if Board exists for column
+    const board = await Board.findById(boardId);
+    if (!board) {
+        return res.status(404).json({ message: 'Board not found' });
+    }
+
     try {
         const newColumn = new Column({ title });
         await newColumn.save();
@@ -385,10 +392,13 @@ app.get('*', (req, res) => {
 
 // Start the server
 const PORT = process.env.PORT;
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-});
 
+// Only run the server if server.js is executed directly.
+if (require.main === module) {
+    app.listen(5000, () => {
+        console.log('Server running on port 5000');
+    });
+}
 
-
+module.exports = app;
 
