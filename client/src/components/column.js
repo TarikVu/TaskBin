@@ -126,6 +126,7 @@ const Column = ({
                             </button>
                             <button
                                 className="column_header_delbutton"
+                                aria-label="Delete Column"
                                 onClick={() => setShowConfirmDelete(true)}>
                                 &#x1F5D9;
                             </button>
@@ -158,7 +159,7 @@ const Column = ({
                 <div className='column'>
                     <div className='overlay'>
                         <div className="confirm-popup">
-                            <h>Delete this Column?</h>
+                            Delete this Column?
                             <div className="confirm-popup-buttons">
                                 <button onClick={() => setShowConfirmDelete(false)}>Cancel</button>
                                 <button className='confirm-yes' onClick={confirmDeleteColumn}>Confirm</button>
