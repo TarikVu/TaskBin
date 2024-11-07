@@ -9,7 +9,7 @@ This application was a solid starting point for learning a new language and Tech
 1. [Features](#dbs) 
 2. [Project Structure](#struct)
 3. [Technologies Used](#tech) 
-4. [Wiki for full Documentation ↗]()
+4. [Wiki for full Documentation ↗](https://github.com/TarikVu/TaskBin/wiki)
  
 
 ## <a name = "feats"></a>Features
