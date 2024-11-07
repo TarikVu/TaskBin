@@ -1,73 +1,41 @@
-# TaskBin Kanbanboard (Pre-alpha)
-Preview:
+
+# TaskBin Kanbanboard (BETA)
+[TaskBin ↗](http://ec2-35-175-202-164.compute-1.amazonaws.com:5000/)
+A simple task manager organizer created the MERN stack and hosted on AWS (EC2).
+This application was a solid starting point for learning a new language and Tech stack, featuring front-end features such as drag and drop, user authentication, password encryption, and performing CRUD operations on the Server's RESTFUL API.
 ![prealpha](https://raw.githubusercontent.com/TarikVu/imgs/refs/heads/main/TaskBin/taskbin_pre-alpha.png)
 
 ## Table of Contents:
-1. [Database Schema](#dbs)
-1. [Design choices](#design)
-1. [User Authentication](#auth)
-1. [Appendix](#apx)
-
-## Technical Stack:
-| Stack     | Technology         | Notes | 
-|-----------|--------------------|-------|
-|Front End  | React              | N/A   |  
-|Back End   | JavaScript         | N/A   |  
-|Database   | MongoDB (Mongoose) | N/A   |  
-|Deployment | AWS (Amplify)      | N/A   |  
-
-
-
-## <a name = "DBS"></a> Database Schema 
-The database for TaskBin will Utilize MongoDB as a NoSQL Database.
-The data stored is heiarchal, and will be therefore Referenced with one-to many relationships as shown in the image below. See more on MongoDB
-<img src="https://github.com/TarikVu/imgs/blob/main/TaskBin/TaskBinDB.PNG?raw=true" style="width: 75%;" alt="Description">
-
-
-## <a name = "design"></a> Design Choices
-### 1. CRUD upon change & Optimistic UI changes  
-Updating the front and back end simultaneously poses 2 options,
-As soon as a change is made, update the UI locally and send an async CRUD operation to the DB. Upon an **Error** response from the DB, revert the changes client side and alert the user.
-
-*Pros*:
-- Allows multiple users on a Kanban board simultaneously. (Planned Feature)
-- Real Time updates
-- Data Consistency
-    
-*Cons*:
-- Possible performance issues
-- Network dependency
-
-### 2. Backend structure & Save Changes option.
-Record all changes on a backend data structure and update the Database with the user hits "Save".
-
-*Pros*:
--  Performance improvements due to less database queries.
-- Users can make changes without worrying about DB changes until specified.
-    
-*Cons*:
-- Data loss due to unexpected crashes
-- Data Consistency between simultaneous users.
-
-### **Option 1 Chosen**
-
-## <a name = "auth"></a> User Authentication
-
-[Article on User Auth with MERN](https://enlear.academy/how-to-securely-authenticate-and-authorize-users-with-node-js-express-mongodb-b57373731efc)
-## <a name = "apx"></a> Appendix
-
-- ~~Amplify~~ 
-    - [Authentication](https://docs.amplify.aws/react/build-a-backend/auth/)
-    - [Manage User sessions (get user ID)](https://docs.amplify.aws/react/build-a-backend/auth/connect-your-frontend/manage-user-sessions/)
-
-
-- MongoDB
-    - [Data Modeling](https://www.mongodb.com/docs/manual/data-modeling/)
-    - [Embedded Data Versus References](https://www.mongodb.com/docs/manual/data-modeling/concepts/embedding-vs-references/#std-label-data-modeling-referencing)
-
-
+1. [Features](#dbs) 
+2. [Project Structure](#struct)
+3. [Technologies Used](#tech) 
+4. [Wiki for full Documentation ↗]()
  
-// Some notes on testing
-Columns and cards are not called directly, but when fetch board is called upon first load.
 
-this is to follow the send and forget philospophy so that we arent pulling a new card / column everytime one is created. the server just responds with an ok and the ui updates.
+## <a name = "feats"></a>Features
+### Beta Release
+- **Board Management**: Create, update, and delete boards to organize tasks.
+-  **User Authentication**: Secure signup and login system with JWT authentication and password encryption.
+- **Drag-and-Drop Support**: Easily rearrange columns and tasks within the board.
+- **Column & Card Handling**: Add, edit, delete, and reorder columns & cards  within each board.
+### Planned Features
+- **Real-Time Updates**: Stay in sync with instant updates across multiple devices.
+- **Advanced Card Organization**: Add  Filtering by priority levels, and due dates.
+- **In-Depth customization**: Add user preferences and color customization options. 
+
+## <a name = "struct"></a>Project Structure
+### Client:
+Holds the front end code built with React to be served via the server to connecting browsers.
+The front end code is organized into routes, components, utilities for fetching the API, forms for user input recording, and Jest unit tests. 
+### Server:
+Holds the backend code built with Express to be served to connecting clients and performs CRUD operations on MongoDB. 
+The backend code is organized into middleware, database models, and jest unit tests directories.
+
+## <a name = "tech"></a>Technologies Used
+| Aspect     | Technology         | 
+|-----------|--------------------|
+|Front End  | React              | 
+|Back End   | Express            |   
+|Database   | MongoDB  			 | 
+|Deployment | AWS (EC2)          | 
+|Language(s)| JavaScript         | 
