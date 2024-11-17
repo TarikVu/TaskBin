@@ -1,6 +1,5 @@
 
-# TaskBin Kanbanboard (BETA)
-[TaskBin ↗](http://ec2-35-175-202-164.compute-1.amazonaws.com:5000/)
+# TaskBin Kanbanboard (BETA) 
 A simple task manager organizer created the MERN stack and hosted on AWS (EC2).
 This application was a solid starting point for learning a new language and Tech stack, featuring front-end features such as drag and drop, user authentication, password encryption, and performing CRUD operations on the Server's RESTFUL API.
 ![prealpha](https://raw.githubusercontent.com/TarikVu/imgs/refs/heads/main/TaskBin/taskbin_pre-alpha.png)
